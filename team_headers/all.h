@@ -29,6 +29,7 @@
 #include "clock_template.h"
 #include "can.h"
 #include <stdlib.h>
+#include <math.h>
 #include "adc_template.h"
 #include "gpio_template.h"
 #include "DSP2803x_GlobalPrototypes.h"
