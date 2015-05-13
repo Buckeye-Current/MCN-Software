@@ -36,14 +36,20 @@ void CANSetup()
 	//gp_button TRANSMIT
 	//CreateCANMailbox(3,0,0,1,8,GP_BUTTON_ID,0);
 
-	CreateCANMailbox(COOLANT_FLOW_BOX,0,0,1,4,COOLANT_FLOW_ID,0); //CHECK AAM
-	CreateCANMailbox(MOTOR_TEMP_BOX,0,0,1,4,MOTOR_TEMP_ID,0);
-	CreateCANMailbox(MOTOR_CONT_TEMP_BOX,0,0,1,4,MOTOR_CONT_TEMP_ID, 0);
-	CreateCANMailbox(RADIATOR_TEMP_BOX,0,0,1,4,RADIATOR_TEMP_ID,0);
-	CreateCANMailbox(COOLANT_PRESSURES_BOX,0,0,1,8,COOLANT_PRESSURES_ID,0);
-	CreateCANMailbox(EMRAX_TEMP_BOX,0,0,1,4,EMRAX_TEMP_ID,0);
-	CreateCANMailbox(AMBIENT_TEMP_BOX,0,0,1,4,AMBIENT_TEMP_ID,0);
-	CreateCANMailbox(MOTOR_PLATE_TEMP_BOX,0,0,1,8,MOTOR_PLATE_TEMP_ID,0);
+	CreateCANMailbox(AIN1_BOX,0,0,1,4,AIN1_ID,0); //CHECK AAM
+	CreateCANMailbox(AIN2_BOX,0,0,1,4,AIN2_ID,0);
+	CreateCANMailbox(AIN3_BOX,0,0,1,4,AIN3_ID, 0);
+	CreateCANMailbox(AIN4_BOX,0,0,1,4,AIN4_ID,0);
+	CreateCANMailbox(AIN5_BOX,0,0,1,8,AIN5_ID,0);
+	CreateCANMailbox(AIN6_BOX,0,0,1,4,AIN6_ID,0);
+	CreateCANMailbox(AIN7_BOX,0,0,1,4,AIN7_ID,0);
+	CreateCANMailbox(AIN8_BOX,0,0,1,8,AIN8_ID,0);
+	CreateCANMailbox(AIN9_BOX,0,0,1,8,AIN9_ID,0);
+	CreateCANMailbox(AIN10_BOX,0,0,1,8,AIN10_ID,0);
+	CreateCANMailbox(AIN11_BOX,0,0,1,8,AIN11_ID,0);
+	CreateCANMailbox(AIN12_BOX,0,0,1,8,AIN12_ID,0);
+	CreateCANMailbox(GP0_BOX,0,0,1,8,GP0_ID,0);
+	CreateCANMailbox(GP1_BOX,0,0,1,8,GP1_ID,0);
 
     EDIS;
     FinishCANInit();
@@ -60,29 +66,41 @@ char FillCAN(unsigned int Mbox)
 		//InsertCANMessage(int Mbox, unsigned int MDH, unsigned int MDL)
 		switch (Mbox)
 		{
-		case COOLANT_FLOW_BOX:
-			InsertCANMessage(COOLANT_FLOW_BOX, 0, user_data.coolant_flow.U32);
+		case AIN1_BOX:
+			InsertCANMessage(AIN1_BOX, 0, user_data.ain1.U32);
 			return 1;
-		case MOTOR_TEMP_BOX:
-			InsertCANMessage(MOTOR_TEMP_BOX, user_data.motor_coolant_temp.U32, user_data.motor_coolant_temp.U32);
+		case AIN2_BOX:
+			InsertCANMessage(AIN2_BOX, 0, user_data.ain2.U32);
 			return 1;
-		case MOTOR_CONT_TEMP_BOX:
-			InsertCANMessage(MOTOR_CONT_TEMP_BOX, user_data.motor_control_coolant_temp.U32, user_data.motor_control_coolant_temp.U32);
+		case AIN3_BOX:
+			InsertCANMessage(AIN3_BOX, 0, user_data.ain3.U32);
 			return 1;
-		case RADIATOR_TEMP_BOX:
-			InsertCANMessage(RADIATOR_TEMP_BOX, user_data.radiator_coolant_temp.U32, user_data.radiator_coolant_temp.U32);
+		case AIN4_BOX:
+			InsertCANMessage(AIN4_BOX, 0, user_data.ain4.U32);
 			return 1;
-		case COOLANT_PRESSURES_BOX:
-			InsertCANMessage(COOLANT_PRESSURES_BOX, user_data.coolant_pressure_2.U32, user_data.coolant_pressure_1.U32);
+		case AIN5_BOX:
+			InsertCANMessage(AIN5_BOX, 0, user_data.ain5.U32);
 			return 1;
-		case EMRAX_TEMP_BOX:
-			InsertCANMessage(EMRAX_TEMP_BOX, 0, user_data.motor_temp.U32);
+		case AIN6_BOX:
+			InsertCANMessage(AIN6_BOX, 0, user_data.ain6.U32);
 			return 1;
-		case AMBIENT_TEMP_BOX:
-			InsertCANMessage(AMBIENT_TEMP_BOX, 0, user_data.ambient_temp.U32);
+		case AIN7_BOX:
+			InsertCANMessage(AIN7_BOX, 0, user_data.ain7.U32);
 			return 1;
-		case MOTOR_PLATE_TEMP_BOX:
-			InsertCANMessage(MOTOR_PLATE_TEMP_BOX, user_data.motor_plate_temp_2.U32, user_data.motor_plate_temp_1.U32);
+		case AIN8_BOX:
+			InsertCANMessage(AIN8_BOX, 0, user_data.ain8.U32);
+			return 1;
+		case AIN9_BOX:
+			InsertCANMessage(AIN9_BOX, 0, user_data.ain9.U32);
+			return 1;
+		case AIN10_BOX:
+			InsertCANMessage(AIN10_BOX, 0, user_data.ain10.U32);
+			return 1;
+		case AIN11_BOX:
+			InsertCANMessage(AIN11_BOX, 0, user_data.ain11.U32);
+			return 1;
+		case AIN12_BOX:
+			InsertCANMessage(AIN12_BOX, 0, user_data.ain12.U32);
 			return 1;
 		default:
 			return 0;
@@ -97,14 +115,21 @@ char FillCAN(unsigned int Mbox)
 void FillCANData()
 {
 	//todo USER: use FillCAN to put data into correct mailboxes
-	FillCAN(COOLANT_FLOW_BOX);
-	FillCAN(MOTOR_TEMP_BOX);
-	FillCAN(MOTOR_CONT_TEMP_BOX);
-	FillCAN(RADIATOR_TEMP_BOX);
-	FillCAN(COOLANT_PRESSURES_BOX);
-	FillCAN(EMRAX_TEMP_BOX);
-	FillCAN(AMBIENT_TEMP_BOX);
-	FillCAN(MOTOR_PLATE_TEMP_BOX);
+	FillCAN(AIN1_BOX);
+	FillCAN(AIN2_BOX);
+	FillCAN(AIN3_BOX);
+	FillCAN(AIN4_BOX);
+	FillCAN(AIN5_BOX);
+	FillCAN(AIN6_BOX);
+	FillCAN(AIN7_BOX);
+	FillCAN(AIN8_BOX);
+	FillCAN(AIN9_BOX);
+	FillCAN(AIN10_BOX);
+	FillCAN(AIN11_BOX);
+	FillCAN(AIN12_BOX);
+	FillCAN(GP0_BOX);
+	FillCAN(GP1_BOX);
+
 }
 
 // INT9.6

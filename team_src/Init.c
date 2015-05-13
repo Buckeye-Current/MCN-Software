@@ -32,11 +32,20 @@ void DataSetup()
 {
 	//todo USER: DataSetup()
 	//add here and data.h
-	user_data.coolant_flow.U32 = 0;
-	user_data.coolant_pressure_1.U32 = 0;
-	user_data.coolant_pressure_2.U32 = 0;
-	user_data.motor_control_coolant_temp.U32 = 0;
-	user_data.motor_coolant_temp.U32 = 0;
-	user_data.radiator_coolant_temp.U32 = 0;
+	user_data.ain1.U32 = 0;
+	user_data.ain2.U32 = 0;
+	user_data.ain3.U32 = 0;
+	user_data.ain4.U32 = 0;
+	user_data.ain5.U32 = 0;
+	user_data.ain6.U32 = 0;
+	user_data.ain7.U32 = 0;
+	user_data.ain8.U32 = 0;
+	user_data.ain9.U32 = 0;
+	user_data.ain10.U32 = 0;
+	user_data.ain11.U32 = 0;
+	user_data.ain12.U32 = 0;
+	user_data.gp0.U32 = 0;
+	user_data.gp1.U32 = 0;
+
 }
 

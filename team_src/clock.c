@@ -46,14 +46,21 @@ __interrupt void INT14_ISR(void)     // INT14 or CPU-Timer2
 	if (Clock_Ticks.DataOut >= DATAOUT_TICKS)
 	{
 		//send data or fill data
-		SendCAN(COOLANT_FLOW_BOX);
-		SendCAN(MOTOR_TEMP_BOX);
-		SendCAN(MOTOR_CONT_TEMP_BOX);
-		SendCAN(RADIATOR_TEMP_BOX);
-		SendCAN(COOLANT_PRESSURES_BOX);
-		SendCAN(MOTOR_PLATE_TEMP_BOX);
-		SendCAN(AMBIENT_TEMP_BOX);
-		SendCAN(EMRAX_TEMP_BOX);
+		SendCAN(AIN1_BOX);
+		SendCAN(AIN2_BOX);
+		SendCAN(AIN3_BOX);
+		SendCAN(AIN4_BOX);
+		SendCAN(AIN5_BOX);
+		SendCAN(AIN6_BOX);
+		SendCAN(AIN7_BOX);
+		SendCAN(AIN8_BOX);
+		SendCAN(AIN9_BOX);
+		SendCAN(AIN10_BOX);
+		SendCAN(AIN11_BOX);
+		SendCAN(AIN12_BOX);
+		SendCAN(GP0_BOX);
+		SendCAN(GP1_BOX);
+
 		Clock_Ticks.DataOut = 0;
 	}
 

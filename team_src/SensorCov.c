@@ -86,43 +86,24 @@ void SensorCovMeasure()
 	//use stopwatch to catch timeouts
 	//waiting should poll isStopWatchComplete() to catch timeout and throw StopWatchError
 
-	data_temp.coolant_flow.F32 = (GPIO26filter.filtered_value*0.283);
-	/*
-	data_temp.motor_coolant_temp.F32 = 70.0*(A4RESULT/4096.0);
-	data_temp.motor_control_coolant_temp.F32 = (140.0*(A5RESULT/4096.0)) - 50;
-	data_temp.radiator_coolant_temp.F32 = (140.0*(A0RESULT/4096.0)) - 50;
-	*/
-	v_in = 3.3*(A4RESULT/4096.0);
-	r_th = -1.0*(R1*R2*v_in)/((-1.0*R2*V5)+(R1*v_in)+(R2*v_in));
-	data_temp.motor_coolant_temp.F32 = (3435.0)/(log((r_th/0.0991912))) - 273.15;
+	data_temp.ain1.F32 = A7RESULT;
+	data_temp.ain2.F32 = A3RESULT;
+	data_temp.ain3.F32 = A1RESULT;
+	data_temp.ain4.F32 = B1RESULT;
+	data_temp.ain5.F32 = B2RESULT;
+	data_temp.ain6.F32 = B6RESULT;
+	data_temp.ain7.F32 = B4RESULT;
+	data_temp.ain8.F32 = B3RESULT;
+	data_temp.ain9.F32 = B0RESULT;
+	data_temp.ain10.F32 = A0RESULT;
+	data_temp.ain11.F32 = A4RESULT;
+	data_temp.ain12.F32 = A5RESULT;
+	data_temp.gp0.F32 = GPIO19filter.filtered_value;
+	data_temp.gp1.F32 = GPIO26filter.filtered_value;
 
-	v_in = 3.3*(A5RESULT/4096.0);
-	r_th = -1.0*(R1*R2*v_in)/((-1.0*R2*V5)+(R1*v_in)+(R2*v_in));
-	data_temp.motor_control_coolant_temp.F32 = (3435.0)/(log((r_th/0.0991912))) - 273.15;
 
-	v_in = 3.3*(A0RESULT/4096.0);
-	r_th = -1.0*(R1*R2*v_in)/((-1.0*R2*V5)+(R1*v_in)+(R2*v_in));
-	data_temp.radiator_coolant_temp.F32 = (3435.0)/(log((r_th/0.0991912))) - 273.15;
 
-	v_in = 3.3*(B1RESULT/4096.0);
-	r_th = -1.0*(R1*R2*v_in)/((-1.0*R2*V5)+(R1*v_in)+(R2*v_in));
-	data_temp.motor_plate_temp_1.F32 = (3380.0)/(log((r_th/0.119286))) - 273.15;
 
-	v_in = 3.3*(A1RESULT/4096.0);
-	r_th = -1.0*(R1*R2*v_in)/((-1.0*R2*V5)+(R1*v_in)+(R2*v_in));
-	data_temp.motor_plate_temp_2.F32 = (3380.0)/(log((r_th/0.119286))) - 273.15;
-
-	v_in = 3.3*(B4RESULT/4096.0);
-	r_th = -1.0*(R1*R2*v_in)/((-1.0*R2*V5)+(R1*v_in)+(R2*v_in));
-	data_temp.ambient_temp.F32 = (3380.0)/(log((r_th/0.119286))) - 273.15;
-
-	data_temp.motor_temp.F32 = (pow((B3RESULT/4096.0),2)*2380.13) + ((B3RESULT/4096.0)*940.533) - 232.125;
-
-	v_in = 3.3*(A7RESULT/4096.0);
-	data_temp.coolant_pressure_1.F32 = (37.5/V5)*(1.56*v_in) - 3.75;
-
-	v_in = 3.3*(A3RESULT/4096.0);
-	data_temp.coolant_pressure_2.F32 = (37.5/V5)*(1.56*v_in) - 3.75;
 
 	data_temp.gp_button = READGPBUTTON();
 	/*
