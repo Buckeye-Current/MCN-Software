@@ -21,7 +21,6 @@ void CANSetup()
 
 	EALLOW;
 	//MBOX 0 - 1
-	CommandBoxInit(COMMAND_ID);   // Mbox 0
 	HeartbeatBoxInit(HEARTBEAT_ID); // Mbox 1
 	/*
 	* todo USER: Node specifc CAN setup
@@ -69,13 +68,13 @@ char FillCAN(unsigned int Mbox)
 			break;
 			return 1;
 		case SHUNTS_BOX:
-			InsertCANMessage(SHUNTS_BOX, user_data.v12_shunt.U32);
+			InsertCANMessage(SHUNTS_BOX, 0, user_data.v12_shunt.U32);
 			return 1;
 		case REAR_WHEEL_SPEED_BOX:
-			InsertCANMessage(REAR_WHEEL_SPEED_BOX, user_data.wheel_speed.U32);
+			InsertCANMessage(REAR_WHEEL_SPEED_BOX, 0, user_data.wheel_speed.U32);
 			return 1;
 		case REAR_BRAKE_BOX:
-			InsertCANMessage(REAR_BRAKE_BOX, user_data.rear_brake.U32);
+			InsertCANMessage(REAR_BRAKE_BOX, 0, user_data.rear_brake.U32);
 			return 1;
 		case REAR_SUSPENSION_BOX:
 			InsertCANMessage(REAR_SUSPENSION_BOX, 0, user_data.rear_susp.U32);
@@ -93,14 +92,12 @@ char FillCAN(unsigned int Mbox)
 void FillCANData()
 {
 	//todo USER: use FillCAN to put data into correct mailboxes
-	FillCAN(COOLANT_FLOW_BOX);
-	FillCAN(MOTOR_TEMP_BOX);
-	FillCAN(MOTOR_CONT_TEMP_BOX);
-	FillCAN(RADIATOR_TEMP_BOX);
-	FillCAN(COOLANT_PRESSURES_BOX);
-	FillCAN(EMRAX_TEMP_BOX);
-	FillCAN(AMBIENT_TEMP_BOX);
-	FillCAN(MOTOR_PLATE_TEMP_BOX);
+	FillCAN(CONTACTOR_BOX_BOX);
+	FillCAN(FRAME_FAULT_BOX);
+	FillCAN(SHUNTS_BOX);
+	FillCAN(REAR_WHEEL_SPEED_BOX);
+	FillCAN(REAR_BRAKE_BOX);
+	FillCAN(REAR_SUSPENSION_BOX);
 }
 
 // INT9.6

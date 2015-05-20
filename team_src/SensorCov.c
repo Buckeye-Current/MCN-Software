@@ -99,22 +99,22 @@ void SensorCovMeasure()
 	#define BRAKE_COV (3.3*(5.6+10))/(5.6*0.015*4096)
 	data_temp.rear_brake.F32 = REAR_BRAKE_VALUE*BRAKE_COV;
 
-	data_temp.rear_susp = REAR_SUSP_VALUE/4096.0;
+	data_temp.rear_susp.F32 = REAR_SUSP_VALUE/4096.0;
 
 	#define V12_COV (3.3*(36+10))/(36*4096)
-	data_temp.v12 = V12_VALUE * V12_COV;
-	data_temp.v12_standby = V12_STANDBY_VALUE* V12_COV;
+	data_temp.v12.F32 = V12_VALUE * V12_COV;
+	data_temp.v12_standby.F32 = V12_STANDBY_VALUE* V12_COV;
 
 	#define SHUNT_COV (3.3)/(4096*20*.01)
-	data_temp.v12_shunt =  V12_SHUNT_VALUE * SHUNT_COV;
+	data_temp.v12_shunt.F32 =  V12_SHUNT_VALUE * SHUNT_COV;
 	#define V1_5_COV (3.3*(5.6+10))/(5.6*4096)
-	data_temp.v1_5 = V1_5_VALUE *  V1_5_COV;
+	data_temp.v1_5.F32 = V1_5_VALUE *  V1_5_COV;
 
 	#define VOLT_COV (3.3)/(4096)
-	data_temp.v2_3 = V2_3_VALUE * VOLT_COV;
-	data_temp.v3_3 = V3_3_VALUE * VOLT_COV;
+	data_temp.v2_3.F32 = V2_3_VALUE * VOLT_COV;
+	data_temp.v3_3.F32 = V3_3_VALUE * VOLT_COV;
 
-	data_temp.wheel_speed = WHEEL_SPEED_VALUE; //need more information about tone wheel
+	data_temp.wheel_speed.F32 = WHEEL_SPEED_VALUE; //need more information about tone wheel
 
 	PerformSystemChecks();
 }

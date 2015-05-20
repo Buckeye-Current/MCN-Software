@@ -21,7 +21,7 @@
 								<listOptionValue builtIn="false" value="DEVICE_CONFIGURATION_ID=TMS320C28XX.TMS320F28035"/>
 								<listOptionValue builtIn="false" value="DEVICE_ENDIANNESS=little"/>
 								<listOptionValue builtIn="false" value="OUTPUT_FORMAT=COFF"/>
-								<listOptionValue builtIn="false" value="CCS_MBS_VERSION=5.1.0.01"/>
+								<listOptionValue builtIn="false" value="CCS_MBS_VERSION=5.5.0"/>
 								<listOptionValue builtIn="false" value="RUNTIME_SUPPORT_LIBRARY=libc.a"/>
 								<listOptionValue builtIn="false" value="ADDITIONAL_FLAGS__LINKER="/>
 								<listOptionValue builtIn="false" value="LINKER_COMMAND_FILE=Unit_testing.txt"/>
@@ -39,7 +39,7 @@
 								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.0.compilerID.DEBUGGING_MODEL.1619480193" name="Debugging model" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.0.compilerID.DEBUGGING_MODEL" value="com.ti.ccstudio.buildDefinitions.C2000_6.0.compilerID.DEBUGGING_MODEL.SYMDEBUG__DWARF" valueType="enumerated"/>
 								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.0.compilerID.INCLUDE_PATH.259043902" name="Add dir to #include search path (--include_path, -I)" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.0.compilerID.INCLUDE_PATH" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/team_headers}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/ti_headers}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MCN_Library/ti_headers}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MCN_Library/template_headers}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${CG_TOOL_ROOT}/include&quot;"/>
 								</option>
@@ -58,18 +58,21 @@
 								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.0.linkerID.MAP_FILE.794050318" name="Input and output sections listed into &lt;file&gt; (--map_file, -m)" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.0.linkerID.MAP_FILE" value="&quot;${ProjName}.map&quot;" valueType="string"/>
 								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.0.linkerID.SEARCH_PATH.1024772240" name="Add &lt;dir&gt; to library search path (--search_path, -i)" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.0.linkerID.SEARCH_PATH" valueType="stringList">
 									<listOptionValue builtIn="false" value="&quot;${CG_TOOL_ROOT}/lib&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MCN_Library/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${CG_TOOL_ROOT}/include&quot;"/>
 								</option>
 								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.0.linkerID.LIBRARY.803624839" name="Include library file or command file as input (--library, -l)" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.0.linkerID.LIBRARY" valueType="libs">
 									<listOptionValue builtIn="false" value="&quot;libc.a&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MCN_Library/Debug/MCN_Library.lib}&quot;"/>
 								</option>
+								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.0.linkerID.XML_LINK_INFO.1697454770" name="Detailed link information data-base into &lt;file&gt; (--xml_link_info, -xml_link_info)" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.0.linkerID.XML_LINK_INFO" value="&quot;${ProjName}_linkInfo.xml&quot;" valueType="string"/>
+								<inputType id="com.ti.ccstudio.buildDefinitions.C2000_6.0.exeLinker.inputType__CMD_SRCS.71523915" name="Linker Command Files" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.0.exeLinker.inputType__CMD_SRCS"/>
+								<inputType id="com.ti.ccstudio.buildDefinitions.C2000_6.0.exeLinker.inputType__CMD2_SRCS.874228194" name="Linker Command Files" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.0.exeLinker.inputType__CMD2_SRCS"/>
+								<inputType id="com.ti.ccstudio.buildDefinitions.C2000_6.0.exeLinker.inputType__GEN_CMDS.235112049" name="Generated Linker Command Files" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.0.exeLinker.inputType__GEN_CMDS"/>
 							</tool>
 						</toolChain>
 					</folderInfo>
 					<fileInfo id="com.ti.ccstudio.buildDefinitions.C2000.Debug.766606461.Unit_testing.txt" name="Unit_testing.txt" rcbsApplicability="disable" resourcePath="Unit_testing.txt" toolsToInvoke=""/>
-					<fileInfo id="com.ti.ccstudio.buildDefinitions.C2000.Debug.766606461.28035_RAM_lnk.cmd" name="28035_RAM_lnk.cmd" rcbsApplicability="disable" resourcePath="28035_RAM_lnk.cmd" toolsToInvoke="com.ti.ccstudio.buildDefinitions.C2000_6.0.exe.linkerDebug.1447024214.1238893350">
-						<tool id="com.ti.ccstudio.buildDefinitions.C2000_6.0.exe.linkerDebug.1447024214.1238893350" name="C2000 Linker" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.0.exe.linkerDebug.1447024214"/>
-					</fileInfo>
 					<sourceEntries>
 						<entry excluding="Unit_testing.txt|team_src/gpio.c|team_src/adc.c|team_src/Boot.c|team_src/common.c|team_src/Shared_Boot.c|team_src/stopwatch.c|28035_RAM_lnk.cmd" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
@@ -92,6 +95,7 @@
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.rtsc.xdctools.parsers.ErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.autotools.core.ErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">

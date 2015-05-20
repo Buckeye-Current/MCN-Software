@@ -42,6 +42,6 @@ void DataSetup()
 	user_data.v1_5.U32 = 0;
 	user_data.v2_3.U32 = 0;
 	user_data.v3_3.U32 = 0;
-	user_data.wheel_speed = 0;
+	user_data.wheel_speed.U32 = 0;
 }
 

@@ -75,7 +75,7 @@ __interrupt void INT14_ISR(void)     // INT14 or CPU-Timer2
 	if (Clock_Ticks.susp >= TICKS_SUSP)
 	{
 		//send data or fill data
-		SendCAN(REAR_WHEEL_SPEED_BOX);
+		SendCAN(REAR_SUSPENSION_BOX);
 		Clock_Ticks.susp = 0;
 	}
 
