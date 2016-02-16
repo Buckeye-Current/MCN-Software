@@ -19,6 +19,8 @@ void BUS_OFF();
 //           DEFINE mailboxes for all output except heartbeat and command
 //			 Mailboxes and ID's 0 or 1 are reserved for system use.
 
+#ifdef MCN1
+
 #define COMMAND_ID 							0x102
 #define HEARTBEAT_ID 						0x101
 
@@ -62,4 +64,13 @@ void BUS_OFF();
 #define SUPPLY_BOX							11
 #define SUPPLY_TRS							TRS11
 
+#endif
+
+#ifdef MCN2
+
+#endif
+
+#ifdef MCN3
+
+#endif
 #endif /* CAN_H_ */
