@@ -4,7 +4,7 @@
  *  Created on: Nov 12, 2013
  *      Author: Nathan
  */
-#include "all.h"
+#include "../MCN1 Headers/all.h"
 
 struct ECAN_REGS ECanaShadow;
 
@@ -36,8 +36,6 @@ void CANSetup()
 	//gp_button TRANSMIT
 	//CreateCANMailbox(3,0,0,1,8,GP_BUTTON_ID,0);
 
-	// Code specific to MCN 1
-#ifdef MCN1
 	CreateCANMailbox(COOLANT_FLOW_BOX,0,0,1,4,COOLANT_FLOW_ID,0); //CHECK AAM
 	CreateCANMailbox(POWERTRAIN_COOLANT_TEMP_BOX,0,0,1,8,POWERTRAIN_COOLANT_TEMP_ID,0);
 	CreateCANMailbox(MOTOR_AIR_PRESSURES_BOX,0,0,1,4,MOTOR_AIR_PRESSURES_ID, 0);
@@ -52,17 +50,7 @@ void CANSetup()
 	ECanaShadow.CANMIL.bit.MIL9  = 1;  		// Int.-Level MB#0  -> I1EN
 	CreateCANMailbox(TRITIUM_RESET_BOX,0,0,1,4,TRITIUM_RESET_ID,0);
 	CreateCANMailbox(SUPPLY_BOX,0,0,1,4,SUPPLY_ID,0);
-#endif
 
-	// Code specific to MCN 2
-#ifdef MCN2
-
-#endif
-
-	// Code specific to MCN 3
-#ifdef MCN3
-
-#endif
 
     EDIS;
     FinishCANInit();

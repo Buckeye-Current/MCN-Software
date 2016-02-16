@@ -5,7 +5,7 @@
  *      Author: Nathan
  */
 
-#include "all.h"
+#include "../MCN1 Headers/all.h"
 
 extern DSPfilter A0filter;
 extern DSPfilter A1filter;
@@ -54,8 +54,6 @@ void SensorCovInit()
 
 
 	SystemSensorInit(SENSOR_COV_STOPWATCH);
-
-#ifdef MCN1
 	/*
 	 * alpha = (1.0 - exp(-2.0 * PI * (CANFrequency / samplingFrequency))) * 2^16;
 	 */
@@ -80,40 +78,12 @@ void SensorCovInit()
 	initDSPfilter(&B7filter, ALPHA_SYS);
 	ConfigGPIOSensor(410, 10000, 26, 0, 2); // Coolant Flow
 	ConfigGPIOSensor(410, 10000, 19, 0, 2);
-#endif
-
-#ifdef MCN2
-	initDSPfilter(&A0filter, ALPHA_SYS);
-	initDSPfilter(&A1filter, ALPHA_SYS);
-	initDSPfilter(&A2filter, ALPHA_SYS);
-	initDSPfilter(&A3filter, ALPHA_SYS);
-	initDSPfilter(&A4filter, ALPHA_SYS);
-	initDSPfilter(&A5filter, ALPHA_SYS);
-	initDSPfilter(&A6filter, ALPHA_SYS);
-	initDSPfilter(&A7filter, ALPHA_SYS);
-	initDSPfilter(&B0filter, ALPHA_SYS);
-	initDSPfilter(&B1filter, ALPHA_SYS);
-	initDSPfilter(&B2filter, ALPHA_SYS);
-	initDSPfilter(&B3filter, ALPHA_SYS);
-	initDSPfilter(&B4filter, ALPHA_SYS);
-	initDSPfilter(&B5filter, ALPHA_SYS);
-	initDSPfilter(&B6filter, ALPHA_SYS);
-	initDSPfilter(&B7filter, ALPHA_SYS);
-	ConfigGPIOSensor(410, 10000, 26, 0, 2); //Wheel Speed
-#endif
-
-#ifdef MCN3
-
-#endif
-
 }
 
 
 
 void SensorCovMeasure()
 {
-	// Code specific to MCN 1
-#ifdef MCN1
 	#define R1 10000.0 //Before ADC, Ohms
 	#define R2 20000.0
 	#define V5 5.08
@@ -164,63 +134,6 @@ void SensorCovMeasure()
 	data_temp.v12.F32 = v_in*((36+10)/10);
 
 	data_temp.gp_button = READGPBUTTON();
-#endif
-
-	// Code specific to MCN 2
-#ifdef MCN2
-#define R1 10000.0 //Before ADC, Ohms
-#define R2 20000.0
-#define V5 5.08
-#define B 1568.583480 //Ohm
-#define PI 3.141593
-#define Vs 5.1 // Vdc ... Find out what this actually is
-
-	SensorCovSystemInit();
-
-	//todo USER: Sensor Conversion
-	//update data_temp and ops_temp
-	//use stopwatch to catch timeouts
-	//waiting should poll isStopWatchComplete() to catch timeout and throw StopWatchError
-
-	// Wheel Speed (rad/sec)
-	//  deltaX / Time
-	//  (2*pi/50 slots) * gpio_count = radians
-	//  (1/sample rate) == (1/10000) = 0.0001 sec
-
-	data_temp.front_wheel_speed.F32 = (GPIO26filter.filtered_value * ((2*PI)/50))/(0.0001);
-
-	//Front suspension travel
-	data_temp.front_suspension_travel.F32 = (B1RESULT/4096.0);
-
-	data_temp.steering_angle.F32 = (A1RESULT/4096.0); //A1RESULT
-
-	v_in = 3.3 * (A3RESULT/4096.0);	 				//Vm
-	v_in = v_in * (15.6/10); 						//Vout
-	data_temp.front_brake_pressure.F32 = ((v_in-.5)*3000)/(4); //P
-
-	v_in = 3.3*(B1RESULT/4096.0);
-	r_th = -1.0*(R1*R2*v_in)/((-1.0*R2*V5)+(R1*v_in)+(R2*v_in));
-	data_temp.ambient_temperature.F32 = (3380.0)/(log((r_th/0.119286))) - 273.15;
-
-	v_in = 3.3 * (B4RESULT/4096.0);
-	data_temp.ambient_pressure.F32 = (v_in/(Vs*0.004)) + 0.04;
-
-	v_in = 3.3 * (B2RESULT/4096.0);
-	data_temp.radiator_air_pressure.F32 = (v_in/(Vs*0.004)) + 0.04;
-
-	v_in = 3.3*(A0RESULT/4096.0);
-	r_th = -1.0*(R1*R2*v_in)/((-1.0*R2*V5)+(R1*v_in)+(R2*v_in));
-	data_temp.radiator_coolant_temp.F32 = (3435.0)/(log((r_th/0.0991912))) - 273.15;
-
-
-	data_temp.gp_button = READGPBUTTON();
-
-#endif
-
-	// Code specific to MCN 3
-#ifdef MCN3
-
-#endif
 
 	PerformSystemChecks();
 }
