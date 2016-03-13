@@ -88,7 +88,7 @@ void SensorCovMeasure()
 	#define R2 20000.0
 	#define V5 5.08
 	//#define B 1568.583480 //Ohm
-	#define B 3380.0
+	#define B 3435
 	#define Vs 5.1 // Vdc ... Find out what this actually is
 
 	SensorCovSystemInit();
@@ -97,14 +97,6 @@ void SensorCovMeasure()
 	//update data_temp and ops_temp
 	//use stopwatch to catch timeouts
 	//waiting should poll isStopWatchComplete() to catch timeout and throw StopWatchError
-
-	ratio = (A7RESULT/4096.0);
-	data_temp.front_suspension_travel.F32 = ratio * 150.0;	//millimeters
-
-	ratio = (B1RESULT/4096.0);
-	r_th = R1 / (ratio - 1);
-	data_temp.ambient_temperature.F32 = B / (log(r_th/0.11929)) - 273.15;
-
 
 	data_temp.coolant_flow.F32 = (GPIO26filter.filtered_value*0.283);
 
