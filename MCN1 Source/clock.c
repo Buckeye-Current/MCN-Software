@@ -4,7 +4,7 @@
  *  Created on: Nov 12, 2013
  *      Author: Nathan
  */
-#include "all.h"
+#include "../MCN1 Headers/all.h"
 
 
 clock_struct Clock_Ticks = CLOCK_TICKS_CLEAR;
@@ -41,20 +41,30 @@ __interrupt void INT14_ISR(void)     // INT14 or CPU-Timer2
 
 	//todo USER: Define Clock ISR
 
-	Clock_Ticks.DataOut++;
+	Clock_Ticks.group1_ticks++;
+	Clock_Ticks.group2_ticks++;
+	Clock_Ticks.group3_ticks++;
 
-	if (Clock_Ticks.DataOut >= DATAOUT_TICKS)
+	if (Clock_Ticks.group1_ticks >= STRAIN_GAUGE_TICKS)
 	{
 		//send data or fill data
+		SendCAN(STRAIN_GAUGE_12_BOX);
+		SendCAN(STRAIN_GAUGE_34_BOX);
+		SendCAN(STRAIN_GAUGE_56_BOX);
+		Clock_Ticks.group1_ticks = 0;
+	}
+	if(Clock_Ticks.group2_ticks >= TEN_HZ_TICKS)
+	{
+		SendCAN(MOTOR_AIR_PRESSURES_BOX);
+		Clock_Ticks.group2_ticks = 0;
+	}
+	if(Clock_Ticks.group3_ticks >= FIVE_HZ_TICKS)
+	{
 		SendCAN(COOLANT_FLOW_BOX);
-		SendCAN(MOTOR_TEMP_BOX);
-		SendCAN(MOTOR_CONT_TEMP_BOX);
-		SendCAN(RADIATOR_TEMP_BOX);
-		SendCAN(COOLANT_PRESSURES_BOX);
-		SendCAN(MOTOR_PLATE_TEMP_BOX);
-		SendCAN(AMBIENT_TEMP_BOX);
-		SendCAN(EMRAX_TEMP_BOX);
-		Clock_Ticks.DataOut = 0;
+		SendCAN(POWERTRAIN_COOLANT_TEMP_BOX);
+		SendCAN(MOTOR_PLATE_TEMPS_BOX);
+		SendCAN(SUPPLY_BOX);
+		Clock_Ticks.group3_ticks = 0;
 	}
 
 	RestartCpuTimer2();
