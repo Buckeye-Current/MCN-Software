@@ -32,6 +32,7 @@ user_data_struct data_temp;
 int max = 2000, min = 2000;
 float r_th;
 float v_in;
+float ratio;
 
 void SensorCov()
 {
@@ -98,7 +99,7 @@ void SensorCovMeasure()
 	//use stopwatch to catch timeouts
 	//waiting should poll isStopWatchComplete() to catch timeout and throw StopWatchError
 
-	float ratio = (A7RESULT/4096.0);
+	ratio = (A7RESULT/4096.0);
 	data_temp.front_suspension_travel.F32 = ratio * 150.0;	//millimeters
 
 	ratio = (A3RESULT/4096.0);

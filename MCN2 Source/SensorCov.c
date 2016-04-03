@@ -33,6 +33,7 @@ user_data_struct data_temp;
 int max = 2000, min = 2000;
 float r_th;
 float v_in;
+float ratio;
 
 void SensorCov()
 {

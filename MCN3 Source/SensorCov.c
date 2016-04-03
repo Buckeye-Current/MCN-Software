@@ -31,7 +31,7 @@ user_ops_struct ops_temp;
 user_data_struct data_temp;
 
 int max = 2000, min = 2000;
-float r_th;
+float r_flex;
 float v_in;
 float ratio; //ADC Ratio
 
@@ -106,10 +106,16 @@ void SensorCovMeasure()
 	ratio = (A3RESULT/4096.0);
 	data_temp.rear_tire_temp.F32 = ratio * 160; // degrees C
 
+	ratio = (A1RESULT/4096.0);
+	r_flex = (R1 / ratio) - R1;
 	data_temp.flex_sensor_1.F32 = 0;
 
+	ratio = (A1RESULT/4096.0);
+	r_flex = (R1 / ratio) - R1;
 	data_temp.flex_sensor_2.F32 = 0;
 
+	ratio = (A1RESULT/4096.0);
+	r_flex = (R1 / ratio) - R1;
 	data_temp.flex_sensor_3.F32 = 0;
 
 	data_temp.gp_button = READGPBUTTON();
