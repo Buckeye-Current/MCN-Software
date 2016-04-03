@@ -453,5 +453,4 @@
 	<storageModule moduleId="scannerConfiguration"/>
 	<storageModule moduleId="null.endianPreference"/>
 	<storageModule moduleId="cpuFamily"/>
-	<storageModule moduleId="scannerConfiguration"/>
 </cproject>
