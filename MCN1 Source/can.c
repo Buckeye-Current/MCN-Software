@@ -73,32 +73,6 @@ char FillCAN(unsigned int Mbox)
 		case COOLANT_PRESSURES_BOX:
 			InsertCANMessage(COOLANT_PRESSURES_BOX, 0, user_data.motor_inlet_pressure.U32);
 			return 1;
-
-		case COOLANT_FLOW_BOX:
-			InsertCANMessage(COOLANT_FLOW_BOX, 0, user_data.coolant_flow.U32);
-			return 1;
-		case POWERTRAIN_COOLANT_TEMP_BOX:
-			InsertCANMessage(POWERTRAIN_COOLANT_TEMP_BOX, user_data.motor_control_coolant_temp.U32, user_data.motor_coolant_temp.U32);
-			return 1;
-		case MOTOR_AIR_PRESSURES_BOX:
-			InsertCANMessage(MOTOR_AIR_PRESSURES_BOX, user_data.motor_air_pressure_2.U32, user_data.motor_air_pressure_1.U32);
-			return 1;
-		case MOTOR_PLATE_TEMPS_BOX:
-			InsertCANMessage(MOTOR_PLATE_TEMPS_BOX, user_data.motor_plate_temp_2.U32, user_data.motor_plate_temp_1.U32);
-			return 1;
-		case STRAIN_GAUGE_12_BOX:
-			InsertCANMessage(STRAIN_GAUGE_12_BOX, user_data.strain_gauge_2.U32, user_data.strain_gauge_1.U32);
-			return 1;
-		case STRAIN_GAUGE_34_BOX:
-			InsertCANMessage(STRAIN_GAUGE_34_BOX, user_data.strain_gauge_4.U32, user_data.strain_gauge_3.U32);
-			return 1;
-		case STRAIN_GAUGE_56_BOX:
-			InsertCANMessage(STRAIN_GAUGE_56_BOX, user_data.strain_gauge_6.U32, user_data.strain_gauge_5.U32);
-			return 1;
-		case TRITIUM_RESET_BOX:
-			InsertCANMessage(TRITIUM_RESET_BOX, 0, 0);
-		case SUPPLY_BOX:
-			InsertCANMessage(SUPPLY_BOX, 0, user_data.v12.U32);
 		default:
 			return 0;
 		}
@@ -112,15 +86,6 @@ char FillCAN(unsigned int Mbox)
 void FillCANData()
 {
 	//todo USER: use FillCAN to put data into correct mailboxes
-	FillCAN(COOLANT_FLOW_BOX);
-	FillCAN(POWERTRAIN_COOLANT_TEMP_BOX);
-	FillCAN(MOTOR_AIR_PRESSURES_BOX);
-	FillCAN(MOTOR_PLATE_TEMPS_BOX);
-	FillCAN(STRAIN_GAUGE_12_BOX);
-	FillCAN(STRAIN_GAUGE_34_BOX);
-	FillCAN(STRAIN_GAUGE_56_BOX);
-	FillCAN(SUPPLY_BOX);
-
 	FillCAN(SUSPENSION_TRAVELS_BOX);
 	FillCAN(STEERING_BOX);
 	FillCAN(AMBIENT_MEASUREMENTS_BOX);
@@ -140,18 +105,6 @@ __interrupt void ECAN1INTA_ISR(void)  // eCAN-A
   	{
   		ReadCommand();
   	}
-  	/*
-  	else if(mailbox_nr == TRITIUM_ERRORS_BOX)
-  	{
-  		errors = ECanaMboxes.MBOX9.MDL.byte.BYTE1;
-  		if(errors > 0)
-  		{
-  			SendCAN(TRITIUM_RESET_BOX);
-  		}
-		ECanaRegs.CANRMP.bit.RMP9 = 1;
-
-  	}
-  	*/
   	//todo USER: Setup other reads
 
 

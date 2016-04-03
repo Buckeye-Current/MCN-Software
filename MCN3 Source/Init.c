@@ -5,7 +5,7 @@
  *      Author: Nathan
  */
 
-#include "../MCN1 Headers/all.h"
+#include "../MCN3 Headers/all.h"
 
 
 user_ops_struct user_ops;
@@ -32,18 +32,12 @@ void DataSetup()
 {
 	//todo USER: DataSetup()
 	//add here and data.h
-	user_data.coolant_flow.U32 = 0;
-	user_data.motor_air_pressure_1.U32 = 0;
-	user_data.motor_air_pressure_2.U32 = 0;
-	user_data.motor_plate_temp_1.U32 = 0;
-	user_data.motor_plate_temp_2.U32 = 0;
-	user_data.motor_control_coolant_temp.U32 = 0;
-	user_data.motor_coolant_temp.U32 = 0;
-	user_data.strain_gauge_1.U32 = 0;
-	user_data.strain_gauge_2.U32 = 0;
-	user_data.strain_gauge_3.U32 = 0;
-	user_data.strain_gauge_4.U32 = 0;
-	user_data.strain_gauge_5.U32 = 0;
-	user_data.strain_gauge_6.U32 = 0;
+
+	user_data.front_tire_temp.U32 = 0;
+	user_data.rear_tire_temp.U32 = 0;
+	user_data.flex_sensor_1.U32 = 0;
+	user_data.flex_sensor_2.U32 = 0;
+	user_data.flex_sensor_3.U32 = 0;
+
 }
 

@@ -138,10 +138,10 @@ SECTIONS
    .sysmem             : > RAML3       PAGE = 1
 
 
-   .bootloader_boot : {
-   boot_template.obj(.text)}                         > BOOTLOADER	   PAGE = 0
-   .bootloader_shared : {
-   SharedBoot_template.obj(.text)}                  > BOOTLOADER	   PAGE = 0
+   //.bootloader_boot : {
+   //boot_template.obj(.text)}                         > BOOTLOADER	   PAGE = 0
+   //.bootloader_shared : {
+   //SharedBoot_template.obj(.text)}                  > BOOTLOADER	   PAGE = 0
 
 
    /* Initalized sections go in Flash */
