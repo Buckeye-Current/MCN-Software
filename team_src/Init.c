@@ -72,11 +72,6 @@ void DataSetup()
 	user_data.CellTemp38.F32 = 0;
 	user_data.CellTemp39.F32 = 0;
 	user_data.CellTemp40.F32 = 0;
-	user_data.BIM1.U32 = 0;
-	user_data.BIM2.U32 = 0;
-	user_data.BIM3.U32 = 0;
-	user_data.BIM4.U32 = 0;
-	user_data.BIM5.U32 = 0;
 	user_data.throttle_percent_cap.U32 = 0;
 	user_data.throttle_percent_ratio.U32 = 0;
 	user_data.throttle_output.U32 = 0;
@@ -88,5 +83,6 @@ void DataSetup()
 	user_data.status_limit.U32 = 0;
 	user_data.throttle_lock.U32 = 0;
 	user_data.driver_control_limits.U32 = 0;
+	user_data.throttle_flag.U32 = 0;
 }
 

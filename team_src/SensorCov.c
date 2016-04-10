@@ -103,6 +103,7 @@ void SensorCovMeasure()
 #define ADC_SCALE 4096.0
 
 	SensorCovSystemInit();
+	EMA_Filter_Update();
 	//initialize used variables
 
 	int THROTTLE_LOOKUP = 0;
@@ -153,12 +154,13 @@ void SensorCovMeasure()
 		user_data.throttle_output.F32 = user_data.throttle_percent_cap.F32;
 	}
 
-	user_data.no_filter.F32 = user_data.throttle_percent_ratio.F32;
+	if (!user_data.throttle_flag.U32){
+		user_data.no_filter.F32 = user_data.throttle_percent_ratio.F32;
 
-	if (user_data.no_filter.F32 >= user_data.throttle_percent_cap.F32){
-		user_data.no_filter.F32 = user_data.throttle_percent_cap.F32;
+		if (user_data.no_filter.F32 >= user_data.throttle_percent_cap.F32){
+			user_data.no_filter.F32 = user_data.throttle_percent_cap.F32;
+		}
 	}
-
 	//Check for limmiting factor (should always result in battery limit being activated)
 	if (user_data.throttle_percent_ratio.F32) {
 		MinMax = user_data.throttle_percent_ratio.F32;

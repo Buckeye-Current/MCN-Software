@@ -56,11 +56,6 @@ typedef struct USER_DATA
 	canfloat CellTemp38;
 	canfloat CellTemp39;
 	canfloat CellTemp40;
-	canfloat BIM1;
-	canfloat BIM2;
-	canfloat BIM3;
-	canfloat BIM4;
-	canfloat BIM5;
 	canfloat throttle_percent_cap;
 	canfloat throttle_percent_ratio;
 	canfloat throttle_output;
@@ -72,6 +67,7 @@ typedef struct USER_DATA
 	canfloat status_limit;
 	canfloat throttle_lock;
 	canfloat driver_control_limits;
+	canfloat throttle_flag;
 	char gp_button;
 } user_data_struct;
 

@@ -8,7 +8,14 @@
 
 #define MTOF_BIT	0x00020000
 
+// Convert from seconds to CAN ticks
+#define SECS_TO_CAN_TICKS(seconds)	(Uint32)(seconds * 1000000)
+
+#define CAN_TIMEOUT_IN_SECS(time)	(ECanaRegs.CANTSC + SECS_TO_CAN_TICKS(time))
+
 struct ECAN_REGS ECanaShadow;
+
+static void setupCANTimeout(void);
 /*
  * Function responsible for initializing the CAN module.
  *
@@ -37,7 +44,6 @@ void CANSetup()
 	//gp_button TRANSMIT
 	//CreateCANMailbox(3,0,0,1,8,GP_BUTTON_ID,0);
 
-
 	CreateCANMailbox(CellTemp1_BOX, 0, 0, 0, 8, CellTemp1_ID, 1);
 	CreateCANMailbox(CellTemp2_BOX, 0, 0, 0, 8, CellTemp2_ID, 1);
 	CreateCANMailbox(CellTemp3_BOX, 0, 0, 0, 8, CellTemp3_ID, 1);
@@ -59,16 +65,16 @@ void CANSetup()
 	CreateCANMailbox(CellTemp19_BOX, 0, 0, 0, 8, CellTemp19_ID, 1);
 	CreateCANMailbox(CellTemp20_BOX, 0, 0, 0, 8, CellTemp20_ID, 1);
 	CreateCANMailbox(RPM_BOX, 0, 0, 0, 8, RPM_ID, 1);
-	CreateCANMailbox(BIM1_BOX, 0, 0 , 0, 8, BIM1_ID, 1);
-	CreateCANMailbox(BIM2_BOX, 0, 0 , 0, 8, BIM2_ID, 1);
-	CreateCANMailbox(BIM3_BOX, 0, 0 , 0, 8, BIM3_ID, 1);
-	CreateCANMailbox(BIM4_BOX, 0, 0 , 0, 8, BIM4_ID, 1);
-	CreateCANMailbox(BIM5_BOX, 0, 0 , 0, 8, BIM5_ID, 1);
 	CreateCANMailbox(DriverControl_BOX, 0, 0, 0, 8, DriverControl_ID, 0);
 	CreateCANMailbox(DriverThrottle_BOX, 0, 0, 0, 8, DriverThrottle_ID, 0);
 	CreateCANMailbox(no_filter_BOX, 0, 0, 0, 8, no_filter_ID, 0);
 
+	ECanaRegs.CANGIF0.all = 0xFFFFFFFF; /* Clear all interrupt flag bits */
+    ECanaRegs.CANGIF1.all = 0xFFFFFFFF;
+    ECanaShadow.CANGIM.bit.MTOM = 1;
 
+
+    setupCANTimeout();
     EDIS;
     FinishCANInit();
 }
@@ -117,7 +123,57 @@ void FillCANData()
 	FillCAN(RPM_BOX);
 }
 
+static void setupCANTimeout(void){
+
+	ECanaMOTORegs.MOTO2 = CAN_TIMEOUT_IN_SECS(3.0);
+
+	ECanaMOTORegs.MOTO3 = CAN_TIMEOUT_IN_SECS(3.0);
+
+	ECanaMOTORegs.MOTO4 = CAN_TIMEOUT_IN_SECS(3.0);
+
+	ECanaMOTORegs.MOTO5 = CAN_TIMEOUT_IN_SECS(3.0);
+
+	ECanaMOTORegs.MOTO6 = CAN_TIMEOUT_IN_SECS(3.0);
+
+	ECanaMOTORegs.MOTO7 = CAN_TIMEOUT_IN_SECS(3.0);
+
+	ECanaMOTORegs.MOTO8 = CAN_TIMEOUT_IN_SECS(3.0);
+
+	ECanaMOTORegs.MOTO9 = CAN_TIMEOUT_IN_SECS(3.0);
+
+	ECanaMOTORegs.MOTO10 = CAN_TIMEOUT_IN_SECS(3.0);
+
+	ECanaMOTORegs.MOTO11 = CAN_TIMEOUT_IN_SECS(3.0);
+
+	ECanaMOTORegs.MOTO12 = CAN_TIMEOUT_IN_SECS(3.0);
+
+	ECanaMOTORegs.MOTO13 = CAN_TIMEOUT_IN_SECS(3.0);
+
+	ECanaMOTORegs.MOTO14 = CAN_TIMEOUT_IN_SECS(3.0);
+
+	ECanaMOTORegs.MOTO15 = CAN_TIMEOUT_IN_SECS(3.0);
+
+	ECanaMOTORegs.MOTO16 = CAN_TIMEOUT_IN_SECS(3.0);
+
+	ECanaMOTORegs.MOTO17 = CAN_TIMEOUT_IN_SECS(3.0);
+
+	ECanaMOTORegs.MOTO18 = CAN_TIMEOUT_IN_SECS(3.0);
+
+	ECanaMOTORegs.MOTO19 = CAN_TIMEOUT_IN_SECS(3.0);
+
+	ECanaMOTORegs.MOTO20 = CAN_TIMEOUT_IN_SECS(3.0);
+
+	ECanaMOTORegs.MOTO21 = CAN_TIMEOUT_IN_SECS(3.0);
+
+	ECanaMOTORegs.MOTO22 = CAN_TIMEOUT_IN_SECS(3.0);
+
+	ECanaShadow.CANTOC.all = 0x7FFFFC;
+
+
+}
+
 // INT9.6
+
 __interrupt void ECAN1INTA_ISR(void)  // eCAN-A
 {
 	Uint32 ops_id;
@@ -128,10 +184,14 @@ __interrupt void ECAN1INTA_ISR(void)  // eCAN-A
   	//CAN RECEIVE
 
   	if ((ECanaRegs.CANGIF1.all & MTOF_BIT) > 0){
-  	 		// Store which mailboxes timed out.
-  			mailbox_timeouts = ECanaRegs.CANGIF1.all;
-  			// shut down throttle
-  			user_data.throttle_percent_ratio.U32 = 0;
+  	 	// Store which mailboxes timed out.
+  		mailbox_timeouts = ECanaRegs.CANGIF1.all;
+  		// shut down throttle
+  		user_data.no_filter.U32 = 0;
+  		user_data.throttle_flag.U32 = 1;
+  	}
+  	else {
+  		user_data.throttle_flag.U32 = 0;
   	}
 
   	while (ECanaRegs.CANRMP.all > 0){
@@ -244,26 +304,6 @@ __interrupt void ECAN1INTA_ISR(void)  // eCAN-A
 		case RPM_BOX:
 			user_data.RPM.U32 = ECanaMboxes.MBOX22.MDL.all;
 			ECanaRegs.CANRMP.bit.RMP22 = 1;
-			break;
-		case BIM1_BOX:
-			user_data.BIM1.U32 = ECanaMboxes.MBOX23.MDL.all;
-			ECanaRegs.CANRMP.bit.RMP23 = 1;
-			break;
-		case BIM2_BOX:
-			user_data.BIM2.U32 = ECanaMboxes.MBOX24.MDL.all;
-			ECanaRegs.CANRMP.bit.RMP24 = 1;
-			break;
-		case BIM3_BOX:
-			user_data.BIM3.U32 = ECanaMboxes.MBOX25.MDL.all;
-			ECanaRegs.CANRMP.bit.RMP25 = 1;
-			break;
-		case BIM4_BOX:
-			user_data.BIM4.U32 = ECanaMboxes.MBOX26.MDL.all;
-			ECanaRegs.CANRMP.bit.RMP26 = 1;
-			break;
-		case BIM5_BOX:
-			user_data.BIM5.U32 = ECanaMboxes.MBOX27.MDL.all;
-			ECanaRegs.CANRMP.bit.RMP27 = 1;
 			break;
 		}
   	}
