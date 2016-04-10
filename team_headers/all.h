@@ -36,6 +36,7 @@
 #include "Flash2803x_API_Library.h"
 #include "IQmathLib.h"
 #include "EMA.h"
+#include "Stack.h"
 
 
 extern sys_ops_struct sys_ops;

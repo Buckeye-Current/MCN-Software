@@ -33,6 +33,7 @@ user_data_struct data_temp;
 static filter throttle_filter;
 
 
+
 //initializing variables used in SensorCovInit
 int i = 0;
 int THROTTLE_LOOKUP = 0;
@@ -197,6 +198,10 @@ void SensorCovMeasure()
 		min = A7RESULT;
 	}
 	*/
+
+	if (Stack_Check()){
+		user_data.throttle_output.F32 = 0;
+	}
 	PerformSystemChecks();
 }
 

@@ -12,6 +12,7 @@ Uint16 MesgID = 5;
 int main(void)
 {
 	StartUp();
+	Stack_Initialize();
 	//BootISRSetup();
 	//PowerDownISRSetup();
 	sys_ops.State = STATE_INIT;
