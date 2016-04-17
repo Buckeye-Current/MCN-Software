@@ -90,6 +90,7 @@ void SensorCovMeasure()
 	//#define B 1568.583480 //Ohm
 	#define B 3435
 	#define Vs 5.1 // Vdc ... Find out what this actually is
+	#define	ADC_MAX_VALUE 4095.0
 
 	SensorCovSystemInit();
 
