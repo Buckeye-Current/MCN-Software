@@ -37,6 +37,8 @@
 #include "IQmathLib.h"
 #include "EMA.h"
 #include "Stack.h"
+#include <stdbool.h>
+#include "SafetyVar.h"
 
 
 extern sys_ops_struct sys_ops;

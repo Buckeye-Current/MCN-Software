@@ -14,6 +14,8 @@
 #define CAN_TIMEOUT_IN_SECS(time)	(ECanaRegs.CANTSC + SECS_TO_CAN_TICKS(time))
 
 struct ECAN_REGS ECanaShadow;
+extern SafetyVar32_t safety;
+static Uint32 mailbox_timeouts = 0;
 
 static void setupCANTimeout(void);
 /*
@@ -79,14 +81,12 @@ void CANSetup()
     FinishCANInit();
 }
 
-	static Uint32 mailbox_timeouts = 0;
-
 char FillCAN(unsigned int Mbox)
 {
 	CopyMCToShadow(&ECanaShadow);
 
 	//Try to fill heartbeat. If not heartbeat mailbox, see if it's a user mailbox
-	if(FillHeartbeat(Mbox, user_ops.UserFlags.all) != 1)
+	if((FillHeartbeat(Mbox, user_ops.UserFlags.all) != 1) && SafetyVar_CheckValue(&safety))
 	{
 		//todo USER: setup for all transmit MBOXs
 		//InsertCANMessage(int Mbox, unsigned int MDH, unsigned int MDL)

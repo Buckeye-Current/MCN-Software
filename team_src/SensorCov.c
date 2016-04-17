@@ -31,8 +31,7 @@ user_ops_struct ops_temp;
 user_data_struct data_temp;
 
 static filter throttle_filter;
-
-
+SafetyVar32_t safety;
 
 //initializing variables used in SensorCovInit
 int i = 0;
@@ -172,11 +171,9 @@ void SensorCovMeasure()
 		user_data.battery_limit.U32 = 1;
 	}
 
-
+	SafetyVar_NewValue(&safety, user_data.throttle_output.U32);
 
 	//sending the driver control limmits information
-
-
 	user_data.driver_control_limits.U32 = user_data.status_limit.U32 << 3;
 	user_data.driver_control_limits.U32 += user_data.rpm_limit.U32 << 2;
 	user_data.driver_control_limits.U32 += user_data.battery_limit.U32 << 1;

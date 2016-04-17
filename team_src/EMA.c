@@ -10,7 +10,7 @@
 static filter *currentFilter;
 static filter *headFilter;
 
-static Uint32 counter = 0;
+static int counter = 0;
 
 void EMA_Filter_Init(filter *f, Uint16 sampleRate){
 
@@ -42,7 +42,7 @@ void EMA_Filter_Update(void)
 	currentFilter = headFilter;
 	while(currentFilter != NULL)
 	{
-		if(currentTime >= (currentFilter->_sampleRate + currentFilter->_lastSampleTime))
+		if((currentTime - currentFilter->_lastSampleTime) > 0)
 		{
 			currentFilter->_lastSampleTime = currentTime;
 
