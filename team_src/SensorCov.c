@@ -127,6 +127,8 @@ void SensorCovMeasure()
 		}
 	}
 
+
+
 	THROTTLE_LOOKUP = (int)user_data.max_cell_temp.F32 + 30;
 
 	//lookup the corrosponding throttle percentage
@@ -146,14 +148,18 @@ void SensorCovMeasure()
 		}
 	}
 
-	EMA_Filter_NewInput(&throttle_filter, user_data.throttle_percent_ratio.F32);
-	user_data.throttle_output.F32 = EMA_Filter_GetFilteredOutput(&throttle_filter);
+    //capping the throttle output
+	if (!user_data.throttle_flag.U32){
+			EMA_Filter_NewInput(&throttle_filter, user_data.throttle_percent_ratio.F32);
+			user_data.throttle_output.F32 = EMA_Filter_GetFilteredOutput(&throttle_filter);
 
-    //capping the throttle ratio
-	if (user_data.throttle_output.F32 >= user_data.throttle_percent_cap.F32){
-		user_data.throttle_output.F32 = user_data.throttle_percent_cap.F32;
+			if (user_data.throttle_output.F32 >= user_data.throttle_percent_cap.F32){
+				user_data.throttle_output.F32 = user_data.throttle_percent_cap.F32;
+			}
 	}
 
+
+	//Caps the unfiltered throttle
 	if (!user_data.throttle_flag.U32){
 		user_data.no_filter.F32 = user_data.throttle_percent_ratio.F32;
 
@@ -161,10 +167,13 @@ void SensorCovMeasure()
 			user_data.no_filter.F32 = user_data.throttle_percent_cap.F32;
 		}
 	}
+
+
 	//Check for limmiting factor (should always result in battery limit being activated)
 	if (user_data.throttle_percent_ratio.F32) {
 		MinMax = user_data.throttle_percent_ratio.F32;
 	}
+
 
 	// check if battery limmit is the limmiting factor
 	if (((user_data.throttle_percent_ratio.F32 > .01) && (user_data.throttle_percent_ratio.F32 < 1.01)) && (user_data.throttle_percent_ratio.F32 == MinMax)){
@@ -179,26 +188,12 @@ void SensorCovMeasure()
 	user_data.driver_control_limits.U32 += user_data.battery_limit.U32 << 1;
 	user_data.driver_control_limits.U32 += user_data.throttle_lock.U32;
 
-	//int percent_out = 0;
-	//percent_out += user_data.throttle_percent.U32 >> 24;
-
-	//ECanaMboxes.MBOX20.MDH.byte.BYTE4 = percent_out;
-
 	data_temp.gp_button = READGPBUTTON();
-	/*
-	if(A7RESULT > max)
-	{
-		max = A7RESULT;
-	}
-	if(A7RESULT < min)
-	{
-		min = A7RESULT;
-	}
-	*/
 
 	if (Stack_Check()){
 		user_data.throttle_output.F32 = 0;
 	}
+
 	PerformSystemChecks();
 }
 

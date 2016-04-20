@@ -98,13 +98,9 @@ void BUS_OFF();
 #define CellTemp19_BOX 		20
 #define CellTemp19_TRS		TRS20
 
-#define CellTemp20_ID 		830
+#define CellTemp20_ID 		831
 #define CellTemp20_BOX 		21
 #define CellTemp20_TRS		TRS21
-
-#define RPM_ID 				1027
-#define RPM_BOX				22
-#define RPM_TRS				TRS22
 
 #define DriverThrottle_ID 	484
 #define DriverThrottle_BOX 	28
