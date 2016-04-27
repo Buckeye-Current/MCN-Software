@@ -2,12 +2,14 @@
  * main.c
  *
  *  Created on: Dec 21, 2013
- *      Author: Nathan
+ *      Author: Nathan, edited by David
  */
 
 #include "all.h"
 
 Uint16 MesgID = 5;
+
+
 
 int main(void)
 {

@@ -2,7 +2,7 @@
  * can.c
  *
  *  Created on: Nov 12, 2013
- *      Author: Nathan
+ *      Author: Nathan, edited by David
  */
 #include "all.h"
 
@@ -15,6 +15,7 @@
 
 struct ECAN_REGS ECanaShadow;
 extern SafetyVar32_t safety;
+static filter throttle_filter;
 Uint32 mailbox_timeouts = 0;
 
 static void setupCANTimeout(void);
@@ -185,11 +186,15 @@ __interrupt void ECAN1INTA_ISR(void)  // eCAN-A
   	 	// Store which mailboxes timed out.
   		mailbox_timeouts = ECanaRegs.CANGIF1.all;
   		// shut down throttle
-  		user_data.no_filter.U32 = 0;
+  		EMA_Filter_NewInput(&throttle_filter, 0);
+  		user_data.throttle_output.F32 = EMA_Filter_GetFilteredOutput(&throttle_filter);
+  		user_data.no_filter.F32 = 0;
   		user_data.throttle_flag.U32 = 1;
+  		user_data.timeout_limit.U32 = 1;
   	}
   	else {
   		user_data.throttle_flag.U32 = 0;
+  		user_data.stack_limit.U32 = 0;
   	}
 
   	while (ECanaRegs.CANRMP.all > 0){

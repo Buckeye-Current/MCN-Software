@@ -2,7 +2,7 @@
  * data.h
  *
  *  Created on: Oct 30, 2013
- *      Author: Nathan
+ *      Author: Nathan, edited by David
  */
 
 #ifndef DATA_H_
@@ -64,7 +64,8 @@ typedef struct USER_DATA
 	canfloat max_cell_temp;
 	canfloat battery_limit;
 	canfloat rpm_limit;
-	canfloat status_limit;
+	canfloat stack_limit;
+	canfloat timeout_limit;
 	canfloat throttle_lock;
 	canfloat driver_control_limits;
 	canfloat throttle_flag;

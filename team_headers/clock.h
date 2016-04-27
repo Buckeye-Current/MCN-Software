@@ -2,7 +2,7 @@
  * clock.h
  *
  *  Created on: Nov 12, 2013
- *      Author: Nathan
+ *      Author: Nathan, edited by David
  */
 
 #ifndef CLOCK_H_
@@ -11,7 +11,7 @@
 void ClockSetup();
 
 //todo USER: define clock
-#define CLOCK_PERIOD 25000 //uS //so a tenth of a second
+#define CLOCK_PERIOD 25000 //uS //
 
 #define THROTTLE_TICKS		2	//20hz
 #define STATUS_TICKS 		40	//1hz

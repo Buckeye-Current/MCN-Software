@@ -2,7 +2,7 @@
  * Init.h
  *
  *  Created on: Oct 30, 2013
- *      Author: Nathan
+ *      Author: Nathan, edited by David
  */
 
 #ifndef INIT_H_

@@ -2,7 +2,7 @@
  * main.h
  *
  *  Created on: Dec 21, 2013
- *      Author: Nathan
+ *      Author: Nathan, edited by David
  */
 
 #ifndef MAIN_H_

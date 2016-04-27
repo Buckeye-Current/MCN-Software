@@ -2,7 +2,7 @@
  * clock.c
  *
  *  Created on: Nov 12, 2013
- *      Author: Nathan
+ *      Author: Nathan, edited by David
  */
 #include "all.h"
 

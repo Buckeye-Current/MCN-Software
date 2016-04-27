@@ -2,7 +2,7 @@
  * SensorCov().c
  *
  *  Created on: Oct 30, 2013
- *      Author: Nathan
+ *      Author: Nathan, edited by David
  */
 
 #include "all.h"
@@ -37,16 +37,6 @@ SafetyVar32_t safety;
 int i = 0;
 int THROTTLE_LOOKUP = 0;
 
-//possible battery cell temperatures
-/*static const int BAT_THROTTLE_TEMP[100] = {-30, -29, -28, -27, -26, -25, -24, -23, -22, -21, -20,
-									-19, -18, -17, -16, -15, -14, -13, -12, -11, -10, -9,
-									-8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6,
-									 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,18, 19, 20,
-									 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
-									 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46,
-									 47,48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60 , 61, 62, 63, 64, 65 ,66, 67 ,68 ,69};
-									 */
-
 //throttle percentages
 static const int BAT_THROTTLE[32] = {100, 97, 94, 91, 88, 85, 82, 79,
 							   76, 73, 70, 67, 64, 61, 58, 55, 52, 49, 46, 43, 40, 37, 34,
@@ -74,11 +64,10 @@ void SensorCov()
 	while (sys_ops.State == STATE_SENSOR_COV)
 	{
 		LatchStruct();
-		if (GpioDataRegs.GPADAT.bit.GPIO19 == 1){
-			SensorCovMeasure();
-			UpdateStruct();
-			FillCANData();
-		}
+		SensorCovMeasure();
+		UpdateStruct();
+		FillCANData();
+
 	}
 	SensorCovDeInit();
 }
@@ -103,17 +92,18 @@ void SensorCovMeasure()
 #define ADC_SCALE 4096.0
 
 	SensorCovSystemInit();
-	EMA_Filter_Update();
 	//initialize used variables
 
 	int THROTTLE_LOOKUP = 0;
-	float MinMax = 0.0;
+
+	//calculates throttle ratio
 	user_data.throttle_percent_ratio.F32 = _IQtoF(_IQdiv(_IQ(A5RESULT), _IQ(ADC_SCALE)));
+
 	user_data.RPM.F32 = 4000;
 
 	//*******************************************************************************************************
 	//*                                           TODO                                                      *
-	//*                 Create function that accesses all arrays and acts accordingly                       *
+	//*                Clean up Sensor Conversion to make it cleaner  				                        *
 	//*                                                                                                     *
 	//*******************************************************************************************************
 
@@ -127,14 +117,13 @@ void SensorCovMeasure()
 		}
 	}
 
-
-
 	THROTTLE_LOOKUP = (int)user_data.max_cell_temp.F32 + 30;
 
 	//lookup the corrosponding throttle percentage
 	if (THROTTLE_LOOKUP <= 69){
 		user_data.throttle_percent_cap.F32 = BAT_THROTTLE[0];
 		user_data.throttle_percent_cap.F32 = _IQtoF(_IQmpy(_IQ(user_data.throttle_percent_cap.F32), _IQ(0.01)));
+		user_data.battery_limit.U32 = 0;
 	}
 
 	else {
@@ -145,22 +134,25 @@ void SensorCovMeasure()
 		else {
 			user_data.throttle_percent_cap.F32 = BAT_THROTTLE[THROTTLE_LOOKUP-69];
 			user_data.throttle_percent_cap.F32 = _IQtoF(_IQmpy(_IQ(user_data.throttle_percent_cap.F32), _IQ(0.01)));
+			user_data.battery_limit.U32 = 1;
 		}
 	}
 
-    //capping the throttle output
-	if (!user_data.throttle_flag.U32){
-			EMA_Filter_NewInput(&throttle_filter, user_data.throttle_percent_ratio.F32);
-			user_data.throttle_output.F32 = EMA_Filter_GetFilteredOutput(&throttle_filter);
+    //capping the throttle output - checking to see if the trottle is enabled and that there are no CAN timeouts
+	if (!user_data.throttle_flag.U32 && throttle_toggle()){
+			user_data.throttle_lock.U32 = 1;
+			user_data.throttle_output.F32 = user_data.throttle_percent_ratio.F32;
 
 			if (user_data.throttle_output.F32 >= user_data.throttle_percent_cap.F32){
-				user_data.throttle_output.F32 = user_data.throttle_percent_cap.F32;
+
+				EMA_Filter_NewInput(&throttle_filter, user_data.throttle_percent_cap.F32);
+				user_data.throttle_output.F32 = EMA_Filter_GetFilteredOutput(&throttle_filter);
+
 			}
 	}
 
-
 	//Caps the unfiltered throttle
-	if (!user_data.throttle_flag.U32){
+	if (!user_data.throttle_flag.U32 && throttle_toggle()){
 		user_data.no_filter.F32 = user_data.throttle_percent_ratio.F32;
 
 		if (user_data.no_filter.F32 >= user_data.throttle_percent_cap.F32){
@@ -168,31 +160,31 @@ void SensorCovMeasure()
 		}
 	}
 
-
-	//Check for limmiting factor (should always result in battery limit being activated)
-	if (user_data.throttle_percent_ratio.F32) {
-		MinMax = user_data.throttle_percent_ratio.F32;
+	//sets throttle lock to 0 if the throttle is off
+	if (!throttle_toggle()){
+		user_data.throttle_lock.U32 = 0;
 	}
 
-
-	// check if battery limmit is the limmiting factor
-	if (((user_data.throttle_percent_ratio.F32 > .01) && (user_data.throttle_percent_ratio.F32 < 1.01)) && (user_data.throttle_percent_ratio.F32 == MinMax)){
-		user_data.battery_limit.U32 = 1;
-	}
-
+	//initializes CRC
 	SafetyVar_NewValue(&safety, user_data.throttle_output.U32);
-
-	//sending the driver control limmits information
-	user_data.driver_control_limits.U32 = user_data.status_limit.U32 << 3;
-	user_data.driver_control_limits.U32 += user_data.rpm_limit.U32 << 2;
-	user_data.driver_control_limits.U32 += user_data.battery_limit.U32 << 1;
-	user_data.driver_control_limits.U32 += user_data.throttle_lock.U32;
 
 	data_temp.gp_button = READGPBUTTON();
 
-	if (Stack_Check()){
-		user_data.throttle_output.F32 = 0;
+	//checks to see if the stack is close to overflowing
+	//If it is, then the throttle is set to 0 and the stack limit is activated
+	if (!Stack_Check()){
+		EMA_Filter_NewInput(&throttle_filter, 0);
+		user_data.throttle_output.F32 = EMA_Filter_GetFilteredOutput(&throttle_filter);
+		user_data.no_filter.F32 = 0;
+		user_data.stack_limit.U32 = 1;
 	}
+
+	//sending the driver control limmits information
+	user_data.driver_control_limits.U32 = user_data.timeout_limit.U32 << 4;
+	user_data.driver_control_limits.U32 += user_data.stack_limit.U32 << 3;
+	user_data.driver_control_limits.U32 += user_data.rpm_limit.U32 << 2;
+	user_data.driver_control_limits.U32 += user_data.battery_limit.U32 << 1;
+	user_data.driver_control_limits.U32 += user_data.throttle_lock.U32;
 
 	PerformSystemChecks();
 }

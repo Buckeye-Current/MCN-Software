@@ -2,7 +2,7 @@
  * can.h
  *
  *  Created on: Nov 13, 2013
- *      Author: Nathan
+ *      Author: Nathan, edited by David
  */
 
 #ifndef CAN_H_

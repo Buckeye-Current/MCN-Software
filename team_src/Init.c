@@ -2,7 +2,7 @@
  * Init.c
  *
  *  Created on: Oct 30, 2013
- *      Author: Nathan
+ *      Author: Nathan, edited by David
  */
 
 #include "all.h"
@@ -80,7 +80,8 @@ void DataSetup()
 	user_data.max_cell_temp.F32 = 0;
 	user_data.battery_limit.U32 = 0;
 	user_data.rpm_limit.U32 = 0;
-	user_data.status_limit.U32 = 0;
+	user_data.stack_limit.U32 = 0;
+	user_data.timeout_limit.U32 = 0;
 	user_data.throttle_lock.U32 = 0;
 	user_data.driver_control_limits.U32 = 0;
 	user_data.throttle_flag.U32 = 0;

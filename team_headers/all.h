@@ -2,7 +2,7 @@
  * all.h
  *
  *  Created on: Oct 29, 2013
- *      Author: Nathan
+ *      Author: Nathan, edited by David
  */
 
 #ifndef ALL_H_
@@ -39,7 +39,7 @@
 #include "Stack.h"
 #include <stdbool.h>
 #include "SafetyVar.h"
-
+#include "GPIO.h"
 
 
 extern sys_ops_struct sys_ops;

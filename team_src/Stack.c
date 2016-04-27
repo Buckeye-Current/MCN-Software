@@ -24,12 +24,12 @@ void Stack_Initialize(){
 
 int Stack_Check(){
 
-	int x = 0;
+	int x = 1;
 	int i = 0;
 	loc = (Uint16 *)0x38d;
 	for (i = 0; i < 19; i++){
 		if (*loc != STACK_CHECK_VALUE){
-			x = 1;
+			x = 0;
 		}
 		loc += 1;
 	}
