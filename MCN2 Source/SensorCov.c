@@ -86,12 +86,13 @@ void SensorCovInit()
 
 void SensorCovMeasure()
 {
-	#define R1 10000.0 //Before ADC, Ohms
+	#define R1 1000.0 //Before ADC, Ohms
 	#define R2 20000.0
 	#define V5 5.08
 	//#define B 1568.583480 //Ohm
-	#define B 3435
+	#define B 3435	//Thermistor Beta Value
 	#define Vs 5.1 // Vdc ... Find out what this actually is
+	#define ADC_MAX_VALUE	4095.0
 
 	SensorCovSystemInit();
 
@@ -100,27 +101,27 @@ void SensorCovMeasure()
 	//use stopwatch to catch timeouts
 	//waiting should poll isStopWatchComplete() to catch timeout and throw StopWatchError
 
-	ratio = (A1RESULT/4096.0);
+	ratio = (A1RESULT/ADC_MAX_VALUE);
 	r_th = (R1 / ratio) - R1;
-	data_temp.controller_coolant_inlet_temp.F32 = B / (log(r_th/0.11929)) - 273.15;
+	data_temp.controller_coolant_inlet_temp.F32 = 547.3*pow(r_th, -0.1553) - 142.6;
 
-	ratio = (B1RESULT/4096.0);
+	ratio = (B1RESULT/ADC_MAX_VALUE);
 	r_th = (R1 / ratio) - R1;
-	data_temp.controller_coolant_outlet_temp.F32 = B / (log(r_th/0.11929)) - 273.15;
+	data_temp.controller_coolant_outlet_temp.F32 = 547.3*pow(r_th, -0.1553) - 142.6;
 
-	ratio = (A7RESULT/4096.0);
+	ratio = (A7RESULT/ADC_MAX_VALUE);
 	r_th = (R1 / ratio) - R1;
-	data_temp.motor_coolant_inlet_temp.F32 = B / (log(r_th/0.11929)) - 273.15;
+	data_temp.motor_coolant_outlet_temp.F32 = 547.3*pow(r_th, -0.1553) - 142.6;
 
-	ratio = (A3RESULT/4096.0);
+	ratio = (A3RESULT/ADC_MAX_VALUE);
 	r_th = (R1 / ratio) - R1;
-	data_temp.motor_coolant_outlet_temp.F32 = B / (log(r_th/0.11929)) - 273.15;
+	data_temp.motor_coolant_inlet_temp.F32 = 547.3*pow(r_th, -0.1553) - 142.6;
 
 	data_temp.controller_coolant_flow_rate.F32 = (GPIO26filter.filtered_value);
 
 	data_temp.motor_coolant_flow_rate.F32 = (GPIO19filter.filtered_value);
 
-	ratio = (B2RESULT/4096.0);
+	ratio = (B2RESULT/ADC_MAX_VALUE);
 	r_th = (R1 / ratio) - R1;
 	data_temp.contactor_box_temp.F32 = B / (log(r_th/0.11929)) - 273.15;
 

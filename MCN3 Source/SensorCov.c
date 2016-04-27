@@ -100,11 +100,12 @@ void SensorCovMeasure()
 	//use stopwatch to catch timeouts
 	//waiting should poll isStopWatchComplete() to catch timeout and throw StopWatchError
 
-	ratio = (A7RESULT/ADC_MAX_VALUE);
-	data_temp.front_tire_temp.F32 = ratio * 160; //degrees C
+	ratio = _IQtoF(_IQdiv(_IQ(A7RESULT),_IQ(ADC_MAX_VALUE)));
+	//data_temp.front_tire_temp.F32 = ratio * 160; //degrees C
+	data_temp.front_tire_temp.F32 = _IQtoF(_IQmpy(_IQ(ratio), _IQint(160))); //degrees C
 
-	ratio = (A3RESULT/ADC_MAX_VALUE);
-	data_temp.rear_tire_temp.F32 = ratio * 160; // degrees C
+	ratio = _IQtoF(_IQdiv(_IQ(A3RESULT),_IQ(ADC_MAX_VALUE)));
+	data_temp.rear_tire_temp.F32 = _IQtoF(_IQmpy(_IQ(ratio), _IQint(160))); // degrees C
 
 	data_temp.gp_button = READGPBUTTON();
 

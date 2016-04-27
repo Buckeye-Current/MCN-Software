@@ -99,23 +99,23 @@ void SensorCovMeasure()
 	//use stopwatch to catch timeouts
 	//waiting should poll isStopWatchComplete() to catch timeout and throw StopWatchError
 
-	float ratio = (A7RESULT/4096.0);
+	float ratio = (A7RESULT/ADC_MAX_VALUE);
 	data_temp.front_suspension_travel.F32 = ratio * 150.0;	//millimeters
 
-	ratio = (A3RESULT/4096.0);
+	ratio = (A3RESULT/ADC_MAX_VALUE);
 	data_temp.rear_suspension_travel.F32 = ratio * 100.0;   //millimeters
 
-	ratio = (A1RESULT/4096.0);
+	ratio = (A1RESULT/ADC_MAX_VALUE);
 	data_temp.steering_angle.F32 = ratio * 100.0;			//millimeters
 
-	ratio = (B1RESULT/4096.0);
+	ratio = (B1RESULT/ADC_MAX_VALUE);
 	r_th = (R1 / ratio) - R1;
 	data_temp.ambient_temperature.F32 = B / (log(r_th/0.11929)) - 273.15;  //degrees C
 
-	ratio = 3.3 * (B2RESULT/4096.0);
+	ratio = 3.3 * (B2RESULT/ADC_MAX_VALUE);
 	data_temp.ambient_pressure.F32 = ratio * 0.85;
 
-	ratio = 3.3 * (B6RESULT/4096.0);
+	ratio = 3.3 * (B6RESULT/ADC_MAX_VALUE);
 	data_temp.motor_inlet_pressure.F32 = ratio * 0.85;
 
 	data_temp.gp_button = READGPBUTTON();
