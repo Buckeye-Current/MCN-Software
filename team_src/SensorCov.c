@@ -43,7 +43,7 @@ static const int BAT_THROTTLE[32] = {100, 97, 94, 91, 88, 85, 82, 79,
 							   31, 28, 25, 20, 15, 10, 5, 0};
 
 //pointer float array storing the battery temperatures
-float* BATT_CELL_TEMPS[40] = {&user_data.CellTemp1.F32, &user_data.CellTemp2.F32, &user_data.CellTemp3.F32,
+float* BATT_CELL_TEMPS[48] = {&user_data.CellTemp1.F32, &user_data.CellTemp2.F32, &user_data.CellTemp3.F32,
 		                     &user_data.CellTemp4.F32, &user_data.CellTemp5.F32, &user_data.CellTemp6.F32,
 							 &user_data.CellTemp7.F32, &user_data.CellTemp8.F32, &user_data.CellTemp9.F32,
 							 &user_data.CellTemp10.F32, &user_data.CellTemp11.F32, &user_data.CellTemp12.F32,
@@ -56,7 +56,9 @@ float* BATT_CELL_TEMPS[40] = {&user_data.CellTemp1.F32, &user_data.CellTemp2.F32
 							 &user_data.CellTemp31.F32, &user_data.CellTemp32.F32, &user_data.CellTemp33.F32,
 							 &user_data.CellTemp34.F32, &user_data.CellTemp35.F32, &user_data.CellTemp36.F32,
 							 &user_data.CellTemp37.F32, &user_data.CellTemp38.F32, &user_data.CellTemp39.F32,
-							 &user_data.CellTemp40.F32,};
+							 &user_data.CellTemp40.F32, &user_data.CellTemp41.F32, &user_data.CellTemp42.F32,
+							 &user_data.CellTemp43.F32, &user_data.CellTemp44.F32, &user_data.CellTemp45.F32,
+							 &user_data.CellTemp46.F32, &user_data.CellTemp47.F32, &user_data.CellTemp48.F32};
 
 void SensorCov()
 {
@@ -77,8 +79,8 @@ void SensorCovInit()
 	//todo USER: SensorCovInit()
 	SystemSensorInit(SENSOR_COV_STOPWATCH);
 
-	initDSPfilter(&A5filter, ALPHA_SYS);
-	initDSPfilter(&A7filter, ALPHA_SYS);
+	initDSPfilter(&A5filter, 7739);
+	initDSPfilter(&A7filter, 7739);
 
 	EMA_Filter_Init(&throttle_filter, 1000);
 }
@@ -110,7 +112,7 @@ void SensorCovMeasure()
 
 	//loop looks through the battery temperature array and deterimines the maximum temperature
 	int MAX = 0;
-	for (i = 0; i < 40; i++){
+	for (i = 0; i < 48; i++){
 		if (*BATT_CELL_TEMPS[i] > MAX){
 			user_data.max_cell_temp.F32 = *BATT_CELL_TEMPS[i];
 			MAX = user_data.max_cell_temp.F32;

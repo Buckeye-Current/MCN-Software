@@ -102,6 +102,22 @@ void BUS_OFF();
 #define CellTemp20_BOX 		21
 #define CellTemp20_TRS		TRS21
 
+#define CellTemp21_ID 		845
+#define CellTemp21_BOX 		22
+#define CellTemp21_TRS		TRS22
+
+#define CellTemp22_ID 		846
+#define CellTemp22_BOX 		23
+#define CellTemp22_TRS		TRS23
+
+#define CellTemp23_ID 		847
+#define CellTemp23_BOX 		24
+#define CellTemp23_TRS		TRS24
+
+#define CellTemp24_ID 		848
+#define CellTemp24_BOX 		25
+#define CellTemp24_TRS		TRS25
+
 #define DriverThrottle_ID 	484
 #define DriverThrottle_BOX 	28
 #define DriverThrottle_TRS 	TRS28
