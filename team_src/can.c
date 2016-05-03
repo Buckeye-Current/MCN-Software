@@ -67,6 +67,10 @@ void CANSetup()
 	CreateCANMailbox(CellTemp18_BOX, 0, 0, 0, 8, CellTemp18_ID, 1);
 	CreateCANMailbox(CellTemp19_BOX, 0, 0, 0, 8, CellTemp19_ID, 1);
 	CreateCANMailbox(CellTemp20_BOX, 0, 0, 0, 8, CellTemp20_ID, 1);
+	CreateCANMailbox(CellTemp21_BOX, 0, 0, 0, 8, CellTemp21_ID, 1);
+	CreateCANMailbox(CellTemp22_BOX, 0, 0, 0, 8, CellTemp22_ID, 1);
+	CreateCANMailbox(CellTemp23_BOX, 0, 0, 0, 8, CellTemp23_ID, 1);
+	CreateCANMailbox(CellTemp24_BOX, 0, 0, 0, 8, CellTemp24_ID, 1);
 	CreateCANMailbox(DriverControl_BOX, 0, 0, 0, 8, DriverControl_ID, 0);
 	CreateCANMailbox(DriverThrottle_BOX, 0, 0, 0, 8, DriverThrottle_ID, 0);
 	CreateCANMailbox(no_filter_BOX, 0, 0, 0, 8, no_filter_ID, 0);
@@ -163,6 +167,14 @@ static void setupCANTimeout(void){
 	ECanaMOTORegs.MOTO20 = CAN_TIMEOUT_IN_SECS(3.0);
 
 	ECanaMOTORegs.MOTO21 = CAN_TIMEOUT_IN_SECS(3.0);
+
+	ECanaMOTORegs.MOTO22 = CAN_TIMEOUT_IN_SECS(3.0);
+
+	ECanaMOTORegs.MOTO23 = CAN_TIMEOUT_IN_SECS(3.0);
+
+	ECanaMOTORegs.MOTO24 = CAN_TIMEOUT_IN_SECS(3.0);
+
+	ECanaMOTORegs.MOTO25 = CAN_TIMEOUT_IN_SECS(3.0);
 
 	ECanaShadow.CANTOC.all = 0x7FFFFC;
 
@@ -342,6 +354,34 @@ __interrupt void ECAN1INTA_ISR(void)  // eCAN-A
 			user_data.CellTemp40.U32 = ECanaMboxes.MBOX21.MDH.all;
 			ECanaRegs.CANRMP.bit.RMP21 = 1;
 			ECanaMOTORegs.MOTO21 = CAN_TIMEOUT_IN_SECS(3.0);
+			ECanaRegs.CANGIF1.bit.GMIF1 = 0;
+			break;
+		case CellTemp21_BOX:
+			user_data.CellTemp41.U32 = ECanaMboxes.MBOX22.MDL.all;
+			user_data.CellTemp42.U32 = ECanaMboxes.MBOX22.MDH.all;
+			ECanaRegs.CANRMP.bit.RMP22 = 1;
+			ECanaMOTORegs.MOTO22 = CAN_TIMEOUT_IN_SECS(3.0);
+			ECanaRegs.CANGIF1.bit.GMIF1 = 0;
+			break;
+		case CellTemp22_BOX:
+			user_data.CellTemp43.U32 = ECanaMboxes.MBOX23.MDL.all;
+			user_data.CellTemp44.U32 = ECanaMboxes.MBOX23.MDH.all;
+			ECanaRegs.CANRMP.bit.RMP23 = 1;
+			ECanaMOTORegs.MOTO23 = CAN_TIMEOUT_IN_SECS(3.0);
+			ECanaRegs.CANGIF1.bit.GMIF1 = 0;
+			break;
+		case CellTemp23_BOX:
+			user_data.CellTemp45.U32 = ECanaMboxes.MBOX24.MDL.all;
+			user_data.CellTemp46.U32 = ECanaMboxes.MBOX24.MDH.all;
+			ECanaRegs.CANRMP.bit.RMP24 = 1;
+			ECanaMOTORegs.MOTO24 = CAN_TIMEOUT_IN_SECS(3.0);
+			ECanaRegs.CANGIF1.bit.GMIF1 = 0;
+			break;
+		case CellTemp24_BOX:
+			user_data.CellTemp47.U32 = ECanaMboxes.MBOX25.MDL.all;
+			user_data.CellTemp48.U32 = ECanaMboxes.MBOX25.MDH.all;
+			ECanaRegs.CANRMP.bit.RMP25 = 1;
+			ECanaMOTORegs.MOTO25 = CAN_TIMEOUT_IN_SECS(3.0);
 			ECanaRegs.CANGIF1.bit.GMIF1 = 0;
 			break;
 		}

@@ -56,6 +56,14 @@ typedef struct USER_DATA
 	canfloat CellTemp38;
 	canfloat CellTemp39;
 	canfloat CellTemp40;
+	canfloat CellTemp41;
+	canfloat CellTemp42;
+	canfloat CellTemp43;
+	canfloat CellTemp44;
+	canfloat CellTemp45;
+	canfloat CellTemp46;
+	canfloat CellTemp47;
+	canfloat CellTemp48;
 	canfloat throttle_percent_cap;
 	canfloat throttle_percent_ratio;
 	canfloat throttle_output;

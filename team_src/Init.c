@@ -72,6 +72,14 @@ void DataSetup()
 	user_data.CellTemp38.F32 = 0;
 	user_data.CellTemp39.F32 = 0;
 	user_data.CellTemp40.F32 = 0;
+	user_data.CellTemp41.F32 = 0;
+	user_data.CellTemp42.F32 = 0;
+	user_data.CellTemp43.F32 = 0;
+	user_data.CellTemp44.F32 = 0;
+	user_data.CellTemp45.F32 = 0;
+	user_data.CellTemp46.F32 = 0;
+	user_data.CellTemp47.F32 = 0;
+	user_data.CellTemp48.F32 = 0;
 	user_data.throttle_percent_cap.U32 = 0;
 	user_data.throttle_percent_ratio.U32 = 0;
 	user_data.throttle_output.U32 = 0;
