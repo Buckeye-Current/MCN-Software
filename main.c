@@ -17,6 +17,7 @@ int main(void)
 	Stack_Initialize();
 	//BootISRSetup();
 	//PowerDownISRSetup();
+	Gpio_Init();
 	sys_ops.State = STATE_INIT;
 	while(1)
 	{

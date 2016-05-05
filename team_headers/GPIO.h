@@ -12,6 +12,8 @@
 //Returns 1 if turned on
 //Returns 0 if turned off
 
+void Gpio_Init(void);
+
 int throttle_toggle(void);
 
 #endif /* TEAM_HEADERS_GPIO_H_ */
