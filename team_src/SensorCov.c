@@ -151,15 +151,18 @@ void SensorCovMeasure()
 
 			}
 	}
+	else {
+			EMA_Filter_NewInput(&throttle_filter, 0);
+			user_data.throttle_output.F32 = EMA_Filter_GetFilteredOutput(&throttle_filter);
+	}
 
 	//Caps the unfiltered throttle
-	if (!user_data.throttle_flag.U32){
-		user_data.no_filter.F32 = user_data.throttle_percent_ratio.F32;
+	user_data.no_filter.F32 = user_data.throttle_percent_ratio.F32;
 
-		if (user_data.no_filter.F32 >= user_data.throttle_percent_cap.F32){
-			user_data.no_filter.F32 = user_data.throttle_percent_cap.F32;
-		}
+	if (user_data.no_filter.F32 >= user_data.throttle_percent_cap.F32){
+		user_data.no_filter.F32 = user_data.throttle_percent_cap.F32;
 	}
+
 
 	//sets throttle lock to 0 if the throttle is off
 	if (!throttle_toggle()){
@@ -177,14 +180,12 @@ void SensorCovMeasure()
 	//If it is, then the throttle is set to 0 and the stack limit is activated
 	if (!Stack_Check()){
 		SafetyVar_NewValue(&safety, 0);
-		user_data.no_filter.F32 = 0;
 		user_data.stack_limit.U32 = 1;
 	}
 
 	//sending the driver control limmits information
-	user_data.driver_control_limits.U32 = user_data.timeout_limit.U32 << 4;
-	user_data.driver_control_limits.U32 += user_data.stack_limit.U32 << 3;
-	user_data.driver_control_limits.U32 += user_data.rpm_limit.U32 << 2;
+	user_data.driver_control_limits.U32 = user_data.stack_limit.U32 << 3;
+	user_data.driver_control_limits.U32 += user_data.timeout_limit.U32 << 2;
 	user_data.driver_control_limits.U32 += user_data.battery_limit.U32 << 1;
 	user_data.driver_control_limits.U32 += user_data.throttle_lock.U32;
 

@@ -80,6 +80,7 @@ void DataSetup()
 	user_data.CellTemp46.F32 = 0;
 	user_data.CellTemp47.F32 = 0;
 	user_data.CellTemp48.F32 = 0;
+
 	user_data.throttle_percent_cap.U32 = 0;
 	user_data.throttle_percent_ratio.U32 = 0;
 	user_data.throttle_output.U32 = 0;
@@ -87,7 +88,6 @@ void DataSetup()
 	user_data.RPM.U32 = 0;
 	user_data.max_cell_temp.F32 = 0;
 	user_data.battery_limit.U32 = 0;
-	user_data.rpm_limit.U32 = 0;
 	user_data.stack_limit.U32 = 0;
 	user_data.timeout_limit.U32 = 0;
 	user_data.throttle_lock.U32 = 0;

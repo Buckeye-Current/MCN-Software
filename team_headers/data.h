@@ -64,6 +64,7 @@ typedef struct USER_DATA
 	canfloat CellTemp46;
 	canfloat CellTemp47;
 	canfloat CellTemp48;
+
 	canfloat throttle_percent_cap;
 	canfloat throttle_percent_ratio;
 	canfloat throttle_output;
@@ -71,7 +72,6 @@ typedef struct USER_DATA
 	canfloat RPM;
 	canfloat max_cell_temp;
 	canfloat battery_limit;
-	canfloat rpm_limit;
 	canfloat stack_limit;
 	canfloat timeout_limit;
 	canfloat throttle_lock;
