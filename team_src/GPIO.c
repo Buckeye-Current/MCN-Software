@@ -9,9 +9,11 @@
 
 void Gpio_Init(void){
 
+	EALLOW;
 	GpioCtrlRegs.GPAMUX2.bit.GPIO26 = 0;
 	GpioCtrlRegs.GPADIR.bit.GPIO26 = 0;
 	GpioCtrlRegs.GPAPUD.bit.GPIO26 = 1;
+	EDIS;
 
 }
 

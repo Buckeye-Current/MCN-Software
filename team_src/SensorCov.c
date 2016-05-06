@@ -167,14 +167,16 @@ void SensorCovMeasure()
 	}
 
 	//initializes CRC
-	SafetyVar_NewValue(&safety, user_data.throttle_output.U32);
+	if (!user_data.throttle_flag.U32){
+		SafetyVar_NewValue(&safety, user_data.throttle_output.U32);
+	}
 
 	data_temp.gp_button = READGPBUTTON();
 
 	//checks to see if the stack is close to overflowing
 	//If it is, then the throttle is set to 0 and the stack limit is activated
 	if (!Stack_Check()){
-		user_data.throttle_output.F32 = 0;
+		SafetyVar_NewValue(&safety, 0);
 		user_data.no_filter.F32 = 0;
 		user_data.stack_limit.U32 = 1;
 	}
