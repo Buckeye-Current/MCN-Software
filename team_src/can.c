@@ -129,76 +129,76 @@ void FillCANData()
 static void setupCANTimeout(void){
 
 	ECanaMOTORegs.MOTO2 = CAN_TIMEOUT_IN_SECS(3.0);
-	ECanaShadow.CANTOC.bit.TOC2 = 0;
+	ECanaShadow.CANTOC.bit.TOC2 = 1;
 
 	ECanaMOTORegs.MOTO3 = CAN_TIMEOUT_IN_SECS(3.0);
-	ECanaShadow.CANTOC.bit.TOC3 = 0;
+	ECanaShadow.CANTOC.bit.TOC3 = 1;
 
 	ECanaMOTORegs.MOTO4 = CAN_TIMEOUT_IN_SECS(3.0);
-	ECanaShadow.CANTOC.bit.TOC4 = 0;
+	ECanaShadow.CANTOC.bit.TOC4 = 1;
 
 	ECanaMOTORegs.MOTO5 = CAN_TIMEOUT_IN_SECS(3.0);
-	ECanaShadow.CANTOC.bit.TOC5 = 0;
+	ECanaShadow.CANTOC.bit.TOC5 = 1;
 
 	ECanaMOTORegs.MOTO6 = CAN_TIMEOUT_IN_SECS(3.0);
-	ECanaShadow.CANTOC.bit.TOC6 = 0;
+	ECanaShadow.CANTOC.bit.TOC6 = 1;
 
 	ECanaMOTORegs.MOTO7 = CAN_TIMEOUT_IN_SECS(3.0);
-	ECanaShadow.CANTOC.bit.TOC7 = 0;
+	ECanaShadow.CANTOC.bit.TOC7 = 1;
 
 	ECanaMOTORegs.MOTO8 = CAN_TIMEOUT_IN_SECS(3.0);
-	ECanaShadow.CANTOC.bit.TOC8 = 0;
+	ECanaShadow.CANTOC.bit.TOC8 = 1;
 
 	ECanaMOTORegs.MOTO9 = CAN_TIMEOUT_IN_SECS(3.0);
-	ECanaShadow.CANTOC.bit.TOC9 = 0;
+	ECanaShadow.CANTOC.bit.TOC9 = 1;
 
 	ECanaMOTORegs.MOTO10 = CAN_TIMEOUT_IN_SECS(3.0);
-	ECanaShadow.CANTOC.bit.TOC10 = 0;
+	ECanaShadow.CANTOC.bit.TOC10 = 1;
 
 	ECanaMOTORegs.MOTO11 = CAN_TIMEOUT_IN_SECS(3.0);
-	ECanaShadow.CANTOC.bit.TOC11 = 0;
+	ECanaShadow.CANTOC.bit.TOC11 = 1;
 
 	ECanaMOTORegs.MOTO12 = CAN_TIMEOUT_IN_SECS(3.0);
-	ECanaShadow.CANTOC.bit.TOC12 = 0;
+	ECanaShadow.CANTOC.bit.TOC12 = 1;
 
 	ECanaMOTORegs.MOTO13 = CAN_TIMEOUT_IN_SECS(3.0);
-	ECanaShadow.CANTOC.bit.TOC13 = 0;
+	ECanaShadow.CANTOC.bit.TOC13 = 1;
 
 	ECanaMOTORegs.MOTO14 = CAN_TIMEOUT_IN_SECS(3.0);
-	ECanaShadow.CANTOC.bit.TOC14 = 0;
+	ECanaShadow.CANTOC.bit.TOC14 = 1;
 
 	ECanaMOTORegs.MOTO15 = CAN_TIMEOUT_IN_SECS(3.0);
-	ECanaShadow.CANTOC.bit.TOC15 = 0;
+	ECanaShadow.CANTOC.bit.TOC15 = 1;
 
 	ECanaMOTORegs.MOTO16 = CAN_TIMEOUT_IN_SECS(3.0);
-	ECanaShadow.CANTOC.bit.TOC16 = 0;
+	ECanaShadow.CANTOC.bit.TOC16 = 1;
 
 	ECanaMOTORegs.MOTO17 = CAN_TIMEOUT_IN_SECS(3.0);
-	ECanaShadow.CANTOC.bit.TOC17 = 0;
+	ECanaShadow.CANTOC.bit.TOC17 = 1;
 
 	ECanaMOTORegs.MOTO18 = CAN_TIMEOUT_IN_SECS(3.0);
-	ECanaShadow.CANTOC.bit.TOC18 = 0;
+	ECanaShadow.CANTOC.bit.TOC18 = 1;
 
 	ECanaMOTORegs.MOTO19 = CAN_TIMEOUT_IN_SECS(3.0);
-	ECanaShadow.CANTOC.bit.TOC19 = 0;
+	ECanaShadow.CANTOC.bit.TOC19 = 1;
 
 	ECanaMOTORegs.MOTO20 = CAN_TIMEOUT_IN_SECS(3.0);
-	ECanaShadow.CANTOC.bit.TOC20 = 0;
+	ECanaShadow.CANTOC.bit.TOC20 = 1;
 
 	ECanaMOTORegs.MOTO21 = CAN_TIMEOUT_IN_SECS(3.0);
-	ECanaShadow.CANTOC.bit.TOC21 = 0;
+	ECanaShadow.CANTOC.bit.TOC21 = 1;
 
 	ECanaMOTORegs.MOTO22 = CAN_TIMEOUT_IN_SECS(3.0);
-	ECanaShadow.CANTOC.bit.TOC22 = 0;
+	ECanaShadow.CANTOC.bit.TOC22 = 1;
 
 	ECanaMOTORegs.MOTO23 = CAN_TIMEOUT_IN_SECS(3.0);
-	ECanaShadow.CANTOC.bit.TOC23 = 0;
+	ECanaShadow.CANTOC.bit.TOC23 = 1;
 
 	ECanaMOTORegs.MOTO24 = CAN_TIMEOUT_IN_SECS(3.0);
-	ECanaShadow.CANTOC.bit.TOC24 = 0;
+	ECanaShadow.CANTOC.bit.TOC24 = 1;
 
 	ECanaMOTORegs.MOTO25 = CAN_TIMEOUT_IN_SECS(3.0);
-	ECanaShadow.CANTOC.bit.TOC25 = 0;
+	ECanaShadow.CANTOC.bit.TOC25 = 1;
 
 
 
@@ -223,6 +223,7 @@ __interrupt void ECAN1INTA_ISR(void)  // eCAN-A
   		// shut down throttle
   		EMA_Filter_NewInput(&throttle_filter, 0);
   		user_data.throttle_output.F32 = EMA_Filter_GetFilteredOutput(&throttle_filter);
+  		SafetyVar_NewValue(&safety, user_data.throttle_output.F32);
   		user_data.no_filter.F32 = 0;
   		user_data.throttle_flag.U32 = 1;
   		user_data.timeout_limit.U32 = 1;
