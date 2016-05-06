@@ -15,6 +15,12 @@ void SafetyVar_NewValue(SafetyVar32_t *ptr, Uint32 value){
 	return;
 }
 
+Uint32 SafetyVar_getValue(SafetyVar32_t *ptr){
+
+	return ptr->origVal;
+
+}
+
 int SafetyVar_CheckValue(SafetyVar32_t *ptr){
 
 	if ( ~ptr->inverseVal != ptr->origVal){

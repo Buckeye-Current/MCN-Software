@@ -79,9 +79,8 @@ void SensorCovInit()
 	//todo USER: SensorCovInit()
 	SystemSensorInit(SENSOR_COV_STOPWATCH);
 
-	initDSPfilter(&A5filter, 7739);
-	initDSPfilter(&A7filter, 7739);
-
+	initDSPfilter(&A5filter, 818);
+	initDSPfilter(&A7filter, 818);
 	EMA_Filter_Init(&throttle_filter, 1000);
 }
 
@@ -154,7 +153,7 @@ void SensorCovMeasure()
 	}
 
 	//Caps the unfiltered throttle
-	if (!user_data.throttle_flag.U32 && throttle_toggle()){
+	if (!user_data.throttle_flag.U32){
 		user_data.no_filter.F32 = user_data.throttle_percent_ratio.F32;
 
 		if (user_data.no_filter.F32 >= user_data.throttle_percent_cap.F32){
@@ -175,8 +174,7 @@ void SensorCovMeasure()
 	//checks to see if the stack is close to overflowing
 	//If it is, then the throttle is set to 0 and the stack limit is activated
 	if (!Stack_Check()){
-		EMA_Filter_NewInput(&throttle_filter, 0);
-		user_data.throttle_output.F32 = EMA_Filter_GetFilteredOutput(&throttle_filter);
+		user_data.throttle_output.F32 = 0;
 		user_data.no_filter.F32 = 0;
 		user_data.stack_limit.U32 = 1;
 	}

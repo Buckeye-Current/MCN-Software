@@ -102,7 +102,7 @@ char FillCAN(unsigned int Mbox)
 			InsertCANMessage(DriverControl_BOX, user_data.max_cell_temp.U32 >> 24, mdl);
 			break;
 		case DriverThrottle_BOX:
-			InsertCANMessage(DriverThrottle_BOX, user_data.throttle_output.U32, user_data.RPM.U32);
+			InsertCANMessage(DriverThrottle_BOX, SafetyVar_getValue(&safety), user_data.RPM.U32);
 			break;
 		case no_filter_BOX:
 			InsertCANMessage(no_filter_BOX, 0, user_data.no_filter.U32);
@@ -129,54 +129,77 @@ void FillCANData()
 static void setupCANTimeout(void){
 
 	ECanaMOTORegs.MOTO2 = CAN_TIMEOUT_IN_SECS(3.0);
+	ECanaShadow.CANTOC.bit.TOC2 = 0;
 
 	ECanaMOTORegs.MOTO3 = CAN_TIMEOUT_IN_SECS(3.0);
+	ECanaShadow.CANTOC.bit.TOC3 = 0;
 
 	ECanaMOTORegs.MOTO4 = CAN_TIMEOUT_IN_SECS(3.0);
+	ECanaShadow.CANTOC.bit.TOC4 = 0;
 
 	ECanaMOTORegs.MOTO5 = CAN_TIMEOUT_IN_SECS(3.0);
+	ECanaShadow.CANTOC.bit.TOC5 = 0;
 
 	ECanaMOTORegs.MOTO6 = CAN_TIMEOUT_IN_SECS(3.0);
+	ECanaShadow.CANTOC.bit.TOC6 = 0;
 
 	ECanaMOTORegs.MOTO7 = CAN_TIMEOUT_IN_SECS(3.0);
+	ECanaShadow.CANTOC.bit.TOC7 = 0;
 
 	ECanaMOTORegs.MOTO8 = CAN_TIMEOUT_IN_SECS(3.0);
+	ECanaShadow.CANTOC.bit.TOC8 = 0;
 
 	ECanaMOTORegs.MOTO9 = CAN_TIMEOUT_IN_SECS(3.0);
+	ECanaShadow.CANTOC.bit.TOC9 = 0;
 
 	ECanaMOTORegs.MOTO10 = CAN_TIMEOUT_IN_SECS(3.0);
+	ECanaShadow.CANTOC.bit.TOC10 = 0;
 
 	ECanaMOTORegs.MOTO11 = CAN_TIMEOUT_IN_SECS(3.0);
+	ECanaShadow.CANTOC.bit.TOC11 = 0;
 
 	ECanaMOTORegs.MOTO12 = CAN_TIMEOUT_IN_SECS(3.0);
+	ECanaShadow.CANTOC.bit.TOC12 = 0;
 
 	ECanaMOTORegs.MOTO13 = CAN_TIMEOUT_IN_SECS(3.0);
+	ECanaShadow.CANTOC.bit.TOC13 = 0;
 
 	ECanaMOTORegs.MOTO14 = CAN_TIMEOUT_IN_SECS(3.0);
+	ECanaShadow.CANTOC.bit.TOC14 = 0;
 
 	ECanaMOTORegs.MOTO15 = CAN_TIMEOUT_IN_SECS(3.0);
+	ECanaShadow.CANTOC.bit.TOC15 = 0;
 
 	ECanaMOTORegs.MOTO16 = CAN_TIMEOUT_IN_SECS(3.0);
+	ECanaShadow.CANTOC.bit.TOC16 = 0;
 
 	ECanaMOTORegs.MOTO17 = CAN_TIMEOUT_IN_SECS(3.0);
+	ECanaShadow.CANTOC.bit.TOC17 = 0;
 
 	ECanaMOTORegs.MOTO18 = CAN_TIMEOUT_IN_SECS(3.0);
+	ECanaShadow.CANTOC.bit.TOC18 = 0;
 
 	ECanaMOTORegs.MOTO19 = CAN_TIMEOUT_IN_SECS(3.0);
+	ECanaShadow.CANTOC.bit.TOC19 = 0;
 
 	ECanaMOTORegs.MOTO20 = CAN_TIMEOUT_IN_SECS(3.0);
+	ECanaShadow.CANTOC.bit.TOC20 = 0;
 
 	ECanaMOTORegs.MOTO21 = CAN_TIMEOUT_IN_SECS(3.0);
+	ECanaShadow.CANTOC.bit.TOC21 = 0;
 
 	ECanaMOTORegs.MOTO22 = CAN_TIMEOUT_IN_SECS(3.0);
+	ECanaShadow.CANTOC.bit.TOC22 = 0;
 
 	ECanaMOTORegs.MOTO23 = CAN_TIMEOUT_IN_SECS(3.0);
+	ECanaShadow.CANTOC.bit.TOC23 = 0;
 
 	ECanaMOTORegs.MOTO24 = CAN_TIMEOUT_IN_SECS(3.0);
+	ECanaShadow.CANTOC.bit.TOC24 = 0;
 
 	ECanaMOTORegs.MOTO25 = CAN_TIMEOUT_IN_SECS(3.0);
+	ECanaShadow.CANTOC.bit.TOC25 = 0;
 
-	ECanaShadow.CANTOC.all = 0x7FFFFC;
 
 
 }
