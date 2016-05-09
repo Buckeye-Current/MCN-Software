@@ -66,9 +66,17 @@ void SensorCov()
 	while (sys_ops.State == STATE_SENSOR_COV)
 	{
 		LatchStruct();
-		SensorCovMeasure();
-		UpdateStruct();
-		FillCANData();
+		if (!Stack_Check()){
+			SafetyVar_NewValue(&safety, 0);
+			user_data.stack_limit.U32 = 1;
+			UpdateStruct();
+			FillCANData();
+		}
+		else {
+			SensorCovMeasure();
+			UpdateStruct();
+			FillCANData();
+		}
 
 	}
 	SensorCovDeInit();
@@ -95,6 +103,7 @@ void SensorCovMeasure()
 	SensorCovSystemInit();
 	//initialize used variables
 
+	//value which represents the position in the BAT_THROTTLE array which holds the calculated throttle percentage
 	int THROTTLE_LOOKUP = 0;
 
 	//calculates throttle ratio
@@ -122,6 +131,7 @@ void SensorCovMeasure()
 
 	//lookup the corrosponding throttle percentage
 	if (THROTTLE_LOOKUP <= 69){
+		//throttle percent cap is the maximum throttle value the rider can go
 		user_data.throttle_percent_cap.F32 = BAT_THROTTLE[0];
 		user_data.throttle_percent_cap.F32 = _IQtoF(_IQmpy(_IQ(user_data.throttle_percent_cap.F32), _IQ(0.01)));
 		user_data.battery_limit.U32 = 0;
@@ -140,7 +150,7 @@ void SensorCovMeasure()
 	}
 
     //capping the throttle output - checking to see if the trottle is enabled and that there are no CAN timeouts
-	if (!user_data.throttle_flag.U32 && throttle_toggle()){
+	if (!user_data.timeout_limit.U32 && throttle_toggle()){
 			user_data.throttle_lock.U32 = 1;
 			user_data.throttle_output.F32 = user_data.throttle_percent_ratio.F32;
 
@@ -170,7 +180,7 @@ void SensorCovMeasure()
 	}
 
 	//initializes CRC
-	if (!user_data.throttle_flag.U32){
+	if (!user_data.timeout_limit.U32){
 		SafetyVar_NewValue(&safety, user_data.throttle_output.U32);
 	}
 
@@ -178,10 +188,6 @@ void SensorCovMeasure()
 
 	//checks to see if the stack is close to overflowing
 	//If it is, then the throttle is set to 0 and the stack limit is activated
-	if (!Stack_Check()){
-		SafetyVar_NewValue(&safety, 0);
-		user_data.stack_limit.U32 = 1;
-	}
 
 	//sending the driver control limmits information
 	user_data.driver_control_limits.U32 = user_data.stack_limit.U32 << 3;
