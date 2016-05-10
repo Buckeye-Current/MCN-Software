@@ -128,6 +128,8 @@ void FillCANData()
 
 static void setupCANTimeout(void){
 
+//	ECanaShadow.CANTOC.all = ECanaRegs.CANTOC.all;
+
 	ECanaMOTORegs.MOTO2 = CAN_TIMEOUT_IN_SECS(3.0);
 	ECanaShadow.CANTOC.bit.TOC2 = 1;
 
@@ -200,7 +202,7 @@ static void setupCANTimeout(void){
 	ECanaMOTORegs.MOTO25 = CAN_TIMEOUT_IN_SECS(3.0);
 	ECanaShadow.CANTOC.bit.TOC25 = 1;
 
-	ECanaShadow.CANTOC.all = ECanaRegs.CANTOC.all;
+	//ECanaRegs.CANTOC.all = ECanaShadow.CANTOC.all;
 
 }
 
