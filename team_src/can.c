@@ -140,8 +140,6 @@ void FillCANData()
 
 static void setupCANTimeout(void){
 
-//	ECanaShadow.CANTOC.all = ECanaRegs.CANTOC.all;
-
 	ECanaMOTORegs.MOTO2 = CAN_TIMEOUT_IN_SECS(3.0);
 	ECanaShadow.CANTOC.bit.TOC2 = 1;
 
@@ -214,8 +212,6 @@ static void setupCANTimeout(void){
 	ECanaMOTORegs.MOTO25 = CAN_TIMEOUT_IN_SECS(3.0);
 	ECanaShadow.CANTOC.bit.TOC25 = 1;
 
-	//ECanaRegs.CANTOC.all = ECanaShadow.CANTOC.all;
-
 }
 
 // INT9.6
@@ -235,9 +231,18 @@ __interrupt void ECAN1INTA_ISR(void)  // eCAN-A
   	 	// Store which mailboxes timed out.
   		mailbox_timeouts = ECanaRegs.CANGIF1.all;
   		// shut down throttle
+		#ifdef EMA_FILTER_ENABLED
+
   		EMA_Filter_NewInput(&throttle_filter, 0);
   		user_data.throttle_output.F32 = EMA_Filter_GetFilteredOutput(&throttle_filter);
   		SafetyVar_NewValue(&safety, user_data.throttle_output.F32);
+
+		#else
+
+  		SafetyVar_NewValue(&safety, 0);
+
+		#endif
+
   		user_data.timeout_limit.U32 = 1;
   	}
 
