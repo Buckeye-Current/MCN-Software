@@ -78,7 +78,7 @@ void CANSetup()
 	ECanaRegs.CANGIF0.all = 0xFFFFFFFF; /* Clear all interrupt flag bits */
     ECanaRegs.CANGIF1.all = 0xFFFFFFFF;
 
-    ECanaShadow.CANGIM.bit.MTOM = 0;
+    ECanaShadow.CANGIM.bit.MTOM = 1;
     ECanaShadow.CANGIM.bit.TCOM = 0;
     ECanaShadow.CANGIM.bit.WDIM = 0;
     ECanaShadow.CANGIM.bit.RMLIM = 0;
