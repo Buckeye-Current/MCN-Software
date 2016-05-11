@@ -78,9 +78,21 @@ void CANSetup()
 	ECanaRegs.CANGIF0.all = 0xFFFFFFFF; /* Clear all interrupt flag bits */
     ECanaRegs.CANGIF1.all = 0xFFFFFFFF;
 
-
+    ECanaShadow.CANGIM.bit.MTOM = 0;
+    ECanaShadow.CANGIM.bit.TCOM = 0;
+    ECanaShadow.CANGIM.bit.WDIM = 0;
+    ECanaShadow.CANGIM.bit.RMLIM = 0;
+    ECanaShadow.CANGIM.bit.BOIM = 0;
+    ECanaShadow.CANGIM.bit.EPIM = 0;
+    ECanaShadow.CANGIM.bit.WLIM = 0;
+    ECanaShadow.CANGIM.bit.GIL = 0;
+    ECanaShadow.CANGIM.bit.I0EN = 1;
+    ECanaShadow.CANGIM.bit.I1EN = 1;
 
     setupCANTimeout();
+
+    ECanaRegs.CANGIM.all = ECanaShadow.CANGIM.all;
+
     EDIS;
     FinishCANInit();
 }
