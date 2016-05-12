@@ -155,15 +155,22 @@ void SensorCovMeasure()
 			user_data.throttle_output.F32 = user_data.throttle_percent_ratio.F32;
 
 			if (user_data.throttle_output.F32 >= user_data.throttle_percent_cap.F32){
-
+				#ifdef EMA_FILTER_ENABLED
 				EMA_Filter_NewInput(&throttle_filter, user_data.throttle_percent_cap.F32);
 				user_data.throttle_output.F32 = EMA_Filter_GetFilteredOutput(&throttle_filter);
+				#else
+				user_data.throttle_output.F32 = user_data.throttle_percent_cap.F32;
+				#endif
 
 			}
 	}
 	else {
+			#ifdef EMA_FILTER_ENABLED
 			EMA_Filter_NewInput(&throttle_filter, 0);
 			user_data.throttle_output.F32 = EMA_Filter_GetFilteredOutput(&throttle_filter);
+			#else
+			user_data.throttle_output.F32 = 0;
+			#endif
 	}
 
 	//Caps the unfiltered throttle
