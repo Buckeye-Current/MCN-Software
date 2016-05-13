@@ -173,13 +173,8 @@ void SensorCovMeasure()
 			#endif
 	}
 
-	//Caps the unfiltered throttle
+	//unfiltered throttle value
 	user_data.no_filter.F32 = user_data.throttle_percent_ratio.F32;
-
-	if (user_data.no_filter.F32 >= user_data.throttle_percent_cap.F32){
-		user_data.no_filter.F32 = user_data.throttle_percent_cap.F32;
-	}
-
 
 	//sets throttle lock to 0 if the throttle is off
 	if (!throttle_toggle()){
