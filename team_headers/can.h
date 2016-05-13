@@ -78,7 +78,7 @@ void BUS_OFF();
 #define CellTemp14_BOX 		15
 #define CellTemp14_TRS 		TRS15
 
-#define CellTemp15_ID 		849
+#define CellTemp15_ID 		839
 #define CellTemp15_BOX 		16
 #define CellTemp15_TRS 		TRS16
 

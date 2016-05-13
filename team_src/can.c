@@ -79,6 +79,7 @@ void CANSetup()
     ECanaRegs.CANGIF1.all = 0xFFFFFFFF;
 
     ECanaShadow.CANGIM.bit.MTOM = 1;
+    /*
     ECanaShadow.CANGIM.bit.TCOM = 0;
     ECanaShadow.CANGIM.bit.WDIM = 0;
     ECanaShadow.CANGIM.bit.RMLIM = 0;
@@ -86,8 +87,9 @@ void CANSetup()
     ECanaShadow.CANGIM.bit.EPIM = 0;
     ECanaShadow.CANGIM.bit.WLIM = 0;
     ECanaShadow.CANGIM.bit.GIL = 0;
-    ECanaShadow.CANGIM.bit.I0EN = 1;
+    //ECanaShadow.CANGIM.bit.I0EN = 1;
     ECanaShadow.CANGIM.bit.I1EN = 1;
+    */
 
     setupCANTimeout();
 
@@ -139,6 +141,7 @@ void FillCANData()
 }
 
 static void setupCANTimeout(void){
+	ECanaShadow.CANTOC.all = 0;
 
 	ECanaMOTORegs.MOTO2 = CAN_TIMEOUT_IN_SECS(3.0);
 	ECanaShadow.CANTOC.bit.TOC2 = 1;

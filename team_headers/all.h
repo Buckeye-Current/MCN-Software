@@ -48,6 +48,6 @@ extern sys_data_struct sys_data;
 extern user_data_struct user_data;
 
 #define CPU_FREQ_MHZ	60
-#define EMA_FILTER_ENABLED 1
+//#define EMA_FILTER_ENABLED 0
 
 #endif /* ALL_H_ */
