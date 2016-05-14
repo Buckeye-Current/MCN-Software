@@ -89,10 +89,7 @@ void CANSetup()
     ECanaShadow.CANGIM.bit.I0EN = 1;
     ECanaShadow.CANGIM.bit.I1EN = 1;
 
-    ECanaShadow.CANRMP.all = ECanaRegs.CANRMP.all;
-
     setupCANTimeout();
-
 
     EDIS;
     FinishCANInit();
@@ -253,7 +250,7 @@ __interrupt void ECAN1INTA_ISR(void)  // eCAN-A
   		user_data.timeout_limit.U32 = 0;
   	}
 
-  	while (ECanaShadow.CANRMP.all > 0){
+  	while (ECanaRegs.CANRMP.all > 0){
 
 		switch (mailbox_nr)
 		{
@@ -405,12 +402,13 @@ __interrupt void ECAN1INTA_ISR(void)  // eCAN-A
 			ECanaMOTORegs.MOTO25 = CAN_TIMEOUT_IN_SECS(3.0);
 			break;
 		}
+
+		ECanaRegs.CANRMP.all = ECanaShadow.CANRMP.all;
   	}
   	//todo USER: Setup other reads
 
   	//To receive more interrupts from this PIE group, acknowledge this interrupt
   	PieCtrlRegs.PIEACK.all = PIEACK_GROUP9;
-  	ECanaRegs.CANRMP.all = ECanaShadow.CANRMP.all;
 }
 
 // INT9.5
