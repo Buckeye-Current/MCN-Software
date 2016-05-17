@@ -51,5 +51,9 @@
 			<name>SRC_ROOT</name>
 			<value>$%7BPARENT-2-CCS_INSTALL_ROOT%7D/tidcs/c28/boot_rom/2803x/2803x_boot_rom_v1/2803x_boot_rom_v1</value>
 		</variable>
+		<variable>
+			<name>TI_PROD_DIR</name>
+			<value>file:/D:/ti</value>
+		</variable>
 	</variableList>
 </projectDescription>
