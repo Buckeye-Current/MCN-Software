@@ -38,9 +38,8 @@ int i = 0;
 int THROTTLE_LOOKUP = 0;
 
 //throttle percentages
-static const int BAT_THROTTLE[32] = {100, 97, 94, 91, 88, 85, 82, 79,
-							   76, 73, 70, 67, 64, 61, 58, 55, 52, 49, 46, 43, 40, 37, 34,
-							   31, 28, 25, 20, 15, 10, 5, 0};
+static const int BAT_THROTTLE[21] = {100, 95, 90, 85, 80, 75, 70, 65,
+							   60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5, 0};
 
 //pointer float array storing the battery temperatures
 float* BATT_CELL_TEMPS[48] = {&user_data.CellTemp1.F32, &user_data.CellTemp2.F32, &user_data.CellTemp3.F32,
@@ -69,6 +68,7 @@ void SensorCov()
 		if (!Stack_Check()){
 			SafetyVar_NewValue(&safety, 0);
 			user_data.stack_limit.U32 = 1;
+			user_data.driver_control_limits.U32 = user_data.stack_limit.U32 << 3;
 			UpdateStruct();
 			FillCANData();
 		}
@@ -119,7 +119,7 @@ void SensorCovMeasure()
 
 
 	//loop looks through the battery temperature array and deterimines the maximum temperature
-	int MAX = 0;
+	int MAX = -999;
 	for (i = 0; i < 48; i++){
 		if (*BATT_CELL_TEMPS[i] > MAX){
 			user_data.max_cell_temp.F32 = *BATT_CELL_TEMPS[i];
@@ -127,10 +127,10 @@ void SensorCovMeasure()
 		}
 	}
 
-	THROTTLE_LOOKUP = (int)user_data.max_cell_temp.F32 + 30;
+	THROTTLE_LOOKUP = (int)(user_data.max_cell_temp.F32 * 2);
 
 	//lookup the corrosponding throttle percentage
-	if (THROTTLE_LOOKUP <= 69){
+	if (THROTTLE_LOOKUP <= 90){
 		//throttle percent cap is the maximum throttle value the rider can go
 		user_data.throttle_percent_cap.F32 = BAT_THROTTLE[0];
 		user_data.throttle_percent_cap.F32 = _IQtoF(_IQmpy(_IQ(user_data.throttle_percent_cap.F32), _IQ(0.01)));
@@ -139,11 +139,11 @@ void SensorCovMeasure()
 
 	else {
 		//lookup corrosponding throttle percentage if the temperature gets too high
-		if (THROTTLE_LOOKUP > 99){
+		if (THROTTLE_LOOKUP > 110){
 			user_data.throttle_percent_cap.F32 = 0;
 		}
 		else {
-			user_data.throttle_percent_cap.F32 = BAT_THROTTLE[THROTTLE_LOOKUP-69];
+			user_data.throttle_percent_cap.F32 = BAT_THROTTLE[THROTTLE_LOOKUP-90];
 			user_data.throttle_percent_cap.F32 = _IQtoF(_IQmpy(_IQ(user_data.throttle_percent_cap.F32), _IQ(0.01)));
 			user_data.battery_limit.U32 = 1;
 		}
@@ -151,7 +151,6 @@ void SensorCovMeasure()
 
     //capping the throttle output - checking to see if the trottle is enabled and that there are no CAN timeouts
 	if (!user_data.timeout_limit.U32 && throttle_toggle()){
-			user_data.throttle_lock.U32 = 1;
 			user_data.throttle_output.F32 = user_data.throttle_percent_ratio.F32;
 
 			if (user_data.throttle_output.F32 >= user_data.throttle_percent_cap.F32){
@@ -178,6 +177,9 @@ void SensorCovMeasure()
 
 	//sets throttle lock to 0 if the throttle is off
 	if (!throttle_toggle()){
+		user_data.throttle_lock.U32 = 0;
+	}
+	else {
 		user_data.throttle_lock.U32 = 0;
 	}
 

@@ -142,7 +142,6 @@ void FillCANData()
 
 static void setupCANTimeout(void){
 	ECanaShadow.CANTOC.all = 0;
-
 	ECanaShadow.CANTOC.all = 0;
 
 	ECanaMOTORegs.MOTO2 = CAN_TIMEOUT_IN_SECS(3.0);
