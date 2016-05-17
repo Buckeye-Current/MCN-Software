@@ -100,7 +100,7 @@
 						</tool>
 					</fileInfo>
 					<sourceEntries>
-						<entry excluding="team_src/DSP2803x_GlobalVariableDefs.c|Magic CAN Node 2|Magic CAN Node 1|team_src/gpio.c|team_src/adc.c|team_src/Boot.c|team_src/common.c|team_src/Shared_Boot.c|team_src/stopwatch.c|28035_RAM_lnk.cmd" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="boot_template.obj|SharedBoot_template.obj|team_src/DSP2803x_GlobalVariableDefs.c|Magic CAN Node 2|Magic CAN Node 1|team_src/gpio.c|team_src/adc.c|team_src/Boot.c|team_src/common.c|team_src/Shared_Boot.c|team_src/stopwatch.c|28035_RAM_lnk.cmd" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

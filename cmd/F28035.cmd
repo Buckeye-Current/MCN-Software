@@ -137,13 +137,6 @@ SECTIONS
    .bss                : > RAML2       PAGE = 1
    .sysmem             : > RAML3       PAGE = 1
 
-
-   .bootloader_boot : {
-   boot_template.obj(.text)}                        > BOOTLOADER	   PAGE = 0
-   .bootloader_shared : {
-   SharedBoot_template.obj(.text)}                  > BOOTLOADER	   PAGE = 0
-
-
    /* Initalized sections go in Flash */
    /* For SDFlash to program these, they must be allocated to page 0 */
    .econst             : > FLASHC      PAGE = 0
