@@ -67,7 +67,7 @@
 								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.4.linkerID.LIBRARY.318270144" name="Include library file or command file as input (--library, -l)" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.linkerID.LIBRARY" valueType="libs">
 									<listOptionValue builtIn="false" value="&quot;libc.a&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MCN_Library/Debug/MCN_Library.lib}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${TI_PROD_DIR}\controlSUITE\libs\math\IQmath\v160\lib\IQmath.lib&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${TI_PRODUCTS_DIR}\controlSUITE\libs\math\IQmath\v160\lib\IQmath.lib&quot;"/>
 								</option>
 								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.4.linkerID.SEARCH_PATH.1012796529" name="Add &lt;dir&gt; to library search path (--search_path, -i)" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.linkerID.SEARCH_PATH" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${CG_TOOL_ROOT}/include&quot;"/>
