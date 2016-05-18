@@ -35,8 +35,7 @@ SafetyVar32_t safety;
 
 //initializing variables used in SensorCovInit
 int i = 0;
-int THROTTLE_LOOKUP = 0;
-
+int MAX = 0;
 //throttle percentages
 static const int BAT_THROTTLE[21] = {100, 95, 90, 85, 80, 75, 70, 65,
 							   60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5, 0};
@@ -119,7 +118,7 @@ void SensorCovMeasure()
 
 
 	//loop looks through the battery temperature array and deterimines the maximum temperature
-	int MAX = -999;
+	MAX = -999;
 	for (i = 0; i < 48; i++){
 		if (*BATT_CELL_TEMPS[i] > MAX){
 			user_data.max_cell_temp.F32 = *BATT_CELL_TEMPS[i];
@@ -152,7 +151,7 @@ void SensorCovMeasure()
     //capping the throttle output - checking to see if the trottle is enabled and that there are no CAN timeouts
 	if (!user_data.timeout_limit.U32 && throttle_toggle()){
 			user_data.throttle_output.F32 = user_data.throttle_percent_ratio.F32;
-
+			user_data.throttle_lock.U32 = 1;
 			if (user_data.throttle_output.F32 >= user_data.throttle_percent_cap.F32){
 				#ifdef EMA_FILTER_ENABLED
 				EMA_Filter_NewInput(&throttle_filter, user_data.throttle_percent_cap.F32);
@@ -177,9 +176,6 @@ void SensorCovMeasure()
 
 	//sets throttle lock to 0 if the throttle is off
 	if (!throttle_toggle()){
-		user_data.throttle_lock.U32 = 0;
-	}
-	else {
 		user_data.throttle_lock.U32 = 0;
 	}
 
