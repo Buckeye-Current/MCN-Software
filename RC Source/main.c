@@ -2,19 +2,22 @@
  * main.c
  *
  *  Created on: Dec 21, 2013
- *      Author: Nathan
+ *      Author: Nathan, edited by David
  */
-#include "MCN1 Headers/all.h"
-#include "MCN2 Headers/all.h"
-#include "MCN3 Headers/all.h"
+
+#include "all.h"
 
 Uint16 MesgID = 5;
+
+
 
 int main(void)
 {
 	StartUp();
+	Stack_Initialize();
 	//BootISRSetup();
 	//PowerDownISRSetup();
+	Gpio_Init();
 	sys_ops.State = STATE_INIT;
 	while(1)
 	{

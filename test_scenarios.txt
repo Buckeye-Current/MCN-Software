@@ -1,0 +1,24 @@
+=== Rider Controls Testing Plan 2016 ===
+
+The testing plan consists of scenarios that should be ran on the rider controls software without active debug (JTAG) tools such as breakpoints that could influence program flow. This testing should complement unit testing on individual functions to ensure thorough testing.
+
+==== Testing Setup ====
+The system should first be tested individually from other vehicle systems that connect to the device (BIMs for example). However, this means tools must be used to simulate other devices that the rider controls interfaces with. The team generally uses CANTrace from TKE to perform individual system component testing because it can quickly decode values received from the system and it's easy to send simulated CAN traffic to the component as well if a DBC file is setup.
+
+The following is required in order to test individual system functionality:
+
+* F28035 control board that the rider controls program can be flashed onto and the appropriate hardware to perform the flashing
+* A throttle potentiometer sensor with the appropriate hardware and wires to connect the sensor to the correct pins on the F28035 control board
+* A Kvaser Memorator, Eagle or other CAN monitoring device that can be connected to the F28035 control board to send and receive CAN traffic
+* A SPST switch with a pull-down resistor to ground when the switch is open. The switch when closed should connect 3.3V to the correct GPIO input on the F28035 control board (see Sensor Breakout Board for more information on which pin is used for the throttle enable)
+
+Once the hardware has been setup correctly, flash the latest version of the rider controls software onto the control board and run the program. The CAN monitoring device can be used to see if CAN traffic is being received from the rider controls to confirm the system has been programmed.
+
+==== Tests ====
+* Startup the system with no simulated bus traffic and the throttle enable switch off (GPIO pulled down to ground). After 3 seconds, the following should be true:
+** The timeout bit in the status CAN message should be 1
+** The throttle enable bit in the status CAN message should be 1
+** The raw throttle output should be a value between 0-1 that varies depending on how much the throttle is twisted (this value should be the voltage measured on the ADC converted to a ratio)
+** The MotorCurrentSetpoint signal under the MotorDriveCommand CAN message should be 0 regardless of throttle input
+
+* 
