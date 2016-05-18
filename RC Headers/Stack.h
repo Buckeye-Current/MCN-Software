@@ -5,8 +5,8 @@
  *      Author: David
  */
 
-#ifndef TEAM_HEADERS_STACK_H_
-#define TEAM_HEADERS_STACK_H_
+#ifndef RC_HEADERS_STACK_H_
+#define RC_HEADERS_STACK_H_
 
 #define STACK_CHECK_VALUE	(0xAAAA)
 
@@ -17,4 +17,4 @@ void Stack_Initialize(void);
 //checks to see if that variable is in the same spot. Returns 1 if true, 0 if false
 int Stack_Check(void);
 
-#endif /* TEAM_HEADERS_STACK_H_ */
+#endif /* RC_HEADERS_STACK_H_ */

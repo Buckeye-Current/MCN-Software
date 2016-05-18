@@ -5,7 +5,7 @@
  *      Author: Nathan, edited by David
  */
 
-#include "all.h"
+#include "../RC Headers/all.h"
 
 extern DSPfilter A0filter;
 extern DSPfilter A1filter;

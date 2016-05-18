@@ -5,8 +5,8 @@
  *      Author: David
  */
 
-#ifndef TEAM_HEADERS_SAFETYVAR_H_
-#define TEAM_HEADERS_SAFETYVAR_H_
+#ifndef RC_HEADERS_SAFETYVAR_H_
+#define RC_HEADERS_SAFETYVAR_H_
 
 typedef struct {
 
@@ -28,4 +28,4 @@ int SafetyVar_CheckValue(SafetyVar32_t *ptr);
 
 
 
-#endif /* TEAM_HEADERS_SAFETYVAR_H_ */
+#endif /* RC_HEADERS_SAFETYVAR_H_ */

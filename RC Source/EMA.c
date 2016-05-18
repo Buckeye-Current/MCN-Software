@@ -5,7 +5,7 @@
  *      Author: David
  */
 
-#include "all.h"
+#include "../RC Headers/all.h"
 
 static filter *currentFilter = NULL;
 static filter *headFilter = NULL;

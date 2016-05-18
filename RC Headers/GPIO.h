@@ -5,8 +5,8 @@
  *      Author: David
  */
 
-#ifndef TEAM_HEADERS_GPIO_H_
-#define TEAM_HEADERS_GPIO_H_
+#ifndef RC_HEADERS_GPIO_H_
+#define RC_HEADERS_GPIO_H_
 
 //This function determines wether the GPIO switch corresponding to the throttle (GPIO 1) is turned on or not
 //Returns 1 if turned on
@@ -16,4 +16,4 @@ void Gpio_Init(void);
 
 int throttle_toggle(void);
 
-#endif /* TEAM_HEADERS_GPIO_H_ */
+#endif /* RC_HEADERS_GPIO_H_ */

@@ -4,7 +4,7 @@
  *  Created on: Nov 12, 2013
  *      Author: Nathan, edited by David
  */
-#include "all.h"
+#include "../RC Headers/all.h"
 
 
 clock_struct Clock_Ticks = CLOCK_TICKS_CLEAR;
