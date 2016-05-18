@@ -27,18 +27,26 @@ extern DSPfilter GPIO19filter;
 extern DSPfilter GPIO26filter;
 extern clock_struct Clock_Ticks;
 
+// The total number of cell temperatures that are measured and that are expected to be received.
+#define TOTAL_CELL_TEMPS (48)
+
+// The temperature in degree C where the throttle derating begins
+#define TEMP_LIMIT_START   (45.0)
+
+// The temperature in degree C where the throttle derating begins and the throttle is completely 0. This value must be larger than #TEMP_LIMIT_START
+#define TEMP_LIMIT_END (55.0)
+
+// The size of the throttle limit lookup table. The lookup table is size (#TEMP_LIMIT_END - #TEMP_LIMIT_START) + 1 for the value 0 when temperature exceeds #TEMP_LIMIT_END.
+#define LOOKUP_SIZE (((Uint16)(TEMP_LIMIT_END - TEMP_LIMIT_START)) + 1)
+
 user_ops_struct ops_temp;
 user_data_struct data_temp;
 
 static filter throttle_filter;
 SafetyVar32_t safety;
 
-//initializing variables used in SensorCovInit
-int i = 0;
-int MAX = 0;
-//throttle percentages
-static const int BAT_THROTTLE[21] = {100, 95, 90, 85, 80, 75, 70, 65,
-							   60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5, 0};
+// The lookup table for throttle scale value during a temperature limit. The last value of the lookup should always be 0.
+static const int BAT_THROTTLE[LOOKUP_SIZE + 1] = {100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0};
 
 //pointer float array storing the battery temperatures
 float* BATT_CELL_TEMPS[48] = {&user_data.CellTemp1.F32, &user_data.CellTemp2.F32, &user_data.CellTemp3.F32,
@@ -66,8 +74,8 @@ void SensorCov()
 		LatchStruct();
 		if (!Stack_Check()){
 			SafetyVar_NewValue(&safety, 0);
-			user_data.stack_limit.U32 = 1;
-			user_data.driver_control_limits.U32 = user_data.stack_limit.U32 << 3;
+			user_data.stack_limit.I32 = 1;
+			user_data.driver_control_limits.I32 = user_data.stack_limit.I32 << 3;
 			UpdateStruct();
 			FillCANData();
 		}
@@ -97,16 +105,13 @@ void SensorCovMeasure()
 #define R2 20000.0
 #define V5 5.08
 #define B 1568.583480 //Ohm
-#define ADC_SCALE 4096.0
+#define ADC_SCALE 4095.0
 
 	SensorCovSystemInit();
 	//initialize used variables
 
 	//value which represents the position in the BAT_THROTTLE array which holds the calculated throttle percentage
-	int THROTTLE_LOOKUP = 0;
-
-	//calculates throttle ratio
-	user_data.throttle_percent_ratio.F32 = _IQtoF(_IQdiv(_IQ(A5RESULT), _IQ(ADC_SCALE)));
+	//int THROTTLE_LOOKUP = 0;
 
 	user_data.RPM.F32 = 4000;
 
@@ -117,41 +122,48 @@ void SensorCovMeasure()
 	//*******************************************************************************************************
 
 
-	//loop looks through the battery temperature array and deterimines the maximum temperature
-	MAX = -999;
-	for (i = 0; i < 48; i++){
-		if (*BATT_CELL_TEMPS[i] > MAX){
-			user_data.max_cell_temp.F32 = *BATT_CELL_TEMPS[i];
-			MAX = user_data.max_cell_temp.F32;
-		}
+	// Percent of throttle input calculated by measured signal ADC value and divided by max ADC value
+	user_data.throttle_percent_ratio.F32 = _IQtoF(_IQdiv(_IQ(A5RESULT), _IQ(ADC_SCALE)));
+	user_data.max_cell_temp.I32 = MIN_CELL_TEMP;
+
+	// Find maximum received cell temperature
+	Uint16 i;
+	for (i = 0; i < TOTAL_CELL_TEMPS; i++) {
+	     if (*BATT_CELL_TEMPS[i] > user_data.max_cell_temp.F32) {
+	          user_data.max_cell_temp.F32 = *BATT_CELL_TEMPS[i];
+	     }
 	}
 
-	THROTTLE_LOOKUP = (int)(user_data.max_cell_temp.F32 * 2);
-
-	//lookup the corrosponding throttle percentage
-	if (THROTTLE_LOOKUP <= 90){
-		//throttle percent cap is the maximum throttle value the rider can go
-		user_data.throttle_percent_cap.F32 = BAT_THROTTLE[0];
-		user_data.throttle_percent_cap.F32 = _IQtoF(_IQmpy(_IQ(user_data.throttle_percent_cap.F32), _IQ(0.01)));
-		user_data.battery_limit.U32 = 0;
+	// If max temperature is above lookup table, throttle should be limited to 0
+	if (user_data.max_cell_temp.F32 >= TEMP_LIMIT_END)
+	{
+	     user_data.throttle_percent_cap.F32 = 0;
+	     user_data.battery_limit.I32 = 1;
 	}
 
-	else {
-		//lookup corrosponding throttle percentage if the temperature gets too high
-		if (THROTTLE_LOOKUP > 110){
-			user_data.throttle_percent_cap.F32 = 0;
-		}
-		else {
-			user_data.throttle_percent_cap.F32 = BAT_THROTTLE[THROTTLE_LOOKUP-90];
-			user_data.throttle_percent_cap.F32 = _IQtoF(_IQmpy(_IQ(user_data.throttle_percent_cap.F32), _IQ(0.01)));
-			user_data.battery_limit.U32 = 1;
-		}
+	// If max temperature is above the start of the temperature limit, determine how much and limit
+	else if (user_data.max_cell_temp.F32 >= TEMP_LIMIT_START)
+	{
+	     Uint16 lookupIndex = (Uint16) _IQtoF(_IQ(user_data.max_cell_temp.F32) - _IQ(TEMP_LIMIT_START));
+	     Uint16 lookupValuesDiff = BAT_THROTTLE[lookupIndex] - BAT_THROTTLE[lookupIndex + 1];
+	     _iq limitFraction = _IQ(1.0) - _IQmpy(_IQ((float) lookupValuesDiff), _IQ((user_data.max_cell_temp.F32 - ((Uint16) user_data.max_cell_temp.F32))));
+	     _iq limit = _IQmpy((limitFraction + _IQ(((float) BAT_THROTTLE[lookupIndex]))), _IQ(0.01));
+
+	     user_data.throttle_percent_cap.F32 = _IQtoF(_IQmpy(_IQ(user_data.throttle_percent_ratio.F32), limit));
+	     user_data.battery_limit.I32 = 1;
+	}
+
+	// No limit needed due to maximum cell temperature. Let motor command output be the rider's desired throttle
+	else
+	{
+	     user_data.throttle_percent_cap.I32 = user_data.throttle_percent_ratio.I32;
+	     user_data.battery_limit.I32 = 0;
 	}
 
     //capping the throttle output - checking to see if the trottle is enabled and that there are no CAN timeouts
-	if (!user_data.timeout_limit.U32 && throttle_toggle()){
+	if (!user_data.timeout_limit.I32 && throttle_toggle()){
 			user_data.throttle_output.F32 = user_data.throttle_percent_ratio.F32;
-			user_data.throttle_lock.U32 = 1;
+			user_data.throttle_lock.I32 = 1;
 			if (user_data.throttle_output.F32 >= user_data.throttle_percent_cap.F32){
 				#ifdef EMA_FILTER_ENABLED
 				EMA_Filter_NewInput(&throttle_filter, user_data.throttle_percent_cap.F32);
@@ -176,12 +188,12 @@ void SensorCovMeasure()
 
 	//sets throttle lock to 0 if the throttle is off
 	if (!throttle_toggle()){
-		user_data.throttle_lock.U32 = 0;
+		user_data.throttle_lock.I32 = 0;
 	}
 
 	//initializes CRC
-	if (!user_data.timeout_limit.U32){
-		SafetyVar_NewValue(&safety, user_data.throttle_output.U32);
+	if (!user_data.timeout_limit.I32){
+		SafetyVar_NewValue(&safety, user_data.throttle_output.I32);
 	}
 
 	data_temp.gp_button = READGPBUTTON();
@@ -190,10 +202,10 @@ void SensorCovMeasure()
 	//If it is, then the throttle is set to 0 and the stack limit is activated
 
 	//sending the driver control limmits information
-	user_data.driver_control_limits.U32 = user_data.stack_limit.U32 << 3;
-	user_data.driver_control_limits.U32 += user_data.timeout_limit.U32 << 2;
-	user_data.driver_control_limits.U32 += user_data.battery_limit.U32 << 1;
-	user_data.driver_control_limits.U32 += user_data.throttle_lock.U32;
+	user_data.driver_control_limits.I32 = user_data.stack_limit.I32 << 3;
+	user_data.driver_control_limits.I32 += user_data.timeout_limit.I32 << 2;
+	user_data.driver_control_limits.I32 += user_data.battery_limit.I32 << 1;
+	user_data.driver_control_limits.I32 += user_data.throttle_lock.I32;
 
 	PerformSystemChecks();
 }

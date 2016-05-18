@@ -11,7 +11,7 @@
 typedef union CANFLOAT
 {
 	float F32;
-	unsigned long U32;
+	long I32;
 } canfloat;
 
 typedef struct USER_DATA
