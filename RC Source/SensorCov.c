@@ -161,18 +161,20 @@ void SensorCovMeasure()
 	}
 
     //capping the throttle output - checking to see if the trottle is enabled and that there are no CAN timeouts
-	if (!user_data.timeout_limit.I32 && throttle_toggle()){
-			user_data.throttle_output.F32 = user_data.throttle_percent_ratio.F32;
-			user_data.throttle_lock.I32 = 1;
-			if (user_data.throttle_output.F32 >= user_data.throttle_percent_cap.F32){
-				#ifdef EMA_FILTER_ENABLED
-				EMA_Filter_NewInput(&throttle_filter, user_data.throttle_percent_cap.F32);
-				user_data.throttle_output.F32 = EMA_Filter_GetFilteredOutput(&throttle_filter);
-				#else
-				user_data.throttle_output.F32 = user_data.throttle_percent_cap.F32;
-				#endif
+	if ( throttle_toggle() ){
+		user_data.throttle_lock.I32 = 1;
+		if (!user_data.timeout_limit.I32){
+				user_data.throttle_output.F32 = user_data.throttle_percent_ratio.F32;
+				if (user_data.throttle_output.F32 >= user_data.throttle_percent_cap.F32){
+					#ifdef EMA_FILTER_ENABLED
+					EMA_Filter_NewInput(&throttle_filter, user_data.throttle_percent_cap.F32);
+					user_data.throttle_output.F32 = EMA_Filter_GetFilteredOutput(&throttle_filter);
+					#else
+					user_data.throttle_output.F32 = user_data.throttle_percent_cap.F32;
+					#endif
 
-			}
+				}
+		  }
 	}
 	else {
 			#ifdef EMA_FILTER_ENABLED
