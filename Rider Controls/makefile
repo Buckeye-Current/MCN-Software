@@ -13,7 +13,6 @@ ORDERED_OBJS += \
 "C:/Users/Chris/Documents/BuckeyeCurrent/MCN_Library/Debug/ti_src/DSP2803x_GlobalVariableDefs.obj" \
 "./ti_src/DSP2803x_CodeStartBranch.obj" \
 "./ti_src/DSP2803x_DefaultIsr.obj" \
-"./RC Source/EMA.obj" \
 "./RC Source/GPIO.obj" \
 "./RC Source/Init.obj" \
 "./RC Source/PowerDown.obj" \
@@ -162,8 +161,8 @@ Magic\ CAN\ Node\ 2.0.out: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)
-	-$(RM) "ti_src\DSP2803x_DefaultIsr.pp" "RC Source\EMA.pp" "RC Source\GPIO.pp" "RC Source\Init.pp" "RC Source\PowerDown.pp" "RC Source\SafetyVar.pp" "RC Source\SensorCov.pp" "RC Source\Stack.pp" "RC Source\can.pp" "RC Source\clock.pp" "RC Source\main.pp" 
-	-$(RM) "ti_src\DSP2803x_CodeStartBranch.obj" "ti_src\DSP2803x_DefaultIsr.obj" "RC Source\EMA.obj" "RC Source\GPIO.obj" "RC Source\Init.obj" "RC Source\PowerDown.obj" "RC Source\SafetyVar.obj" "RC Source\SensorCov.obj" "RC Source\Stack.obj" "RC Source\can.obj" "RC Source\clock.obj" "RC Source\main.obj" 
+	-$(RM) "ti_src\DSP2803x_DefaultIsr.pp" "RC Source\GPIO.pp" "RC Source\Init.pp" "RC Source\PowerDown.pp" "RC Source\SafetyVar.pp" "RC Source\SensorCov.pp" "RC Source\Stack.pp" "RC Source\can.pp" "RC Source\clock.pp" "RC Source\main.pp" 
+	-$(RM) "ti_src\DSP2803x_CodeStartBranch.obj" "ti_src\DSP2803x_DefaultIsr.obj" "RC Source\GPIO.obj" "RC Source\Init.obj" "RC Source\PowerDown.obj" "RC Source\SafetyVar.obj" "RC Source\SensorCov.obj" "RC Source\Stack.obj" "RC Source\can.obj" "RC Source\clock.obj" "RC Source\main.obj" 
 	-$(RM) "ti_src\DSP2803x_CodeStartBranch.pp" 
 	-@echo 'Finished clean'
 	-@echo ' '

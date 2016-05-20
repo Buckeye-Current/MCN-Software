@@ -42,7 +42,7 @@ extern clock_struct Clock_Ticks;
 user_ops_struct ops_temp;
 user_data_struct data_temp;
 
-static filter throttle_filter;
+//static filter throttle_filter;
 SafetyVar32_t safety;
 
 // The lookup table for throttle scale value during a temperature limit. The last value of the lookup should always be 0.
@@ -96,7 +96,7 @@ void SensorCovInit()
 
 	initDSPfilter(&A5filter, 818);
 	initDSPfilter(&A7filter, 818);
-	EMA_Filter_Init(&throttle_filter, 1000);
+	//EMA_Filter_Init(&throttle_filter, 1000);
 }
 
 void SensorCovMeasure()

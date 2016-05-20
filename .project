@@ -30,11 +30,6 @@
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/MCN_Library/Debug/ti_src/DSP2803x_GlobalVariableDefs.obj</locationURI>
 		</link>
-		<link>
-			<name>IQmathLib.h</name>
-			<type>1</type>
-			<locationURI>PARENT-5-PROJECT_LOC/ti/controlSUITE/libs/math/IQmath/v160/include/IQmathLib.h</locationURI>
-		</link>
 	</linkedResources>
 	<variableList>
 		<variable>

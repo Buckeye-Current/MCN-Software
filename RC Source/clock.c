@@ -57,7 +57,7 @@ __interrupt void INT14_ISR(void)     // INT14 or CPU-Timer2
 		Clock_Ticks.DataOutLimits = 0;
 	}
 
-	EMA_Filter_Update();
+	//EMA_Filter_Update();
 
 	RestartCpuTimer2();
 	DINT;

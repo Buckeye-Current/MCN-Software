@@ -17,7 +17,7 @@
 
 struct ECAN_REGS ECanaShadow;
 extern SafetyVar32_t safety;
-static filter throttle_filter;
+//static filter throttle_filter;
 Uint32 mailbox_timeouts = 0;
 
 static void setupCANTimeout(void);
