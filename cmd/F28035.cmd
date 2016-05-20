@@ -35,10 +35,10 @@
 // locations within the memory map                                    */
 
 /* Uncomment this line to include file only for non-BIOS applications */
-/* -l DSP2803x_Headers_nonBIOS.cmd */
+// -l DSP2803x_Headers_nonBIOS.cmd
 
 /* Uncomment this line to include file only for BIOS applications */
-/* -l DSP2803x_Headers_BIOS.cmd */
+// -l DSP2803x_Headers_BIOS.cmd
 
 /* 2) In your project add the path to <base>\DSP2803x_headers\cmd to the
    library search path under project->build options, linker tab,
@@ -137,16 +137,9 @@ SECTIONS
    .bss                : > RAML2       PAGE = 1
    .sysmem             : > RAML3       PAGE = 1
 
-
-   .bootloader_boot : {
-   boot_template.obj(.text)}                         > BOOTLOADER	   PAGE = 0
-   .bootloader_shared : {
-   SharedBoot_template.obj(.text)}                  > BOOTLOADER	   PAGE = 0
-
-
    /* Initalized sections go in Flash */
    /* For SDFlash to program these, they must be allocated to page 0 */
-   .econst             : > FLASHC      PAGE = 0
+   .econst             : >> FLASHF |  FLASHE     PAGE = 0
    .switch             : > FLASHD      PAGE = 0
 
    /* Allocate IQ math areas: */
@@ -160,14 +153,14 @@ SECTIONS
       will be loaded into other memory (SARAM, Flash, etc.) and will take
       up space, but 0 wait-state is possible.
    */
-   /*
+
    IQmathTables2    : > IQTABLES2, PAGE = 0, TYPE = NOLOAD
    {
 
               IQmath.lib<IQNexpTable.obj> (IQmathTablesRam)
 
    }
-   */
+
     /* Uncomment the section below if calling the IQNasin() or IQasin()
        functions from the IQMath.lib library in order to utilize the
        relevant IQ Math table in Boot ROM (This saves space and Boot ROM

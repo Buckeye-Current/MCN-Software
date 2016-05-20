@@ -36,21 +36,15 @@ void CANSetup()
 	//gp_button TRANSMIT
 	//CreateCANMailbox(3,0,0,1,8,GP_BUTTON_ID,0);
 
-	CreateCANMailbox(COOLANT_FLOW_BOX,0,0,1,4,COOLANT_FLOW_ID,0); //CHECK AAM
-	CreateCANMailbox(POWERTRAIN_COOLANT_TEMP_BOX,0,0,1,8,POWERTRAIN_COOLANT_TEMP_ID,0);
-	CreateCANMailbox(MOTOR_AIR_PRESSURES_BOX,0,0,1,4,MOTOR_AIR_PRESSURES_ID, 0);
-	CreateCANMailbox(MOTOR_PLATE_TEMPS_BOX,0,0,1,4,MOTOR_PLATE_TEMPS_ID,0);
-	CreateCANMailbox(STRAIN_GAUGE_12_BOX,0,0,1,8,STRAIN_GAUGE_12_ID,0);
-	CreateCANMailbox(STRAIN_GAUGE_34_BOX,0,0,1,4,STRAIN_GAUGE_34_ID,0);
-	CreateCANMailbox(STRAIN_GAUGE_56_BOX,0,0,1,4,STRAIN_GAUGE_56_ID,0);
-	CreateCANMailbox(TRITIUM_ERRORS_BOX,0,0,1,4,TRITIUM_ERRORS_ID,1);
+	CreateCANMailbox(SUSPENSION_TRAVELS_BOX,0,0,1,4,SUSPENSION_TRAVELS_ID,0); //CHECK AAM
+	CreateCANMailbox(STEERING_BOX,0,0,1,4,STEERING_ID,0);
+	CreateCANMailbox(AMBIENT_MEASUREMENTS_BOX,0,0,1,8,AMBIENT_MEASUREMENTS_ID, 0);
+	CreateCANMailbox(COOLANT_PRESSURES_BOX,0,0,1,8,COOLANT_PRESSURES_ID,0);
+
 	ECanaShadow.CANMD.bit.MD9 = 1;			//receive
 	ECanaShadow.CANME.bit.ME9 = 1;			//enable
 	ECanaShadow.CANMIM.bit.MIM9  = 1; 		//int enable
 	ECanaShadow.CANMIL.bit.MIL9  = 1;  		// Int.-Level MB#0  -> I1EN
-	CreateCANMailbox(TRITIUM_RESET_BOX,0,0,1,4,TRITIUM_RESET_ID,0);
-	CreateCANMailbox(SUPPLY_BOX,0,0,1,4,SUPPLY_ID,0);
-
 
     EDIS;
     FinishCANInit();
@@ -67,31 +61,18 @@ char FillCAN(unsigned int Mbox)
 		//InsertCANMessage(int Mbox, unsigned int MDH, unsigned int MDL)
 		switch (Mbox)
 		{
-		case COOLANT_FLOW_BOX:
-			InsertCANMessage(COOLANT_FLOW_BOX, 0, user_data.coolant_flow.U32);
+		case SUSPENSION_TRAVELS_BOX:
+			InsertCANMessage(SUSPENSION_TRAVELS_BOX, user_data.rear_suspension_travel.U32, user_data.front_suspension_travel.U32);
 			return 1;
-		case POWERTRAIN_COOLANT_TEMP_BOX:
-			InsertCANMessage(POWERTRAIN_COOLANT_TEMP_BOX, user_data.motor_control_coolant_temp.U32, user_data.motor_coolant_temp.U32);
+		case STEERING_BOX:
+			InsertCANMessage(STEERING_BOX, 0, user_data.steering_angle.U32);
 			return 1;
-		case MOTOR_AIR_PRESSURES_BOX:
-			InsertCANMessage(MOTOR_AIR_PRESSURES_BOX, user_data.motor_air_pressure_2.U32, user_data.motor_air_pressure_1.U32);
+		case AMBIENT_MEASUREMENTS_BOX:
+			InsertCANMessage(AMBIENT_MEASUREMENTS_BOX, user_data.ambient_pressure.U32, user_data.ambient_temperature.U32);
 			return 1;
-		case MOTOR_PLATE_TEMPS_BOX:
-			InsertCANMessage(MOTOR_PLATE_TEMPS_BOX, user_data.motor_plate_temp_2.U32, user_data.motor_plate_temp_1.U32);
+		case COOLANT_PRESSURES_BOX:
+			InsertCANMessage(COOLANT_PRESSURES_BOX, 0, user_data.motor_inlet_pressure.U32);
 			return 1;
-		case STRAIN_GAUGE_12_BOX:
-			InsertCANMessage(STRAIN_GAUGE_12_BOX, user_data.strain_gauge_2.U32, user_data.strain_gauge_1.U32);
-			return 1;
-		case STRAIN_GAUGE_34_BOX:
-			InsertCANMessage(STRAIN_GAUGE_34_BOX, user_data.strain_gauge_4.U32, user_data.strain_gauge_3.U32);
-			return 1;
-		case STRAIN_GAUGE_56_BOX:
-			InsertCANMessage(STRAIN_GAUGE_56_BOX, user_data.strain_gauge_6.U32, user_data.strain_gauge_5.U32);
-			return 1;
-		case TRITIUM_RESET_BOX:
-			InsertCANMessage(TRITIUM_RESET_BOX, 0, 0);
-		case SUPPLY_BOX:
-			InsertCANMessage(SUPPLY_BOX, 0, user_data.v12.U32);
 		default:
 			return 0;
 		}
@@ -105,14 +86,10 @@ char FillCAN(unsigned int Mbox)
 void FillCANData()
 {
 	//todo USER: use FillCAN to put data into correct mailboxes
-	FillCAN(COOLANT_FLOW_BOX);
-	FillCAN(POWERTRAIN_COOLANT_TEMP_BOX);
-	FillCAN(MOTOR_AIR_PRESSURES_BOX);
-	FillCAN(MOTOR_PLATE_TEMPS_BOX);
-	FillCAN(STRAIN_GAUGE_12_BOX);
-	FillCAN(STRAIN_GAUGE_34_BOX);
-	FillCAN(STRAIN_GAUGE_56_BOX);
-	FillCAN(SUPPLY_BOX);
+	FillCAN(SUSPENSION_TRAVELS_BOX);
+	FillCAN(STEERING_BOX);
+	FillCAN(AMBIENT_MEASUREMENTS_BOX);
+	FillCAN(COOLANT_PRESSURES_BOX);
 }
 
 // INT9.6
@@ -127,16 +104,6 @@ __interrupt void ECAN1INTA_ISR(void)  // eCAN-A
   	if(mailbox_nr == COMMAND_BOX)
   	{
   		ReadCommand();
-  	}
-  	else if(mailbox_nr == TRITIUM_ERRORS_BOX)
-  	{
-  		errors = ECanaMboxes.MBOX9.MDL.byte.BYTE1;
-  		if(errors > 0)
-  		{
-  			SendCAN(TRITIUM_RESET_BOX);
-  		}
-		ECanaRegs.CANRMP.bit.RMP9 = 1;
-
   	}
   	//todo USER: Setup other reads
 
