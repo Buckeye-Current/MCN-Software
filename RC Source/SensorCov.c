@@ -105,8 +105,8 @@ void SensorCovMeasure()
 #define R2 20000.0
 #define V5 5.08
 #define B 1568.583480 //Ohm
-#define ADC_SCALE 4095.0
-
+//#define ADC_SCALE 4095.0
+#define ADC_SCALE 3071.25
 	SensorCovSystemInit();
 	//initialize used variables
 
@@ -124,6 +124,11 @@ void SensorCovMeasure()
 
 	// Percent of throttle input calculated by measured signal ADC value and divided by max ADC value
 	user_data.throttle_percent_ratio.F32 = _IQtoF(_IQdiv(_IQ(A5RESULT), _IQ(ADC_SCALE)));
+
+	if (user_data.throttle_percent_ratio.F32 > 1.0)
+	{
+		user_data.throttle_percent_ratio.F32 = 1.0;
+	}
 	user_data.max_cell_temp.I32 = MIN_CELL_TEMP;
 
 	// Find maximum received cell temperature
@@ -149,7 +154,14 @@ void SensorCovMeasure()
 	     _iq limitFraction = _IQ(1.0) - _IQmpy(_IQ((float) lookupValuesDiff), _IQ((user_data.max_cell_temp.F32 - ((Uint16) user_data.max_cell_temp.F32))));
 	     _iq limit = _IQmpy((limitFraction + _IQ(((float) BAT_THROTTLE[lookupIndex]))), _IQ(0.01));
 
-	     user_data.throttle_percent_cap.F32 = _IQtoF(_IQmpy(_IQ(user_data.throttle_percent_ratio.F32), limit));
+	     if (_IQ(user_data.throttle_percent_ratio.F32) >= limit)
+	     {
+	    	 user_data.throttle_percent_cap.F32 = _IQtoF(_IQmpy(_IQ(1.0), limit));
+	     }
+	     else
+	     {
+	    	 user_data.throttle_percent_cap.I32 = user_data.throttle_percent_ratio.I32;
+	     }
 	     user_data.battery_limit.I32 = 1;
 	}
 

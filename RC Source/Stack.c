@@ -10,6 +10,7 @@
 
 extern void _stack;
 extern void _STACK_SIZE;
+extern void _STACK_END;
 
 Uint16 *loc = ((Uint16 *)&_stack);
 Uint16 stackIndex = 0;
@@ -26,7 +27,7 @@ int Stack_Check(){
 
 	int x = 1;
 	int i = 0;
-	loc = (Uint16 *)0x38d;
+	loc = (Uint16 *)((Uint16)&_STACK_END - 20);
 	for (i = 0; i < 19; i++){
 		if (*loc != STACK_CHECK_VALUE){
 			x = 0;
