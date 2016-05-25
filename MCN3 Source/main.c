@@ -5,7 +5,7 @@
  *      Author: Nathan, edited by David
  */
 
-#include "all.h"
+#include "../MCN3 Headers/all.h"
 
 Uint16 MesgID = 5;
 

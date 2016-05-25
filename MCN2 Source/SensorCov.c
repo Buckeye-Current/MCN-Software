@@ -6,7 +6,6 @@
  */
 
 #include "../MCN2 Headers/all.h"
-#include "../MCN2 Headers/data.h"
 
 extern DSPfilter A0filter;
 extern DSPfilter A1filter;
@@ -793,6 +792,8 @@ void SensorCovMeasure()
 	data_temp.motor_coolant_outlet_temp.F32 = ADC_TO_TEMP_CONV[(int) A7RESULT];
 
 	/*
+	 * Thermistor conversions WITHOUT lookup table
+	 *
 	ratio = (A1RESULT/ADC_MAX_VALUE);
 	r_th = (R1 / ratio) - R1;
 	data_temp.controller_coolant_inlet_temp.F32 = 547.3*pow(r_th, -0.1553) - 142.6;
