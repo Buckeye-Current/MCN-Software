@@ -43,20 +43,19 @@ __interrupt void INT14_ISR(void)     // INT14 or CPU-Timer2
 
 	Clock_Ticks.group1_ticks++;
 	Clock_Ticks.group2_ticks++;
-	Clock_Ticks.group3_ticks++;
 
-	if (Clock_Ticks.group1_ticks >= STRAIN_GAUGE_TICKS)
+	if (Clock_Ticks.group1_ticks >= FIVE_HZ_TICKS)
 	{
 		//send data or fill data
+		SendCAN(AMBIENT_MEASUREMENTS_BOX);
+		SendCAN(COOLANT_PRESSURES_BOX);
 		Clock_Ticks.group1_ticks = 0;
 	}
-	if(Clock_Ticks.group2_ticks >= TEN_HZ_TICKS)
+	if(Clock_Ticks.group2_ticks >= FIVE_HUNDRED_HZ_TICKS)
 	{
+		SendCAN(STEERING_BOX);
+		SendCAN(SUSPENSION_TRAVELS_BOX);
 		Clock_Ticks.group2_ticks = 0;
-	}
-	if(Clock_Ticks.group3_ticks >= FIVE_HZ_TICKS)
-	{
-		Clock_Ticks.group3_ticks = 0;
 	}
 
 	RestartCpuTimer2();

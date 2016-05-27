@@ -149,7 +149,7 @@
 									<listOptionValue builtIn="false" value="&quot;C:\ti\controlSUITE\libs\math\IQmath\v160\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MCN_Library/ti_headers}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${CG_TOOL_ROOT}/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/MCN1 Headers}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/MCN2 Headers}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/cmd}&quot;"/>
 								</option>
 								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.DEBUGGING_MODEL.1367551874" name="Debugging model" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.DEBUGGING_MODEL" value="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.DEBUGGING_MODEL.SYMDEBUG__DWARF" valueType="enumerated"/>
@@ -197,7 +197,7 @@
 								<inputType id="com.ti.ccstudio.buildDefinitions.C2000_6.4.exeLinker.inputType__GEN_CMDS.1615886237" name="Generated Linker Command Files" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.exeLinker.inputType__GEN_CMDS"/>
 							</tool>
 							<tool command="&quot;${CG_TOOL_HEX}&quot; -boot -gpio8 -a" id="com.ti.ccstudio.buildDefinitions.C2000_6.4.hex.1990615176" name="C2000 Hex Utility" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.hex">
-								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.4.hex.TOOL_ENABLE.732288162" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.hex.TOOL_ENABLE" value="true" valueType="boolean"/>
+								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.4.hex.TOOL_ENABLE.732288162" name="Enable tool" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.hex.TOOL_ENABLE" value="true" valueType="boolean"/>
 							</tool>
 						</toolChain>
 					</folderInfo>
@@ -267,7 +267,7 @@
 									<listOptionValue builtIn="false" value="&quot;C:\ti\controlSUITE\libs\math\IQmath\v160\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MCN_Library/ti_headers}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${CG_TOOL_ROOT}/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/MCN1 Headers}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/MCN3 Headers}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/cmd}&quot;"/>
 								</option>
 								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.DEBUGGING_MODEL.729611128" name="Debugging model" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.DEBUGGING_MODEL" value="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.DEBUGGING_MODEL.SYMDEBUG__DWARF" valueType="enumerated"/>
@@ -316,7 +316,7 @@
 								<inputType id="com.ti.ccstudio.buildDefinitions.C2000_6.4.exeLinker.inputType__GEN_CMDS.1997984013" name="Generated Linker Command Files" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.exeLinker.inputType__GEN_CMDS"/>
 							</tool>
 							<tool command="&quot;${CG_TOOL_HEX}&quot; -boot -gpio8 -a" id="com.ti.ccstudio.buildDefinitions.C2000_6.4.hex.172578733" name="C2000 Hex Utility" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.hex">
-								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.4.hex.TOOL_ENABLE.467973460" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.hex.TOOL_ENABLE" value="true" valueType="boolean"/>
+								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.4.hex.TOOL_ENABLE.467973460" name="Enable tool" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.hex.TOOL_ENABLE" value="true" valueType="boolean"/>
 							</tool>
 						</toolChain>
 					</folderInfo>

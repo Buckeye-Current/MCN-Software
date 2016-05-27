@@ -6,7 +6,6 @@
  */
 
 #include "../MCN3 Headers/all.h"
-#include "../MCN3 Headers/data.h"
 
 extern DSPfilter A0filter;
 extern DSPfilter A1filter;
