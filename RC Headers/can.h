@@ -118,7 +118,7 @@ void BUS_OFF();
 #define CellTemp24_BOX 		25
 #define CellTemp24_TRS		TRS25
 
-#define DriverThrottle_ID 	484
+#define DriverThrottle_ID 	1281
 #define DriverThrottle_BOX 	28
 #define DriverThrottle_TRS 	TRS28
 

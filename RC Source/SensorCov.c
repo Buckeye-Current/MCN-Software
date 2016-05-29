@@ -123,7 +123,7 @@ void SensorCovMeasure()
 
 
 	// Percent of throttle input calculated by measured signal ADC value and divided by max ADC value
-	user_data.throttle_percent_ratio.F32 = _IQtoF(_IQdiv(_IQ(A5RESULT), _IQ(ADC_SCALE)));
+	user_data.throttle_percent_ratio.F32 = _IQtoF(_IQdiv(_IQ(A7RESULT), _IQ(ADC_SCALE)));
 
 	if (user_data.throttle_percent_ratio.F32 > 1.0)
 	{
