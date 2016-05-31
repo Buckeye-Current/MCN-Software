@@ -1,7 +1,7 @@
 ******************************************************************************
              TMS320C2000 Linker PC v6.4.6                      
 ******************************************************************************
->> Linked Sun May 29 16:23:57 2016
+>> Linked Tue May 31 17:04:08 2016
 
 OUTPUT FILE NAME:   <Magic CAN Node 2.0.out>
 ENTRY POINT SYMBOL: "_c_int00"  address: 003f06cd
@@ -16,7 +16,7 @@ PAGE 0:
   RAML1                 00008800   00000400  00000000  00000400  RWIX
   OTP                   003d7800   00000400  00000000  00000400  RWIX
   BOOTLOADER            003e8000   00002000  00000000  00002000  RWIX
-  FLASHG                003ea000   00002000  000000b3  00001f4d  RWIX
+  FLASHG                003ea000   00002000  000000b4  00001f4c  RWIX
   FLASHF                003ec000   00002000  00000110  00001ef0  RWIX
   FLASHE                003ee000   00002000  00000000  00002000  RWIX
   FLASHD                003f0000   00002000  00000a2f  000015d1  RWIX
@@ -91,7 +91,7 @@ SECTION ALLOCATION MAP
  output                                  attributes/
 section   page    origin      length       input sections
 --------  ----  ----------  ----------   ----------------
-.cinit     0    003ea000    000000b3     
+.cinit     0    003ea000    000000b4     
                   003ea000    00000063     SensorCov.obj (.cinit)
                   003ea063    00000020     MCN_Library.lib : adc_template.obj (.cinit)
                   003ea083    0000000a     rts2800_ml.lib : exit.obj (.cinit)
@@ -99,10 +99,10 @@ section   page    origin      length       input sections
                   003ea096    00000005     rts2800_ml.lib : _lock.obj (.cinit:__lock)
                   003ea09b    00000005                    : _lock.obj (.cinit:__unlock)
                   003ea0a0    00000005     can.obj (.cinit)
-                  003ea0a5    00000004     clock.obj (.cinit)
-                  003ea0a9    00000004     main.obj (.cinit)
-                  003ea0ad    00000004     rts2800_ml.lib : memory.obj (.cinit)
-                  003ea0b1    00000002     --HOLE-- [fill = 0]
+                  003ea0a5    00000005     clock.obj (.cinit)
+                  003ea0aa    00000004     main.obj (.cinit)
+                  003ea0ae    00000004     rts2800_ml.lib : memory.obj (.cinit)
+                  003ea0b2    00000002     --HOLE-- [fill = 0]
 
 .econst    0    003ec000    00000110     
                   003ec000    00000100     MCN_Library.lib : DSP2803x_PieVect.obj (.econst)

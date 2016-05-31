@@ -2,7 +2,7 @@
 <link_info>
    <banner>TMS320C2000 Linker PC v6.4.6</banner>
    <copyright>Copyright (c) 1996-2015 Texas Instruments Incorporated</copyright>
-   <link_time>0x574b4fdd</link_time>
+   <link_time>0x574dfc48</link_time>
    <link_errors>0x0</link_errors>
    <output_file>Magic CAN Node 2.0.out</output_file>
    <entry_point>
@@ -725,20 +725,20 @@
          <name>.cinit</name>
          <load_address>0x3ea0a5</load_address>
          <run_address>0x3ea0a5</run_address>
-         <size>0x4</size>
+         <size>0x5</size>
          <input_file_ref idref="fl-c"/>
       </object_component>
       <object_component id="oc-bc">
          <name>.cinit</name>
-         <load_address>0x3ea0a9</load_address>
-         <run_address>0x3ea0a9</run_address>
+         <load_address>0x3ea0aa</load_address>
+         <run_address>0x3ea0aa</run_address>
          <size>0x4</size>
          <input_file_ref idref="fl-d"/>
       </object_component>
       <object_component id="oc-190">
          <name>.cinit</name>
-         <load_address>0x3ea0ad</load_address>
-         <run_address>0x3ea0ad</run_address>
+         <load_address>0x3ea0ae</load_address>
+         <run_address>0x3ea0ae</run_address>
          <size>0x4</size>
          <input_file_ref idref="fl-44"/>
       </object_component>
@@ -3444,7 +3444,7 @@
          <name>.cinit</name>
          <load_address>0x3ea000</load_address>
          <run_address>0x3ea000</run_address>
-         <size>0xb3</size>
+         <size>0xb4</size>
          <contents>
             <object_component_ref idref="oc-9d"/>
             <object_component_ref idref="oc-136"/>
@@ -4047,18 +4047,18 @@
          <page_id>0x0</page_id>
          <origin>0x3ea000</origin>
          <length>0x2000</length>
-         <used_space>0xb3</used_space>
-         <unused_space>0x1f4d</unused_space>
+         <used_space>0xb4</used_space>
+         <unused_space>0x1f4c</unused_space>
          <attributes>RWIX</attributes>
          <usage_details>
             <allocated_space>
                <start_address>0x3ea000</start_address>
-               <size>0xb3</size>
+               <size>0xb4</size>
                <logical_group_ref idref="lg-34"/>
             </allocated_space>
             <available_space>
-               <start_address>0x3ea0b3</start_address>
-               <size>0x1f4d</size>
+               <start_address>0x3ea0b4</start_address>
+               <size>0x1f4c</size>
             </available_space>
          </usage_details>
       </memory_area>

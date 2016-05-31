@@ -73,9 +73,9 @@ void CANSetup()
 	CreateCANMailbox(CellTemp22_BOX, 0, 0, 0, 8, CellTemp22_ID, 1);
 	CreateCANMailbox(CellTemp23_BOX, 0, 0, 0, 8, CellTemp23_ID, 1);
 	CreateCANMailbox(CellTemp24_BOX, 0, 0, 0, 8, CellTemp24_ID, 1);
-	CreateCANMailbox(DriverControl_BOX, 0, 0, 0, 8, DriverControl_ID, 0);
+	CreateCANMailbox(DriverControl_BOX, 0, 0, 0, 5, DriverControl_ID, 0);
 	CreateCANMailbox(DriverThrottle_BOX, 0, 0, 0, 8, DriverThrottle_ID, 0);
-	CreateCANMailbox(no_filter_BOX, 0, 0, 0, 8, no_filter_ID, 0);
+	CreateCANMailbox(no_filter_BOX, 0, 0, 0, 4, no_filter_ID, 0);
 
 	ECanaRegs.CANGIF0.all = 0xFFFFFFFF; /* Clear all interrupt flag bits */
     ECanaRegs.CANGIF1.all = 0xFFFFFFFF;
