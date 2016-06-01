@@ -21,7 +21,7 @@ void CANSetup()
 
 	EALLOW;
 	//MBOX 0 - 1
-	CommandBoxInit(COMMAND_ID);   // Mbox 0
+	CommandBoxInit(COMMAND_ID);		// Mbox 0
 	HeartbeatBoxInit(HEARTBEAT_ID); // Mbox 1
 	/*
 	* todo USER: Node specifc CAN setup
@@ -65,7 +65,7 @@ char FillCAN(unsigned int Mbox)
 			InsertCANMessage(MOTOR_COOLANT_TEMPS_BOX, user_data.motor_coolant_outlet_temp.U32, user_data.motor_coolant_inlet_temp.U32);
 			return 1;
 		case CONTROLLER_COOLANT_TEMPS_BOX:
-			InsertCANMessage(CONTROLLER_COOLANT_TEMPS_BPX, user_data.controller_coolant_outlet_temp.U32, user_data.controller_coolant_inlet_temp.U32);
+			InsertCANMessage(CONTROLLER_COOLANT_TEMPS_BOX, user_data.controller_coolant_outlet_temp.U32, user_data.controller_coolant_inlet_temp.U32);
 			return 1;
 		case CONTACTOR_BOX_TEMP_BOX:
 			InsertCANMessage(CONTACTOR_BOX_TEMP_BOX, 0, user_data.contactor_box_temp.U32);

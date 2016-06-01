@@ -83,8 +83,8 @@ void FillCANData()
 {
 	//todo USER: use FillCAN to put data into correct mailboxes
 	FillCAN(TIRE_TEMPS_BOX);
-	FillCAN(FLEX_SENSOR_BANK_1);
-	FillCAN(FLEX_SENSOR_BANK_2);
+	FillCAN(FLEX_SENSOR_BANK_1_BOX);
+	FillCAN(FLEX_SENSOR_BANK_2_BOX);
 }
 
 // INT9.6

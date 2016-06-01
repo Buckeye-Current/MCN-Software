@@ -19,8 +19,6 @@ void BUS_OFF();
 //           DEFINE mailboxes for all output except heartbeat and command
 //			 Mailboxes and ID's 0 or 1 are reserved for system use.
 
-#ifdef MCN1
-
 #define COMMAND_ID 							0x22B
 #define HEARTBEAT_ID 						0x22A
 
@@ -40,13 +38,4 @@ void BUS_OFF();
 #define COOLANT_PRESSURES_BOX				5
 #define COOLANT_PRESSURES_TRS				TRS5
 
-#endif
-
-#ifdef MCN2
-
-#endif
-
-#ifdef MCN3
-
-#endif
 #endif /* CAN_H_ */
