@@ -10,7 +10,7 @@ GEN_OPTS__FLAG :=
 GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
-"C:/Users/Chris/Documents/BuckeyeCurrent/MCN_Library/Debug/ti_src/DSP2803x_GlobalVariableDefs.obj" \
+"C:/Users/Sean/Documents/Buckeye Current New/MCN_Library/Debug/ti_src/DSP2803x_GlobalVariableDefs.obj" \
 "./ti_src/DSP2803x_CodeStartBranch.obj" \
 "./ti_src/DSP2803x_DefaultIsr.obj" \
 "./MCN2 Source/Init.obj" \
@@ -26,7 +26,7 @@ ORDERED_OBJS += \
 "../cmd/F28035.cmd" \
 $(GEN_CMDS__FLAG) \
 -l"libc.a" \
--l"C:\Users\Chris\Documents\BuckeyeCurrent\MCN_Library\Debug\MCN_Library.lib" \
+-l"C:\Users\Sean\Documents\Buckeye Current New\MCN_Library\Debug\MCN_Library.lib" \
 
 -include ../makefile.init
 
@@ -138,32 +138,32 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXE_OUTPUTS += \
-Magic\ CAN\ Node\ 2.0.out \
+Magic\ CAN\ Node.out \
 
 EXE_OUTPUTS__QUOTED += \
-"Magic CAN Node 2.0.out" \
+"Magic CAN Node.out" \
 
 BIN_OUTPUTS += \
-Magic\ CAN\ Node\ 2.0.hex \
+Magic\ CAN\ Node.hex \
 
 BIN_OUTPUTS__QUOTED += \
-"Magic CAN Node 2.0.hex" \
+"Magic CAN Node.hex" \
 
 
 # All Target
-all: Magic\ CAN\ Node\ 2.0.out secondary-outputs
+all: Magic\ CAN\ Node.out secondary-outputs
 
 # Tool invocations
-Magic\ CAN\ Node\ 2.0.out: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
+Magic\ CAN\ Node.out: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: C2000 Linker'
-	"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_6.4.6/bin/cl2000" -v28 -ml -mt --cla_support=cla0 -g --define="_DEBUG" --define=MCN1 --define="_FLASH" --define="LARGE_MODEL" --diag_warning=225 --display_error_number --verbose_diagnostics --diag_wrap=off --cdebug_asm_data --output_all_syms -z -m"Magic CAN Node 2.0.map" --stack_size=0x300 --heap_size=0x400 --warn_sections -i"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_6.4.6/include" -i"C:/Users/Chris/Documents/BuckeyeCurrent/MCN_Library/Debug" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_6.4.6/lib" -i"C:/Users/Chris/Documents/BuckeyeCurrent/MCN-Software/cmd" -i"C:/Users/Chris/Documents/BuckeyeCurrent/MCN-Software/lib" --reread_libs --display_error_number --diag_wrap=off --xml_link_info="Magic CAN Node 2.0_linkInfo.xml" --rom_model --far_heapsize=0x400 -o "Magic CAN Node 2.0.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_6.4.6/bin/cl2000" -v28 -ml -mt --cla_support=cla0 -g --define="_DEBUG" --define=MCN1 --define="_FLASH" --define="LARGE_MODEL" --diag_warning=225 --display_error_number --verbose_diagnostics --diag_wrap=off --cdebug_asm_data --output_all_syms -z -m"Magic CAN Node.map" --stack_size=0x300 --heap_size=0x400 --warn_sections -i"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_6.4.6/include" -i"C:/Users/Sean/Documents/Buckeye Current New/MCN_Library/Debug" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_6.4.6/lib" -i"C:/Users/Sean/Documents/Buckeye Current New/MCN-Software/cmd" -i"C:/Users/Sean/Documents/Buckeye Current New/MCN-Software/lib" --reread_libs --display_error_number --diag_wrap=off --xml_link_info="Magic CAN Node_linkInfo.xml" --rom_model --far_heapsize=0x400 -o "Magic CAN Node.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-Magic\ CAN\ Node\ 2.0.hex: $(EXE_OUTPUTS)
+Magic\ CAN\ Node.hex: $(EXE_OUTPUTS)
 	@echo 'Invoking: C2000 Hex Utility'
-	"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_6.4.6/bin/hex2000" -boot -gpio8 -a  -o "Magic CAN Node 2.0.hex" $(EXE_OUTPUTS__QUOTED)
+	"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_6.4.6/bin/hex2000" -boot -gpio8 -a  -o "Magic CAN Node.hex" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $@'
 	@echo ' '
 
