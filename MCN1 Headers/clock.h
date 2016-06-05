@@ -18,7 +18,7 @@ void ClockSetup();
 
 //todo USER: CLOCK_TICKS_CLEAR should have the same number of zeros as clock_struct has elements (as seen below)
 //#define CLOCK_TICKS_CLEAR {0,0}
-#define CLOCK_TICKS_CLEAR	{0}
+#define CLOCK_TICKS_CLEAR	{0,0}
 
 typedef struct CLOCK_TICKS
 {
