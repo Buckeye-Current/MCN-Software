@@ -4,5 +4,5 @@
 
 USER_OBJS :=
 
-LIBS := -l"libc.a" -l"C:/Users/Sean/Documents/Buckeye\ Current\ New/MCN_Library/Debug/MCN_Library.lib"
+LIBS := -l"libc.a" -l"C:/Users/Chris/Documents/BuckeyeCurrent/MCN_Library/Debug/MCN_Library.lib"
 

@@ -116,7 +116,7 @@ char FillCAN(unsigned int Mbox)
 			InsertCANMessage(DriverControl_BOX, user_data.max_cell_temp.I32 >> 24, mdl);
 			break;
 		case DriverThrottle_BOX:
-			InsertCANMessage(DriverThrottle_BOX, (-1 * SafetyVar_getValue(&safety)), user_data.RPM.I32);
+			InsertCANMessage(DriverThrottle_BOX, (SafetyVar_getValue(&safety)), user_data.RPM.I32);
 			break;
 		case no_filter_BOX:
 			InsertCANMessage(no_filter_BOX, 0, user_data.no_filter.I32);
