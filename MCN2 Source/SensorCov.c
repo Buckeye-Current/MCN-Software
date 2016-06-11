@@ -783,13 +783,13 @@ void SensorCovMeasure()
 	//use stopwatch to catch timeouts
 	//waiting should poll isStopWatchComplete() to catch timeout and throw StopWatchError
 
-	data_temp.controller_coolant_inlet_temp.F32 = ADC_TO_TEMP_CONV[(int) A1RESULT];
+	data_temp.controller_coolant_inlet_temp.F32 = ADC_TO_TEMP_CONV[4096 - (int) A1RESULT];
 
-	data_temp.controller_coolant_outlet_temp.F32 = ADC_TO_TEMP_CONV[(int) B1RESULT];
+	data_temp.controller_coolant_outlet_temp.F32 = ADC_TO_TEMP_CONV[4096 - (int) B1RESULT];
 
-	data_temp.motor_coolant_inlet_temp.F32 = ADC_TO_TEMP_CONV[(int) A3RESULT];
+	data_temp.motor_coolant_inlet_temp.F32 = ADC_TO_TEMP_CONV[4096 - (int) A3RESULT];
 
-	data_temp.motor_coolant_outlet_temp.F32 = ADC_TO_TEMP_CONV[(int) A7RESULT];
+	data_temp.motor_coolant_outlet_temp.F32 = ADC_TO_TEMP_CONV[4096 - (int) A7RESULT];
 
 	/*
 	 * Thermistor conversions WITHOUT lookup table
