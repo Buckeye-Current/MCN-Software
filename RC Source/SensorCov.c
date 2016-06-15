@@ -98,7 +98,7 @@ void SensorCovInit()
 
 	initDSPfilter(&A5filter, 818);
 	initDSPfilter(&A7filter, 818);
-	EMA_Filter_Init(&throttle_filter, (int16) 50000, 5000);
+	EMA_Filter_Init(&throttle_filter, 50000, 100);
 }
 
 void SensorCovMeasure()
@@ -158,7 +158,8 @@ void SensorCovMeasure()
 
 	     if (_IQ(user_data.throttle_percent_ratio.F32) >= limit)
 	     {
-	    	 user_data.throttle_percent_cap.F32 = _IQtoF(_IQmpy(_IQ(1.0), limit));
+	    	 EMA_Filter_NewInput(&throttle_filter, _IQtoF(_IQmpy(_IQ(1.0), limit)));
+	    	 user_data.throttle_percent_cap.F32 = EMA_Filter_GetFilteredOutput(&throttle_filter);
 	     }
 	     else
 	     {

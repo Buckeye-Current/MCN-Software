@@ -32,7 +32,7 @@
 #include "data.h"
 #include "GPIO.h"
 #include "Init.h"
-//#include "IQmathLib.h"
+#include "IQmathLib.h"
 #include "main.h"
 #include "op.h"
 #include "PowerDown.h"

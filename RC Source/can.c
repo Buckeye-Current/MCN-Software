@@ -288,7 +288,7 @@ __interrupt void ECAN1INTA_ISR(void)  // eCAN-A
 			ECanaMOTORegs.MOTO2 = CAN_TIMEOUT_IN_SECS(3.0);
 			break;
 		case CellTemp2_BOX:
-			user_data.CellTemp3.I32 = ECanaMboxes.MBOX3.MDL.all;
+			//user_data.CellTemp3.I32 = ECanaMboxes.MBOX3.MDL.all;
 			user_data.CellTemp4.I32 = ECanaMboxes.MBOX3.MDH.all;
 			ECanaShadow.CANRMP.bit.RMP3 = 1;
 			ECanaShadow.CANTOC.bit.TOC3 = 1;
@@ -316,7 +316,7 @@ __interrupt void ECAN1INTA_ISR(void)  // eCAN-A
 			ECanaMOTORegs.MOTO6 = CAN_TIMEOUT_IN_SECS(3.0);
 			break;
 		case CellTemp6_BOX:
-			user_data.CellTemp11.I32 = ECanaMboxes.MBOX7.MDL.all;
+			//user_data.CellTemp11.I32 = ECanaMboxes.MBOX7.MDL.all;
 			user_data.CellTemp12.I32 = ECanaMboxes.MBOX7.MDH.all;
 			ECanaShadow.CANRMP.bit.RMP7 = 1;
 			ECanaShadow.CANTOC.bit.TOC7 = 1;
@@ -372,7 +372,7 @@ __interrupt void ECAN1INTA_ISR(void)  // eCAN-A
 			ECanaMOTORegs.MOTO14 = CAN_TIMEOUT_IN_SECS(3.0);
 			break;
 		case CellTemp14_BOX:
-			user_data.CellTemp27.I32 = ECanaMboxes.MBOX15.MDL.all;
+			//user_data.CellTemp27.I32 = ECanaMboxes.MBOX15.MDL.all;
 			user_data.CellTemp28.I32 = ECanaMboxes.MBOX15.MDH.all;
 			ECanaShadow.CANRMP.bit.RMP15 = 1;
 			ECanaShadow.CANTOC.bit.TOC15 = 1;
@@ -400,7 +400,7 @@ __interrupt void ECAN1INTA_ISR(void)  // eCAN-A
 			ECanaMOTORegs.MOTO18 = CAN_TIMEOUT_IN_SECS(3.0);
 			break;
 		case CellTemp18_BOX:
-			user_data.CellTemp35.I32 = ECanaMboxes.MBOX19.MDL.all;
+			//user_data.CellTemp35.I32 = ECanaMboxes.MBOX19.MDL.all;
 			user_data.CellTemp36.I32 = ECanaMboxes.MBOX19.MDH.all;
 			ECanaShadow.CANRMP.bit.RMP19 = 1;
 			ECanaShadow.CANTOC.bit.TOC19 = 1;
@@ -428,7 +428,7 @@ __interrupt void ECAN1INTA_ISR(void)  // eCAN-A
 			ECanaMOTORegs.MOTO22 = CAN_TIMEOUT_IN_SECS(3.0);
 			break;
 		case CellTemp22_BOX:
-			user_data.CellTemp43.I32 = ECanaMboxes.MBOX23.MDL.all;
+			//user_data.CellTemp43.I32 = ECanaMboxes.MBOX23.MDL.all;
 			user_data.CellTemp44.I32 = ECanaMboxes.MBOX23.MDH.all;
 			ECanaShadow.CANRMP.bit.RMP23 = 1;
 			ECanaShadow.CANTOC.bit.TOC23 = 1;
