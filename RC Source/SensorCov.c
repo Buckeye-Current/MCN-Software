@@ -27,6 +27,8 @@ extern DSPfilter GPIO19filter;
 extern DSPfilter GPIO26filter;
 extern clock_struct Clock_Ticks;
 
+#define EMA_FILTER_ENABLED 1
+
 // The total number of cell temperatures that are measured and that are expected to be received.
 #define TOTAL_CELL_TEMPS (48)
 
@@ -42,7 +44,7 @@ extern clock_struct Clock_Ticks;
 user_ops_struct ops_temp;
 user_data_struct data_temp;
 
-//static filter throttle_filter;
+static filter throttle_filter;
 SafetyVar32_t safety;
 
 // The lookup table for throttle scale value during a temperature limit. The last value of the lookup should always be 0.
@@ -96,7 +98,7 @@ void SensorCovInit()
 
 	initDSPfilter(&A5filter, 818);
 	initDSPfilter(&A7filter, 818);
-	//EMA_Filter_Init(&throttle_filter, 1000);
+	EMA_Filter_Init(&throttle_filter, (int16) 50000, 5000);
 }
 
 void SensorCovMeasure()

@@ -32,13 +32,14 @@
 #include "data.h"
 #include "GPIO.h"
 #include "Init.h"
-#include "IQmathLib.h"
+//#include "IQmathLib.h"
 #include "main.h"
 #include "op.h"
 #include "PowerDown.h"
 #include "SafetyVar.h"
 #include "SensorCov.h"
 #include "Stack.h"
+#include "EMA_template.h"
 
 
 extern sys_ops_struct sys_ops;

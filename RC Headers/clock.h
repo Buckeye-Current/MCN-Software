@@ -11,10 +11,10 @@
 void ClockSetup();
 
 //todo USER: define clock
-#define CLOCK_PERIOD 25000 //uS //
+#define CLOCK_PERIOD 5000 //uS //
 
-#define THROTTLE_TICKS		2	//20hz
-#define STATUS_TICKS 		40	//1hz
+#define THROTTLE_TICKS		10	//20hz
+#define STATUS_TICKS 		200	//1hz
 #define FILTER_TICKS		1
 
 //todo USER: CLOCK_TICKS_CLEAR should have the same number of zeros as clock_struct has elements (as seen below)
