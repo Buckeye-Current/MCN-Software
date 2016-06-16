@@ -73,6 +73,7 @@ void CANSetup()
 	CreateCANMailbox(CellTemp22_BOX, 0, 0, 0, 8, CellTemp22_ID, 1);
 	CreateCANMailbox(CellTemp23_BOX, 0, 0, 0, 8, CellTemp23_ID, 1);
 	CreateCANMailbox(CellTemp24_BOX, 0, 0, 0, 8, CellTemp24_ID, 1);
+	CreateCANMailbox(RPM_BOX, 0, 0, 0, 8, RPM_ID, 1);
 	CreateCANMailbox(DriverControl_BOX, 0, 0, 0, 5, DriverControl_ID, 0);
 	CreateCANMailbox(DriverThrottle_BOX, 0, 0, 0, 8, DriverThrottle_ID, 0);
 	CreateCANMailbox(no_filter_BOX, 0, 0, 0, 4, no_filter_ID, 0);
@@ -216,6 +217,9 @@ static void setupCANTimeout(void){
 	ECanaMOTORegs.MOTO25 = CAN_TIMEOUT_IN_SECS(3.0);
 	ECanaShadow.CANTOC.bit.TOC25 = 1;
 
+	ECanaMOTORegs.MOTO26 = CAN_TIMEOUT_IN_SECS(3.0);
+	ECanaShadow.CANTOC.bit.TOC26 = 1;
+
 }
 
 // INT9.6
@@ -344,7 +348,7 @@ __interrupt void ECAN1INTA_ISR(void)  // eCAN-A
 			ECanaMOTORegs.MOTO10 = CAN_TIMEOUT_IN_SECS(3.0);
 			break;
 		case CellTemp10_BOX:
-			user_data.CellTemp19.I32 = ECanaMboxes.MBOX11.MDL.all;
+			//user_data.CellTemp19.I32 = ECanaMboxes.MBOX11.MDL.all;
 			user_data.CellTemp20.I32 = ECanaMboxes.MBOX11.MDH.all;
 			ECanaShadow.CANRMP.bit.RMP11 = 1;
 			ECanaShadow.CANTOC.bit.TOC11 = 1;
@@ -447,6 +451,12 @@ __interrupt void ECAN1INTA_ISR(void)  // eCAN-A
 			ECanaShadow.CANRMP.bit.RMP25 = 1;
 			ECanaShadow.CANTOC.bit.TOC25 = 1;
 			ECanaMOTORegs.MOTO25 = CAN_TIMEOUT_IN_SECS(3.0);
+			break;
+		case RPM_BOX:
+			user_data.RPM.I32 = ECanaMboxes.MBOX26.MDL.all;
+			ECanaShadow.CANRMP.bit.RMP26 = 1;
+			ECanaShadow.CANTOC.bit.TOC26 = 1;
+			ECanaMOTORegs.MOTO26 = CAN_TIMEOUT_IN_SECS(3.0);
 			break;
 		}
 

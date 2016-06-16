@@ -33,13 +33,18 @@ extern clock_struct Clock_Ticks;
 #define TOTAL_CELL_TEMPS (48)
 
 // The temperature in degree C where the throttle derating begins
-#define TEMP_LIMIT_START   (45.0)
+#define TEMP_LIMIT_START   (50.0)
+#define RPM_LIMIT_START	   (2000.0)
 
 // The temperature in degree C where the throttle derating begins and the throttle is completely 0. This value must be larger than #TEMP_LIMIT_START
-#define TEMP_LIMIT_END (55.0)
+#define TEMP_LIMIT_END (60.0)
+#define RPM_LIMIT_END  (3000.0)
+
+#define RPM_SCALE_FACTOR (250.0)
 
 // The size of the throttle limit lookup table. The lookup table is size (#TEMP_LIMIT_END - #TEMP_LIMIT_START) + 1 for the value 0 when temperature exceeds #TEMP_LIMIT_END.
 #define LOOKUP_SIZE (((Uint16)(TEMP_LIMIT_END - TEMP_LIMIT_START)) + 1)
+#define RPM_LOOKUP_SIZE ((Uint16)((RPM_LIMIT_END - RPM_LIMIT_START) / RPM_SCALE_FACTOR) + 1)
 
 user_ops_struct ops_temp;
 user_data_struct data_temp;
@@ -49,6 +54,7 @@ SafetyVar32_t safety;
 
 // The lookup table for throttle scale value during a temperature limit. The last value of the lookup should always be 0.
 static const int BAT_THROTTLE[LOOKUP_SIZE + 1] = {100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0};
+static const int RPM_THROTTLE[RPM_LOOKUP_SIZE + 1] = {100, 75, 50, 25, 0};
 
 //pointer float array storing the battery temperatures
 float* BATT_CELL_TEMPS[48] = {&user_data.CellTemp1.F32, &user_data.CellTemp2.F32, &user_data.CellTemp3.F32,
@@ -115,8 +121,6 @@ void SensorCovMeasure()
 	//value which represents the position in the BAT_THROTTLE array which holds the calculated throttle percentage
 	//int THROTTLE_LOOKUP = 0;
 
-	user_data.RPM.F32 = 4000;
-
 	//*******************************************************************************************************
 	//*                                           TODO                                                      *
 	//*                Clean up Sensor Conversion to make it cleaner  				                        *
@@ -125,6 +129,7 @@ void SensorCovMeasure()
 
 
 	// Percent of throttle input calculated by measured signal ADC value and divided by max ADC value
+	Uint16 limit = 0;
 	user_data.throttle_percent_ratio.F32 = _IQtoF(_IQdiv(_IQ(A7RESULT), _IQ(ADC_SCALE)));
 
 	if (user_data.throttle_percent_ratio.F32 > 1.0)
@@ -175,6 +180,39 @@ void SensorCovMeasure()
 	     user_data.battery_limit.I32 = 0;
 	}
 
+	if (user_data.RPM.F32 >= RPM_LIMIT_END)
+		{
+		     user_data.throttle_percent_cap.F32 = 0;
+		     user_data.rpm_limit.I32 = 1;
+		}
+
+	else if (user_data.RPM.F32 >= RPM_LIMIT_START)
+		{
+		     Uint16 rpmlookupIndex = (Uint16) _IQtoF(_IQdiv(_IQ(user_data.RPM.F32) - _IQ(RPM_LIMIT_START), _IQ(RPM_SCALE_FACTOR)));
+		     Uint16 rpmlookupValuesDiff = RPM_THROTTLE[rpmlookupIndex] - RPM_THROTTLE[rpmlookupIndex + 1];
+		     _iq rpmlimitFraction = _IQ(1.0) - _IQmpy(_IQ((float) rpmlookupValuesDiff), _IQ((user_data.RPM.F32 - ((Uint16) user_data.RPM.F32))));
+		     _iq rpmlimit = _IQmpy((rpmlimitFraction + _IQ(((float) RPM_THROTTLE[rpmlookupIndex]))), _IQ(0.01));
+
+		     if (_IQ(user_data.throttle_percent_ratio.F32) >= rpmlimit)
+		     {
+		    	 if (limit){
+		    		 if (limit < rpmlimit){
+
+		    		 }
+		    		 else {
+		    			 EMA_Filter_NewInput(&throttle_filter, _IQtoF(_IQmpy(_IQ(1.0), rpmlimit)));
+		    		 	 user_data.throttle_percent_cap.F32 = EMA_Filter_GetFilteredOutput(&throttle_filter);
+		    		 }
+		    	 }
+		    	 else {
+		    		 EMA_Filter_NewInput(&throttle_filter, _IQtoF(_IQmpy(_IQ(1.0), rpmlimit)));
+		    		 user_data.throttle_percent_cap.F32 = EMA_Filter_GetFilteredOutput(&throttle_filter);
+		    	 }
+		     }
+		     user_data.rpm_limit.I32 = 1;
+		}
+
+
     //capping the throttle output - checking to see if the trottle is enabled and that there are no CAN timeouts
 	if ( throttle_toggle() ){
 		user_data.throttle_lock.I32 = 1;
@@ -219,7 +257,8 @@ void SensorCovMeasure()
 	//If it is, then the throttle is set to 0 and the stack limit is activated
 
 	//sending the driver control limmits information
-	user_data.driver_control_limits.I32 = user_data.stack_limit.I32 << 3;
+	user_data.driver_control_limits.I32 = user_data.rpm_limit.I32 << 4;
+	user_data.driver_control_limits.I32 += user_data.stack_limit.I32 << 3;
 	user_data.driver_control_limits.I32 += user_data.timeout_limit.I32 << 2;
 	user_data.driver_control_limits.I32 += user_data.battery_limit.I32 << 1;
 	user_data.driver_control_limits.I32 += user_data.throttle_lock.I32;

@@ -72,6 +72,7 @@ typedef struct USER_DATA
 	canfloat RPM;
 	canfloat max_cell_temp;
 	canfloat battery_limit;
+	canfloat rpm_limit;
 	canfloat stack_limit;
 	canfloat timeout_limit;
 	canfloat throttle_lock;
