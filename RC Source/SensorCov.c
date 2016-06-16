@@ -129,7 +129,8 @@ void SensorCovMeasure()
 
 
 	// Percent of throttle input calculated by measured signal ADC value and divided by max ADC value
-	Uint16 limit = 0;
+	_iq temp_limit = _IQ(1.0);
+	_iq rpm_temp_limit = _IQ(1.0);
 	user_data.throttle_percent_ratio.F32 = _IQtoF(_IQdiv(_IQ(A7RESULT), _IQ(ADC_SCALE)));
 
 	if (user_data.throttle_percent_ratio.F32 > 1.0)
@@ -163,20 +164,15 @@ void SensorCovMeasure()
 
 	     if (_IQ(user_data.throttle_percent_ratio.F32) >= limit)
 	     {
-	    	 EMA_Filter_NewInput(&throttle_filter, _IQtoF(_IQmpy(_IQ(1.0), limit)));
-	    	 user_data.throttle_percent_cap.F32 = EMA_Filter_GetFilteredOutput(&throttle_filter);
+	    	 temp_limit = limit;
 	     }
-	     else
-	     {
-	    	 user_data.throttle_percent_cap.I32 = user_data.throttle_percent_ratio.I32;
-	     }
+
 	     user_data.battery_limit.I32 = 1;
 	}
 
 	// No limit needed due to maximum cell temperature. Let motor command output be the rider's desired throttle
 	else
 	{
-	     user_data.throttle_percent_cap.I32 = user_data.throttle_percent_ratio.I32;
 	     user_data.battery_limit.I32 = 0;
 	}
 
@@ -195,23 +191,20 @@ void SensorCovMeasure()
 
 		     if (_IQ(user_data.throttle_percent_ratio.F32) >= rpmlimit)
 		     {
-		    	 if (limit){
-		    		 if (limit < rpmlimit){
-
-		    		 }
-		    		 else {
-		    			 EMA_Filter_NewInput(&throttle_filter, _IQtoF(_IQmpy(_IQ(1.0), rpmlimit)));
-		    		 	 user_data.throttle_percent_cap.F32 = EMA_Filter_GetFilteredOutput(&throttle_filter);
-		    		 }
-		    	 }
-		    	 else {
-		    		 EMA_Filter_NewInput(&throttle_filter, _IQtoF(_IQmpy(_IQ(1.0), rpmlimit)));
-		    		 user_data.throttle_percent_cap.F32 = EMA_Filter_GetFilteredOutput(&throttle_filter);
-		    	 }
+		    	 rpm_temp_limit = rpmlimit;
 		     }
 		     user_data.rpm_limit.I32 = 1;
 		}
+	else {
+		user_data.rpm_limit.I32 = 1;
+	}
 
+	if ((rpm_temp_limit < temp_limit) && _IQ(user_data.throttle_percent_ratio.F32) >= rpm_temp_limit){
+		user_data.throttle_percent_cap.F32 = _IQtoF(rpm_temp_limit);
+	}
+	if ((rpm_temp_limit > temp_limit) && _IQ(user_data.throttle_percent_ratio.F32) >= temp_limit){
+		user_data.throttle_percent_cap.F32 = _IQtoF(temp_limit);
+	}
 
     //capping the throttle output - checking to see if the trottle is enabled and that there are no CAN timeouts
 	if ( throttle_toggle() ){
