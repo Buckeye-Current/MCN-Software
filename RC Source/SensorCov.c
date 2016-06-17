@@ -199,10 +199,10 @@ void SensorCovMeasure()
 		user_data.rpm_limit.I32 = 1;
 	}
 
-	if ((rpm_temp_limit < temp_limit) && _IQ(user_data.throttle_percent_ratio.F32) >= rpm_temp_limit){
+	if (rpm_temp_limit < temp_limit){
 		user_data.throttle_percent_cap.F32 = _IQtoF(rpm_temp_limit);
 	}
-	if ((rpm_temp_limit > temp_limit) && _IQ(user_data.throttle_percent_ratio.F32) >= temp_limit){
+	else {
 		user_data.throttle_percent_cap.F32 = _IQtoF(temp_limit);
 	}
 
@@ -211,7 +211,7 @@ void SensorCovMeasure()
 		user_data.throttle_lock.I32 = 1;
 		if (!user_data.timeout_limit.I32){
 				user_data.throttle_output.F32 = user_data.throttle_percent_ratio.F32;
-				if (user_data.throttle_output.F32 >= user_data.throttle_percent_cap.F32){
+				if (user_data.throttle_output.F32 > user_data.throttle_percent_cap.F32){
 					#ifdef EMA_FILTER_ENABLED
 					EMA_Filter_NewInput(&throttle_filter, user_data.throttle_percent_cap.F32);
 					user_data.throttle_output.F32 = EMA_Filter_GetFilteredOutput(&throttle_filter);
