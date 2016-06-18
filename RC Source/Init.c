@@ -86,6 +86,7 @@ void DataSetup()
 	user_data.throttle_output.I32 = 0;
 	user_data.no_filter.I32 = 0;
 	user_data.RPM.I32 = 0;
+	user_data.RPM_const.I32 = 0;
 	user_data.rpm_limit.I32 = 0;
 	user_data.max_cell_temp.F32 = MIN_CELL_TEMP;
 	user_data.battery_limit.I32 = 0;

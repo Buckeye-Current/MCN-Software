@@ -70,6 +70,7 @@ typedef struct USER_DATA
 	canfloat throttle_output;
 	canfloat no_filter;
 	canfloat RPM;
+	canfloat RPM_const;
 	canfloat max_cell_temp;
 	canfloat battery_limit;
 	canfloat rpm_limit;

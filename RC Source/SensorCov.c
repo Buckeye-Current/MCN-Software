@@ -131,6 +131,9 @@ void SensorCovMeasure()
 	// Percent of throttle input calculated by measured signal ADC value and divided by max ADC value
 	_iq temp_limit = _IQ(1.0);
 	_iq rpm_temp_limit = _IQ(1.0);
+
+	user_data.RPM_const.F32 = 4000;
+
 	user_data.throttle_percent_ratio.F32 = _IQtoF(_IQdiv(_IQ(A7RESULT), _IQ(ADC_SCALE)));
 
 	if (user_data.throttle_percent_ratio.F32 > 1.0)
@@ -151,7 +154,6 @@ void SensorCovMeasure()
 	if (user_data.max_cell_temp.F32 >= TEMP_LIMIT_END)
 	{
 	     user_data.throttle_percent_cap.F32 = 0;
-	     user_data.battery_limit.I32 = 1;
 	}
 
 	// If max temperature is above the start of the temperature limit, determine how much and limit
@@ -167,7 +169,6 @@ void SensorCovMeasure()
 	    	 temp_limit = limit;
 	     }
 
-	     user_data.battery_limit.I32 = 1;
 	}
 
 	// No limit needed due to maximum cell temperature. Let motor command output be the rider's desired throttle
@@ -193,17 +194,24 @@ void SensorCovMeasure()
 		     {
 		    	 rpm_temp_limit = rpmlimit;
 		     }
-		     user_data.rpm_limit.I32 = 1;
+
 		}
 	else {
-		user_data.rpm_limit.I32 = 1;
+		user_data.rpm_limit.I32 = 0;
 	}
 
 	if (rpm_temp_limit < temp_limit){
 		user_data.throttle_percent_cap.F32 = _IQtoF(rpm_temp_limit);
+		user_data.rpm_limit.I32 = 1;
 	}
-	else {
+	else if (temp_limit < rpm_temp_limit) {
 		user_data.throttle_percent_cap.F32 = _IQtoF(temp_limit);
+		user_data.battery_limit.I32 = 1;
+	}
+	else
+	{
+		user_data.battery_limit.I32 = 0;
+		user_data.rpm_limit.I32 = 0;
 	}
 
     //capping the throttle output - checking to see if the trottle is enabled and that there are no CAN timeouts

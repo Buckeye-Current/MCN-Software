@@ -13,7 +13,7 @@
 
 #define CAN_TIMEOUT_IN_SECS(time)	(ECanaRegs.CANTSC + SECS_TO_CAN_TICKS(time))
 
-#define TIMEOUT_ENALBED_MAILBOXES (0x03FFFFFC)
+#define TIMEOUT_ENALBED_MAILBOXES (0x07FFFFFC)
 
 struct ECAN_REGS ECanaShadow;
 extern SafetyVar32_t safety;
@@ -117,7 +117,7 @@ char FillCAN(unsigned int Mbox)
 			InsertCANMessage(DriverControl_BOX, user_data.max_cell_temp.I32 >> 24, mdl);
 			break;
 		case DriverThrottle_BOX:
-			InsertCANMessage(DriverThrottle_BOX, (SafetyVar_getValue(&safety)), user_data.RPM.I32);
+			InsertCANMessage(DriverThrottle_BOX, (SafetyVar_getValue(&safety)), user_data.RPM_const.I32);
 			break;
 		case no_filter_BOX:
 			InsertCANMessage(no_filter_BOX, 0, user_data.no_filter.I32);
@@ -219,7 +219,6 @@ static void setupCANTimeout(void){
 
 	ECanaMOTORegs.MOTO26 = CAN_TIMEOUT_IN_SECS(3.0);
 	ECanaShadow.CANTOC.bit.TOC26 = 1;
-
 }
 
 // INT9.6
@@ -250,20 +249,7 @@ __interrupt void ECAN1INTA_ISR(void)  // eCAN-A
   		timeoutToggled &= ~timeoutStatus;
   		ECanaRegs.CANTOC.all = timeoutToggled;
 
-  		// shut down throttle
-		#ifdef EMA_FILTER_ENABLED
-
-  		EMA_Filter_NewInput(&throttle_filter, 0);
-  		user_data.throttle_output.F32 = EMA_Filter_GetFilteredOutput(&throttle_filter);
-  		SafetyVar_NewValue(&safety, user_data.throttle_output.F32);
-
-		#else
-
   		SafetyVar_NewValue(&safety, 0);
-
-		#endif
-
-
   	}
 
   	// If CANTOC is not set for all mailboxes that should have timeout enabled, we have
